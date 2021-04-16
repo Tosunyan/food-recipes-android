@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorBackground">#181818</color>
+    <color name="colorToolbar">#000000</color>
+    <color name="colorText">#EAEAEA</color>
+    <color name="colorBtnSource">#EAEAEA</color>
+    <color name="colorRipple">#545454</color>
+    <color name="colorSearch">#323232</color>
+
+    <color name="colorAccent">#E14242</color>
+</resources>

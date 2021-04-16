@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="meal"
+            type="com.example.pizzaHut.models.Meal" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_margin="10dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/meal_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="@drawable/item_foreground"
+            android:imageURL="@{meal.strMealThumb}"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="10dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/meal_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:ellipsize="end"
+            android:fontFamily="@font/arial"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="8dp"
+            android:text="@{meal.strMeal}"
+            android:textColor="@android:color/white"
+            android:textSize="21sp" />
+
+    </RelativeLayout>
+
+</layout>

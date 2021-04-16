@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="category"
+            type="com.example.pizzaHut.models.Category" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/category_item_background"
+        android:elevation="4dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/category_image"
+            android:layout_width="0dp"
+            android:imageURL="@{category.strCategoryThumb}"
+            android:layout_height="match_parent"
+            android:layout_above="@id/category_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:padding="8dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/category_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:fontFamily="@font/arial"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            android:text="@{category.strCategory}"
+            android:textColor="@color/colorText"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</layout>

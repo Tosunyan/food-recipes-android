@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_component"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.pizzaHut.fragments.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/fromHomeToMeals"
+            app:destination="@id/mealsFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+
+        <action
+            android:id="@+id/fromHomeToDescription"
+            app:destination="@id/descriptionFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+
+        <action
+            android:id="@+id/fromHomeToSearch"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
+
+    <!-- Meals Fragment -->
+    <fragment
+        android:id="@+id/mealsFragment"
+        android:name="com.example.pizzaHut.fragments.MealsFragment"
+        android:label="MealsFragment"
+        tools:layout="@layout/fragment_meals">
+
+        <action
+            android:id="@+id/fromMealsToDescription"
+            app:destination="@id/descriptionFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+
+        <argument
+            android:name="action"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            app:nullable="true" />
+
+    </fragment>
+
+
+    <!-- Description Fragment -->
+    <fragment
+        android:id="@+id/descriptionFragment"
+        android:name="com.example.pizzaHut.fragments.DescriptionFragment"
+        android:label="DescriptionFragment"
+        tools:layout="@layout/fragment_description">
+
+        <argument
+            android:name="mealName"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="mealModel"
+            app:argType="com.example.pizzaHut.models.Meal"
+            app:nullable="true" />
+
+    </fragment>
+
+
+    <!-- Search Fragment -->
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.pizzaHut.fragments.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/fromSearchToDescription"
+            app:destination="@id/descriptionFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+
+    </fragment>
+
+</navigation>

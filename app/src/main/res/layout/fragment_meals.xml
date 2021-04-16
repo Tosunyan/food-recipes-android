@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
+
+        <!-- Toolbar -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/toolbar_bg"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_backToHome"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?actionBarItemBackground"
+                android:paddingVertical="6dp"
+                android:src="@drawable/ic_back"
+                android:tint="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="@id/tv_categoryName"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_categoryName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_categoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:fontFamily="@font/arial_bold"
+                android:paddingHorizontal="10dp"
+                android:text="@{title}"
+                android:textColor="@color/colorText"
+                android:textSize="28sp"
+                app:layout_constraintStart_toEndOf="@id/btn_backToHome"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_showDescription"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?actionBarItemBackground"
+                android:fontFamily="@font/arial_bold"
+                android:padding="3dp"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="@id/tv_categoryName"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_categoryName"
+                app:srcCompat="@drawable/ic_info"
+                app:tint="@color/colorText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="20dp"
+                android:text="@{description}"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_categoryName" />
+
+            <!--
+            <ProgressBar
+                    android:id="@+id/meals_loading"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:indeterminateDrawable="@drawable/progress_bar"
+                    android:indeterminateDuration="700"
+                    android:paddingHorizontal="5dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_categoryName"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            -->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingVertical="15dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mealsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
