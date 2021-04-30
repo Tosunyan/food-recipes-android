@@ -6,7 +6,7 @@
 
         <variable
             name="ingredient"
-            type="com.example.pizzaHut.models.IngredientD" />
+            type="com.example.foodRecipes.models.Ingredient" />
 
         <variable
             name="isNull"

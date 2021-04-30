@@ -1,187 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="orientation"
-            type="Boolean" />
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground">
+        android:overScrollMode="never">
 
-        <!-- Toolbar -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
+        <!-- Main Stuff -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/toolbar_bg"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical"
+            android:paddingTop="10dp">
 
-            <!-- Menu icon -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_database"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="5dp"
-                android:background="?actionBarItemBackground"
-                android:paddingVertical="6dp"
-                android:tint="@color/colorText"
-                app:layout_constraintBottom_toBottomOf="@id/txt_title"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_title"
-                app:srcCompat="@drawable/ic_database" />
-
-            <!-- Title -->
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:fontFamily="@font/arial_bold"
-                android:gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/colorText"
-                android:textSize="28sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:gravity="center_vertical|start"
+                android:text="@string/today_s_meal"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp" />
 
-            <!-- Search -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_search"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="5dp"
-                android:background="?actionBarItemBackground"
-                android:padding="5dp"
-                android:transitionName="search"
-                app:layout_constraintBottom_toBottomOf="@id/txt_title"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_title"
-                app:srcCompat="@drawable/ic_search"
-                app:tint="@color/colorText" />
+            <include
+                android:id="@+id/included_meal_item"
+                layout="@layout/meal_item"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:overScrollMode="never"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_allCategories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/arial_bold"
+                android:gravity="center_vertical|start"
+                android:text="@string/all_categories"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp" />
 
-            <!-- Main Stuff -->
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:overScrollMode="never"
+                tools:listitem="@layout/category_item" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/arial_bold"
-                    android:gravity="center"
-                    android:text="@string/today_s_meal"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="24sp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_allAreas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/arial_bold"
+                android:gravity="center_vertical|start"
+                android:text="@string/all_areas"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/area_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                android:paddingHorizontal="15dp"
+                tools:listitem="@layout/area_item" />
 
-                    <include
-                        android:id="@+id/include_meal_item"
-                        layout="@layout/meal_item" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_allCategories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/arial_bold"
-                    android:gravity="center"
-                    android:text="@string/all_categories"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="24sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/category_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="15dp"
-                    android:overScrollMode="never" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_allAreas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/arial_bold"
-                    android:gravity="center"
-                    android:text="@string/all_areas"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="24sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/area_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="15dp"
-                    android:orientation="horizontal"
-                    android:overScrollMode="never" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_allIngredients"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/arial_bold"
-                    android:gravity="center"
-                    android:text="@string/all_ingredients"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="24sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ingredient_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="15dp"
-                    android:orientation="horizontal"
-                    android:overScrollMode="never" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_instagramLink"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorToolbar"
-                    android:gravity="center"
-                    android:paddingVertical="8dp"
-                    android:text="@string/developed_by_sergey_tosunyan"
-                    android:textColor="@color/colorText" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.appcompat.widget.LinearLayoutCompat>

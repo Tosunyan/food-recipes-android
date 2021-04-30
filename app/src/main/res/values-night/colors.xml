@@ -7,5 +7,6 @@
     <color name="colorRipple">#545454</color>
     <color name="colorSearch">#323232</color>
 
-    <color name="colorAccent">#E14242</color>
+    <color name="colorYoutube">#E14242</color>
+    <color name="colorAccent">#f57f17</color>
 </resources>

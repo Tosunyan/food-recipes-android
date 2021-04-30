@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Home -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.foodRecipes.fragments.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/fromHomeToMeals"
+            app:destination="@id/mealsFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+
+    </fragment>
+
+    <!-- Meals -->
+    <fragment
+        android:id="@+id/mealsFragment"
+        android:name="com.example.foodRecipes.fragments.MealsFragment"
+        android:label="MealsFragment"
+        tools:layout="@layout/fragment_meals">
+
+        <argument
+            android:name="action"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            app:nullable="true" />
+
+    </fragment>
+
+
+    <!-- Description -->
+    <fragment
+        android:id="@+id/descriptionFragment"
+        android:name="com.example.foodRecipes.fragments.DescriptionFragment"
+        android:label="DescriptionFragment"
+        tools:layout="@layout/fragment_description">
+
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="mealModel"
+            app:argType="com.example.pizzaHut.models.Meal"
+            app:nullable="true" />
+
+    </fragment>
+
+    <!-- Search -->
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.foodRecipes.fragments.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_meals" />
+
+    <!-- Database -->
+    <fragment
+        android:id="@+id/databaseFragment"
+        android:name="com.example.foodRecipes.fragments.DatabaseFragment"
+        android:label="DatabaseFragment"
+        tools:layout="@layout/fragment_meals" />
+
+    <action
+        android:id="@+id/toDescriptionFragment"
+        app:destination="@id/descriptionFragment" />
+
+</navigation>

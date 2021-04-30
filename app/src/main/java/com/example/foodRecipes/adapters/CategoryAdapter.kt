@@ -1,0 +1,48 @@
+package com.example.foodRecipes.adapters
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.example.foodRecipes.R
+import com.example.foodRecipes.adapters.CategoryAdapter.CategoryViewHolder
+import com.example.foodRecipes.databinding.CategoryItemBinding
+import com.example.foodRecipes.models.Category
+
+class CategoryAdapter(private val categories: List<Category>,
+                      private var categoryItemClickListener: CategoryItemClickListener) :
+        RecyclerView.Adapter<CategoryViewHolder>() {
+
+    private var inflater: LayoutInflater? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+        if (inflater == null) inflater = LayoutInflater.from(parent.context)
+        return CategoryViewHolder(DataBindingUtil.inflate(inflater!!, R.layout.category_item, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) =
+            holder.bindCategory(categories[position])
+
+    override fun getItemCount() = categories.size
+
+    inner class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                categoryItemClickListener.onCategoryClick(
+                        categories[adapterPosition].strCategory,
+                        categories[adapterPosition].strCategoryDescription
+                )
+            }
+        }
+
+        fun bindCategory(category: Category) {
+            binding.category = category
+            binding.executePendingBindings()
+        }
+    }
+
+    interface CategoryItemClickListener {
+        fun onCategoryClick(categoryName: String, description: String)
+    }
+}

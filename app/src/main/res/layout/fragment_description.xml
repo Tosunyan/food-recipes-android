@@ -7,27 +7,27 @@
 
         <variable
             name="meal"
-            type="com.example.pizzaHut.models.Meal" />
+            type="com.example.foodRecipes.models.Meal" />
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground"
-        android:overScrollMode="never">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorBackground"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <!-- Meal Image -->
                 <androidx.appcompat.widget.AppCompatImageView
@@ -42,42 +42,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignorePadding="true" />
 
-                <!-- Back To Meals -->
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/btn_backToMeals"
-                    android:layout_width="32dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="20dp"
-                    android:background="?selectableItemBackground"
-                    android:padding="8dp"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_back"
-                    app:tint="@android:color/white" />
-
-                <!-- Save Meal -->
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/btn_saveMeal"
-                    android:layout_width="32dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="20dp"
-                    android:background="?selectableItemBackground"
-                    android:padding="8dp"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_star"
-                    app:tint="@android:color/white" />
-
+                <!-- Header -->
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="30dp"
-                    android:paddingVertical="15dp"
                     android:layout_marginBottom="25dp"
                     android:background="@drawable/blurry_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="15dp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_meal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -111,25 +85,13 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:paddingHorizontal="10dp"
-                android:paddingBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/header">
-
                 <!-- Instruction -->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/instructionLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="20dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/layout_bg"
                     android:elevation="4dp"
@@ -138,7 +100,7 @@
                     app:layout_constraintBottom_toTopOf="@id/ingredientLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/iv_meal">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -154,9 +116,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@{meal.strInstructions}"
                         android:fontFamily="@font/google_regular"
                         android:justificationMode="inter_word"
+                        android:text="@{meal.strInstructions}"
                         android:textColor="@color/colorText"
                         android:textSize="14sp"
                         android:visibility="gone"
@@ -196,6 +158,7 @@
                         android:layout_marginTop="10dp"
                         android:overScrollMode="never"
                         android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/ingredient_item" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -218,7 +181,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/colorAccent"
+                        android:backgroundTint="@color/colorYoutube"
+                        android:buttonURL="@{meal.strYoutube}"
                         android:fontFamily="@font/google_regular"
                         android:text="@string/youtube"
                         android:textAllCaps="false"
@@ -240,6 +204,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorBtnSource"
+                        android:buttonURL="@{meal.strSource}"
                         android:fontFamily="@font/google_regular"
                         android:text="@string/source"
                         android:textAllCaps="false"
@@ -254,8 +219,36 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
+        <!-- Back To Meals -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_backToMeals"
+            android:layout_width="42dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/back_button_background"
+            android:padding="10dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back"
+            app:tint="@android:color/white" />
+
+        <!-- Save Meal -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_saveMeal"
+            android:layout_width="42dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/back_button_background"
+            android:padding="10dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_like"
+            app:tint="@android:color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

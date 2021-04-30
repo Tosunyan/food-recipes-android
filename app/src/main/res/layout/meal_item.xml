@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="meal"
-            type="com.example.pizzaHut.models.Meal" />
+            type="com.example.foodRecipes.models.Meal" />
 
     </data>
 
@@ -31,7 +32,7 @@
             android:layout_alignParentBottom="true"
             android:ellipsize="end"
             android:fontFamily="@font/arial"
-            android:gravity="center"
+            android:gravity="center_vertical|start"
             android:maxLines="1"
             android:paddingHorizontal="25dp"
             android:paddingVertical="8dp"

@@ -13,7 +13,7 @@
             android:centerColor="@color/colorBtnSource"
             android:centerX="0.4"
             android:endColor="@color/colorText"
-            android:gradientRadius="@integer/google_play_services_version"
+            android:gradientRadius="1000"
             android:startColor="#40FFFFFF"
             android:type="sweep"
             android:useLevel="false" />
