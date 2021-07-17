@@ -9,29 +9,34 @@ import com.example.foodRecipes.adapters.CategoryAdapter.CategoryViewHolder
 import com.example.foodRecipes.databinding.CategoryItemBinding
 import com.example.foodRecipes.models.Category
 
-class CategoryAdapter(private val categories: List<Category>,
-                      private var categoryItemClickListener: CategoryItemClickListener) :
-        RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(
+    private val categories: List<Category>,
+    private var categoryItemClickListener: CategoryItemClickListener
+) : RecyclerView.Adapter<CategoryViewHolder>() {
 
-    private var inflater: LayoutInflater? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        if (inflater == null) inflater = LayoutInflater.from(parent.context)
-        return CategoryViewHolder(DataBindingUtil.inflate(inflater!!, R.layout.category_item, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder =
+        CategoryViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.category_item,
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) =
-            holder.bindCategory(categories[position])
+        holder.bindCategory(categories[position])
 
     override fun getItemCount() = categories.size
+
 
     inner class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
                 categoryItemClickListener.onCategoryClick(
-                        categories[adapterPosition].strCategory,
-                        categories[adapterPosition].strCategoryDescription
+                    categories[adapterPosition].strCategory,
+                    categories[adapterPosition].strCategoryDescription
                 )
             }
         }

@@ -11,39 +11,37 @@ import com.example.foodRecipes.adapters.MealAdapter.MealViewHolder
 import com.example.foodRecipes.databinding.MealItemBinding
 import com.example.foodRecipes.models.Meal
 
-class MealAdapter(private var mealsItemClickListener: MealsItemClickListener)
-    : ListAdapter<Meal, MealViewHolder>(DIFF_CALLBACK) {
+class MealAdapter(
+    private var listener: MealsItemClickListener
+) : ListAdapter<Meal, MealViewHolder>(DIFF_CALLBACK) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder =
+        MealViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.meal_item, parent, false))
+
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) =
+        holder.setMeal(getItem(position))
+
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Meal>() {
             override fun areItemsTheSame(oldItem: Meal, newItem: Meal) =
-                    oldItem.idMeal == newItem.idMeal
+                oldItem.idMeal == newItem.idMeal
 
             override fun areContentsTheSame(oldItem: Meal, newItem: Meal) =
-                    oldItem == newItem
+                oldItem == newItem
         }
     }
 
-    private var inflater: LayoutInflater? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
-        if (inflater == null)
-            inflater = LayoutInflater.from(parent.context)
-        return MealViewHolder(DataBindingUtil.inflate(inflater!!, R.layout.meal_item, parent, false))
-    }
-
-    override fun onBindViewHolder(holder: MealViewHolder, position: Int) =
-            holder.setMeal(getItem(position))
 
     inner class MealViewHolder(private val binding: MealItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
-                mealsItemClickListener.onMealClick(getItem(adapterPosition))
+                listener.onMealClick(getItem(adapterPosition))
             }
 
             itemView.setOnLongClickListener {
-                mealsItemClickListener.onMealLongClick(getItem(adapterPosition).idMeal)
+                listener.onMealLongClick(getItem(adapterPosition).idMeal)
                 return@setOnLongClickListener true
             }
         }

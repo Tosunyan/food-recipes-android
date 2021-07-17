@@ -5,10 +5,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
+    private var instance: Retrofit? = null
+
+    fun getInstance(): Retrofit {
+        return instance ?: Retrofit.Builder()
             .baseUrl("https://www.themealdb.com/api/json/v1/1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .also { instance = it }
     }
 }

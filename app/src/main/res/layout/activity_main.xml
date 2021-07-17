@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/colorBackground"
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
@@ -34,14 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/bottom_navigation_background"
+        android:translationZ="4dp"
         app:itemIconSize="28dp"
         app:itemIconTint="@color/bottom_navigation_item_color"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:layout_behavior="com.example.foodRecipes.util.BottomViewBehavior"
+        app:layout_dodgeInsetEdges="bottom"
         app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

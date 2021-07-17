@@ -1,4 +1,4 @@
-package com.example.foodRecipes.utilities
+package com.example.foodRecipes.util
 
 import android.content.Intent
 import android.net.Uri
@@ -29,7 +29,7 @@ fun setTrim(textView: TextView?, text: String?) = try {
 }
 
 @BindingAdapter("android:buttonURL")
-fun onClick(button: AppCompatButton, link: String?) {
+fun initClickListeners(button: AppCompatButton, link: String?) {
     button.setOnClickListener {
         if (link == null)
             Toast.makeText(button.context, "Link is NULL", Toast.LENGTH_SHORT).show()

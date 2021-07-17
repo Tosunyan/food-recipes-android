@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class DescriptionRepository {
 
-    private val apiService: ApiService = RetrofitClient.retrofit.create(ApiService::class.java)
+    private val apiService: ApiService = RetrofitClient.getInstance().create(ApiService::class.java)
     private val data: MutableLiveData<MealResponse> = MutableLiveData()
 
     fun getMealInfo(id: String?): LiveData<MealResponse> {

@@ -52,8 +52,6 @@ class DescriptionFragment : Fragment() {
     }
 
     private fun init() {
-        activity?.findViewById<ConstraintLayout>(R.id.toolbar)?.visibility = GONE
-
         binding.meal = meal
         binding.ingredientList.setHasFixedSize(true)
         binding.ingredientList.adapter = IngredientAdapter(initIngredients(meal))

@@ -1,19 +1,75 @@
 package com.example.foodRecipes.viewmodels
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.foodRecipes.network.ApiService
+import com.example.foodRecipes.network.RetrofitClient
 import com.example.foodRecipes.repositories.HomeRepository
 import com.example.foodRecipes.responses.CategoryResponse
 import com.example.foodRecipes.responses.MealResponse
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.*
 
-@HiltViewModel
-class HomeFragmentViewModel @Inject constructor(private val repository: HomeRepository) : ViewModel() {
+class HomeFragmentViewModel : ViewModel() {
 
-    fun getRandomMeal(): LiveData<MealResponse?> = repository.getRandomMeal()
+    private val repository = HomeRepository(RetrofitClient.getInstance().create(ApiService::class.java))
 
-    fun getCategories(): LiveData<CategoryResponse?> = repository.getCategories()
+    val randomMealData = MutableLiveData<MealResponse>()
+    val categoryData = MutableLiveData<CategoryResponse>()
+    val areaData = MutableLiveData<MealResponse>()
 
-    fun getAreas(): LiveData<MealResponse?> = repository.getAreas()
+    val loading = MutableLiveData<Boolean>()
+    val errorMessage = MutableLiveData<String>()
+
+    private var job: Job? = null
+
+
+    override fun onCleared() {
+        super.onCleared()
+
+        job?.cancel()
+    }
+
+    private fun onError(message: String) {
+        errorMessage.value = message
+        loading.value = false
+    }
+
+    fun getRandomMeal() {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getRandomMeal()
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    randomMealData.postValue(response.body())
+                    loading.value = false
+                } else onError("Error: ${response.message()}")
+            }
+        }
+    }
+
+    fun getCategories() {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getCategories()
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    categoryData.postValue(response.body())
+                    loading.value = false
+                } else onError("Error: ${response.message()}")
+            }
+        }
+    }
+
+    fun getAreas() {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getAreas()
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    areaData.postValue(response.body())
+                    loading.value = false
+                } else onError("Error: ${response.message()}")
+            }
+        }
+    }
 }

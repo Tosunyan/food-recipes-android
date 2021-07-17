@@ -1,43 +1,34 @@
 <resources>
     <string name="app_name">Food Recipes</string>
 
-    <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_5">5</string>
-    <string name="_6">6</string>
-    <string name="_7">7</string>
-    <string name="_8">8</string>
-    <string name="_9">9</string>
-    <string name="_0">0</string>
+    <!-- Main Activity -->
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
 
+    <!-- Home Fragment -->
+    <string name="today_s_meal">Today\'s Meal</string>
+    <string name="all_categories">All Categories</string>
+    <string name="all_areas">All Areas</string>
+
+
+    <!-- Meals Fragment -->
+    <string name="added_to_favorites">Added to favorites</string>
+
+
+    <!-- Search Fragment -->
     <string name="search_for_meals">Search for meals</string>
-    <string name="phone">Phone</string>
-    <string name="next">Next</string>
-    <string name="enter_number_from_sms">Enter number from SMS</string>
+
+
+    <!-- Favorites Fragment -->
+    <string name="liked_meals">Liked Meals</string>
+
+
+    <!-- Description Fragment -->
     <string name="country">Country</string>
-    <string name="category">Category</string>>
+    <string name="category">Category</string>
     <string name="instruction">Instruction</string>
     <string name="ingredients">Ingredients</string>
     <string name="youtube">YouTube</string>
     <string name="source">Source</string>
-    <string name="favorite_meals">Favorite Meals</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
-    <string name="all_categories">All Categories</string>
-    <string name="today_s_meal">Today\'s Meal</string>
-    <string name="SavedMealDescription">Here you can watch, add or delete your favorite meals. To add meal to this category, you should click a button in right top corner of Meal Description page. Hope this helped</string>
-    <string name="saved_meals">Saved meals</string>
-    <string name="meal">Meal</string>
-    <string name="area">Area</string>
-    <string name="ingredient">Ingredient</string>
-    <string name="name">Name</string>
-    <string name="search_by">Search by</string>
-    <string name="all_areas">All Areas</string>
-
-    <string name="developed_by_sergey_tosunyan">Developed by <u>Sergey Tosunyan</u></string>
-    <string name="add_to_favorites">Add to favorites</string>
-    <string name="all_ingredients">All Ingredients</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

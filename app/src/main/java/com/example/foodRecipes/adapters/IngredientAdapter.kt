@@ -9,17 +9,19 @@ import com.example.foodRecipes.adapters.IngredientAdapter.IngredientViewHolder
 import com.example.foodRecipes.databinding.IngredientItemBinding
 import com.example.foodRecipes.models.Ingredient
 
-class IngredientAdapter(private val ingredients: List<Ingredient>) : RecyclerView.Adapter<IngredientViewHolder>() {
+class IngredientAdapter(
+    private val ingredients: List<Ingredient>
+) : RecyclerView.Adapter<IngredientViewHolder>() {
 
-    private var layoutInflater: LayoutInflater? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        if (layoutInflater == null) layoutInflater = LayoutInflater.from(parent.context)
-
-        return IngredientViewHolder(
-                DataBindingUtil.inflate(layoutInflater!!, R.layout.ingredient_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder =
+        IngredientViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.ingredient_item,
+                parent,
+                false
+            )
         )
-    }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         if (ingredients[position].ingredient != "" && ingredients[position].ingredient != null) {
@@ -29,6 +31,7 @@ class IngredientAdapter(private val ingredients: List<Ingredient>) : RecyclerVie
     }
 
     override fun getItemCount() = ingredients.size
+
 
     class IngredientViewHolder(val binding: IngredientItemBinding) : RecyclerView.ViewHolder(binding.root) {
 

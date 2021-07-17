@@ -11,11 +11,11 @@ import retrofit2.Response
 
 class MealRepository {
 
-    private val apiService: ApiService = RetrofitClient.retrofit.create(ApiService::class.java)
+    private val apiService: ApiService = RetrofitClient.getInstance().create(ApiService::class.java)
     private val data = MutableLiveData<MealResponse?>()
 
     fun filterMealsByCategory(category: String?): LiveData<MealResponse?> {
-        apiService.filterMealsByCategory(category)!!.enqueue(object : Callback<MealResponse?> {
+        apiService.filterMealsByCategory(category).enqueue(object : Callback<MealResponse?> {
             override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
                 data.value = response.body()
             }
@@ -28,7 +28,7 @@ class MealRepository {
     }
 
     fun filterMealsByArea(area: String?): LiveData<MealResponse?> {
-        apiService.filterMealsByArea(area)!!.enqueue(object : Callback<MealResponse?> {
+        apiService.filterMealsByArea(area).enqueue(object : Callback<MealResponse?> {
             override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
                 data.value = response.body()
             }
@@ -41,7 +41,7 @@ class MealRepository {
     }
 
     fun filterMealsByIngredient(ingredient: String?): LiveData<MealResponse?> {
-        apiService.filterMealsByIngredient(ingredient)!!.enqueue(object : Callback<MealResponse?> {
+        apiService.filterMealsByIngredient(ingredient).enqueue(object : Callback<MealResponse?> {
             override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
                 data.value = response.body()
             }

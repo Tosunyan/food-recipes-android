@@ -10,8 +10,8 @@ class SearchViewModel : ViewModel() {
     private val repository: SearchRepository = SearchRepository()
 
     fun getMealsByFirstLetter(letter: Char): LiveData<MealResponse?> =
-        repository.searchMealsByFirstLetter(letter)
+        repository.searchByFirstLetter(letter)
 
     fun getMealsByName(name: String?): LiveData<MealResponse?> =
-        repository.searchMealsByName(name)
+        repository.searchByName(name)
 }

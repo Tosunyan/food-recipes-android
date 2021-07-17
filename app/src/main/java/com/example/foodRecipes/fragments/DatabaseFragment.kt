@@ -1,5 +1,6 @@
 package com.example.foodRecipes.fragments
 
+import android.app.Activity
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,46 +17,35 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.MealAdapter
 import com.example.foodRecipes.adapters.MealAdapter.MealsItemClickListener
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.fragments.DatabaseFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.models.Meal
-import com.example.foodRecipes.utilities.SAVED_MEALS
 import com.example.foodRecipes.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DatabaseFragment : Fragment(), MealsItemClickListener {
+class DatabaseFragment : Fragment(),
+    MealsItemClickListener {
 
-    private val viewModel by viewModels<DatabaseViewModel>()
     private lateinit var binding: FragmentMealsBinding
     private lateinit var meals: List<Meal>
     private lateinit var adapter: MealAdapter
     private lateinit var btnShowDescription: AppCompatImageView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentMealsBinding.inflate(inflater)
+    private val viewModel by viewModels<DatabaseViewModel>()
 
-        initializing()
-
-        btnShowDescription.visibility = View.GONE
-        viewModel.getMealsFromDb().observe(requireActivity(), this::getMeals)
-        ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.mealsList)
-
-        return binding.root
-    }
+    private val spanCount: Int
+        get() = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 2 else 1
 
     private val simpleCallback: SimpleCallback = object : SimpleCallback(0, LEFT) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean = false
+        override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean = false
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
             CoroutineScope(Dispatchers.IO).launch { viewModel.deleteMeal(meals[viewHolder.adapterPosition]) }
 
 //            SnackBar
@@ -72,24 +62,33 @@ class DatabaseFragment : Fragment(), MealsItemClickListener {
         }
     }
 
-    private fun initializing() {
-        val spanCount = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 2 else 1
 
-        btnShowDescription = activity?.findViewById(R.id.btn_showDescription)!!
-        activity?.findViewById<AppCompatTextView>(R.id.tv_title)?.text = SAVED_MEALS
-        activity?.findViewById<ConstraintLayout>(R.id.toolbar)?.visibility = View.VISIBLE
-        activity?.findViewById<View>(R.id.spacer)?.visibility = View.VISIBLE
-        //window.statusBarColor = Color.parseColor("#00000000")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentMealsBinding.inflate(inflater)
+        return binding.root
+    }
 
-        adapter = MealAdapter(this@DatabaseFragment)
-        binding.mealsList.adapter = adapter
-        binding.mealsList.layoutManager = GridLayoutManager(context, spanCount)
-
-        btnShowDescription.visibility = View.GONE
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.init()
+        initRecyclerView()
 
         viewModel.getMealsFromDb().observe(requireActivity(), this::getMeals)
 
         ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.mealsList)
+    }
+
+
+    private fun Activity.init() {
+        btnShowDescription = findViewById(R.id.btn_showDescription)
+        btnShowDescription.visibility = View.GONE
+
+        //window.statusBarColor = Color.parseColor("#00000000")
+    }
+
+    private fun initRecyclerView() {
+        adapter = MealAdapter(this@DatabaseFragment)
+        binding.mealsList.adapter = adapter
+        binding.mealsList.layoutManager = GridLayoutManager(context, spanCount)
     }
 
     private fun getMeals(meals: List<Meal>) {
@@ -97,8 +96,9 @@ class DatabaseFragment : Fragment(), MealsItemClickListener {
         adapter.submitList(meals)
     }
 
-    override fun onMealClick(meal: Meal) = findNavController()
-        .navigate(toDescriptionFragment(null, meal))
+
+    override fun onMealClick(meal: Meal) =
+        findNavController().navigate(toDescriptionFragment(null, meal))
 
     override fun onMealLongClick(id: String) = Unit
 }

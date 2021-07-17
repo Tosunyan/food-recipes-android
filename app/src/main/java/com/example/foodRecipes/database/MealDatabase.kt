@@ -12,13 +12,10 @@ abstract class MealDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
 
     companion object {
-        @Volatile
         private var instance: MealDatabase? = null
-        private val LOCK = Any()
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+        operator fun invoke(context: Context) =
             instance ?: buildDatabase(context).also { instance = it }
-        }
 
         private fun buildDatabase(context: Context) = Room
             .databaseBuilder(

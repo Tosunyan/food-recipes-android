@@ -11,11 +11,11 @@ import retrofit2.Response
 
 class SearchRepository {
 
-    private val data: MutableLiveData<MealResponse?> = MutableLiveData()
-    private val apiService: ApiService = RetrofitClient.retrofit.create(ApiService::class.java)
+    private val data = MutableLiveData<MealResponse?>()
+    private val apiService = RetrofitClient.getInstance().create(ApiService::class.java)
 
-    fun searchMealsByFirstLetter(letter: Char): LiveData<MealResponse?> {
-        apiService.searchMealByFirstLetter(letter)!!.enqueue(object : Callback<MealResponse?> {
+    fun searchByFirstLetter(letter: Char): LiveData<MealResponse?> {
+        apiService.searchMealByFirstLetter(letter)?.enqueue(object : Callback<MealResponse?> {
             override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
                 data.value = response.body()
             }
@@ -24,11 +24,12 @@ class SearchRepository {
                 data.value = null
             }
         })
+
         return data
     }
 
-    fun searchMealsByName(name: String?): LiveData<MealResponse?> {
-        apiService.searchMealByName(name)!!.enqueue(object : Callback<MealResponse?> {
+    fun searchByName(name: String?): LiveData<MealResponse?> {
+        apiService.searchMealByName(name)?.enqueue(object : Callback<MealResponse?> {
             override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
                 data.value = response.body()
             }
@@ -37,6 +38,7 @@ class SearchRepository {
                 data.value = null
             }
         })
+
         return data
     }
 }

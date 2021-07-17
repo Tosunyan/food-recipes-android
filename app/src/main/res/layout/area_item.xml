@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/area_background"
-        android:fontFamily="@font/google_regular"
+        android:fontFamily="@font/baloo2_regular"
         android:gravity="center"
         android:paddingHorizontal="25dp"
         android:paddingVertical="15dp"

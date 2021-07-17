@@ -1,9 +1,10 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.foodRecipes.utilities
+package com.example.foodRecipes.util
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.*
@@ -12,14 +13,16 @@ import androidx.lifecycle.LiveData
 
 class NetworkConnection(private val context: Context) : LiveData<Boolean>() {
 
-    private var connectivityManager: ConnectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private var connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
 
+
     override fun onActive() {
         super.onActive()
+
         updateConnection()
+
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 connectivityManager.registerDefaultNetworkCallback(connectivityManagerCallback())

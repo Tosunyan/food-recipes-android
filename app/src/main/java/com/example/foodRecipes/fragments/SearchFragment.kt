@@ -1,5 +1,6 @@
 package com.example.foodRecipes.fragments
 
+import android.app.Activity
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
@@ -26,7 +27,7 @@ import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.fragments.SearchFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.models.Meal
 import com.example.foodRecipes.responses.MealResponse
-import com.example.foodRecipes.utilities.SimpleTextWatcher
+import com.example.foodRecipes.util.SimpleTextWatcher
 import com.example.foodRecipes.viewmodels.SearchViewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -39,17 +40,53 @@ class SearchFragment : Fragment(), MealsItemClickListener {
     private lateinit var etSearch: AppCompatEditText
     private var meals: List<Meal> = ArrayList()
 
-    private var timer: Timer? = null
-    private var spanCount: Int = 0
+    private val spanCount: Int
+        get() =
+            if (resources.configuration.orientation == ORIENTATION_LANDSCAPE)
+                ORIENTATION_LANDSCAPE
+            else ORIENTATION_PORTRAIT
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMealsBinding.inflate(inflater, container, false)
-        spanCount =
-            if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) ORIENTATION_LANDSCAPE else ORIENTATION_PORTRAIT
-
-        getMeals()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.initViews()
+
+        etSearch.addTextChangedListener(object : SimpleTextWatcher() {
+            private val handler = Handler(Looper.getMainLooper())
+            private lateinit var runnable: Runnable
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!this::runnable.isInitialized) return
+
+                handler.removeCallbacks(runnable)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().trim().isNotEmpty()) {
+                    handler.postDelayed({
+                        if (s?.length == 1) {
+                            viewModel.getMealsByFirstLetter(s[0]).observe(viewLifecycleOwner, { response ->
+                                initRecyclerView(response)
+                            })
+                        } else {
+                            viewModel.getMealsByName(s.toString()).observe(viewLifecycleOwner, { response ->
+                                initRecyclerView(response)
+                            })
+                        }
+                    }, 800)
+                }
+            }
+        })
+    }
+
+
+    private fun Activity.initViews() {
+        etSearch = findViewById(R.id.et_search)
+        etSearch.visibility = VISIBLE
     }
 
     private fun initRecyclerView(mealResponse: MealResponse?) {
@@ -61,42 +98,6 @@ class SearchFragment : Fragment(), MealsItemClickListener {
         val oldCount = meals.size
         meals = mealResponse!!.meals
         adapter.notifyItemRangeInserted(oldCount, meals.size)
-    }
-
-    private fun getMeals() {
-        activity?.findViewById<AppCompatTextView>(R.id.tv_title)?.visibility = GONE
-        activity?.findViewById<ConstraintLayout>(R.id.toolbar)?.visibility = VISIBLE
-        activity?.findViewById<View>(R.id.spacer)?.visibility = VISIBLE
-        etSearch = activity?.findViewById(R.id.et_search)!!
-        etSearch.visibility = VISIBLE
-
-        etSearch.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (timer != null) timer!!.cancel()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.toString().trim().isNotEmpty()) {
-                    timer = Timer()
-                    timer!!.schedule(object : TimerTask() {
-                        override fun run() {
-                            Handler(Looper.getMainLooper()).post {
-                                if (s?.length == 1) {
-                                    viewModel.getMealsByFirstLetter(s[0]).observe(viewLifecycleOwner, { mealResponse ->
-                                        initRecyclerView(mealResponse)
-                                    })
-                                } else {
-                                    viewModel.getMealsByName(s.toString())
-                                        .observe(viewLifecycleOwner, { mealResponse ->
-                                            initRecyclerView(mealResponse)
-                                        })
-                                }
-                            }
-                        }
-                    }, 800)
-                }
-            }
-        })
     }
 
     override fun onMealClick(meal: Meal) = findNavController()

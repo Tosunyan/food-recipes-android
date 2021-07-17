@@ -3,6 +3,7 @@ package com.example.foodRecipes.network
 import com.example.foodRecipes.responses.CategoryResponse
 import com.example.foodRecipes.responses.MealResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,25 +16,25 @@ interface ApiService {
 
 
     @GET("random.php")
-    fun getRandomMeal(): Call<MealResponse?>?
+    suspend fun getRandomMeal(): Response<MealResponse>
 
     @GET("categories.php")
-    fun getCategories(): Call<CategoryResponse>
+    suspend fun getCategories(): Response<CategoryResponse>
 
     @GET("list.php?a=list")
-    fun getAreas(): Call<MealResponse?>?
+    suspend fun getAreas(): Response<MealResponse>
 
 
     @GET("filter.php")
-    fun filterMealsByCategory(@Query("c") category: String?): Call<MealResponse?>?
+    fun filterMealsByCategory(@Query("c") category: String?): Call<MealResponse>
 
     @GET("filter.php")
-    fun filterMealsByArea(@Query("a") area: String?): Call<MealResponse?>?
+    fun filterMealsByArea(@Query("a") area: String?): Call<MealResponse>
 
     @GET("filter.php")
-    fun filterMealsByIngredient(@Query("i") ingredient: String?): Call<MealResponse?>?
+    fun filterMealsByIngredient(@Query("i") ingredient: String?): Call<MealResponse>
 
 
     @GET("lookup.php")
-    fun getMealInfo(@Query("i") id: String?): Call<MealResponse?>?
+    fun getMealInfo(@Query("i") id: String?): Call<MealResponse>
 }
