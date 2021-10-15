@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorBackground">#F7F7F7</color>
     <color name="colorToolbar">#EAEAEA</color>
     <color name="colorBtnSource">#212121</color>
@@ -11,4 +12,5 @@
 
     <color name="colorAccent">#ff6f00</color>
     <color name="colorLightGray">#545454</color>
+
 </resources>

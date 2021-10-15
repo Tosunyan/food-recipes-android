@@ -1,30 +1,8 @@
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/colorToolbar</item>
-    </style>
-
-
-    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-
-        <item name="boxCornerRadiusTopStart">999dp</item>
-        <item name="boxCornerRadiusTopEnd">999dp</item>
-        <item name="boxCornerRadiusBottomStart">999dp</item>
-        <item name="boxCornerRadiusBottomEnd">999dp</item>
-
-        <item name="startIconTint">#B3FFFFFF</item>
-        <item name="endIconTint">#B3FFFFFF</item>
-
-        <item name="boxStrokeWidth">0.5dp</item>
-        <item name="boxStrokeWidthFocused">1dp</item>
-
-        <item name="boxStrokeColor">@color/colorAccent</item>
-        <item name="boxBackgroundColor">#33000000</item>
-
-        <item name="hintEnabled">false</item>
-        <item name="maxLines">1</item>
     </style>
 
 </resources>
