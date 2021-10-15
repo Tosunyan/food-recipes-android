@@ -1,12 +1,8 @@
 package com.example.foodRecipes.activities
 
 import android.os.Bundle
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -16,64 +12,61 @@ import com.example.foodRecipes.util.NetworkUtil.hasConnection
 
 class MainActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private var binding: ActivityMainBinding? = null
 
-    private val navHostFragment: NavHostFragment
-        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
-
-    private val navController: NavController
-        get() = navHostFragment.navController
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
 
     private val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        binding.toolbar.apply {
+        binding?.toolbar?.apply {
             when (destination.id) {
                 R.id.homeFragment -> {
-                    root.visibility = VISIBLE
-                    spacer.visibility = VISIBLE
-                    btnBackToHome.visibility = GONE
-                    btnShowDescription.visibility = GONE
-                    etSearch.visibility = GONE
-                    spacer.visibility = GONE
-                    progressBar.visibility = GONE
-                    tvDescription.visibility = GONE
+                    root.isVisible = true
+                    spacer.isVisible = true
+                    btnBackToHome.isVisible = false
+                    btnShowDescription.isVisible = false
+                    etSearch.isVisible = false
+                    spacer.isVisible = false
+                    progressBar.isVisible = false
+                    tvDescription.isVisible = false
 
-                    tvTitle.visibility = VISIBLE
+                    tvTitle.isVisible = true
                     tvTitle.setText(R.string.app_name)
 
-                    binding.bottomNavigation.visibility = VISIBLE
+                    binding!!.bottomNavigation.isVisible = true
                 }
 
                 R.id.searchFragment -> {
-                    root.visibility = VISIBLE
-                    spacer.visibility = GONE
-                    tvTitle.visibility = GONE
+                    root.isVisible = true
+                    spacer.isVisible = false
+                    tvTitle.isVisible = false
 
-                    binding.bottomNavigation.visibility = VISIBLE
+                    binding!!.bottomNavigation.isVisible = true
                 }
 
                 R.id.databaseFragment -> {
-                    root.visibility = VISIBLE
-                    etSearch.visibility = GONE
+                    root.isVisible = true
+                    etSearch.isVisible = false
 
-                    tvTitle.visibility = VISIBLE
+                    tvTitle.isVisible = true
                     tvTitle.setText(R.string.added_to_favorites)
 
-                    binding.bottomNavigation.visibility = VISIBLE
+                    binding!!.bottomNavigation.isVisible = true
                 }
 
                 R.id.mealsFragment -> {
-                    root.visibility = VISIBLE
-                    spacer.visibility = VISIBLE
+                    root.isVisible = true
+                    spacer.isVisible = true
 
                     tvTitle.text = title
 
-                    binding.bottomNavigation.visibility = GONE
+                    binding!!.bottomNavigation.isVisible = false
                 }
 
                 R.id.descriptionFragment -> {
-                    root.visibility = GONE
+                    root.isVisible = false
 
-                    binding.bottomNavigation.visibility = GONE
+                    binding!!.bottomNavigation.isVisible = false
                 }
             }
         }
@@ -82,7 +75,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding!!.root)
+
+
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        navController = navHostFragment.navController
 
         initNavigation()
     }
@@ -99,17 +97,24 @@ class MainActivity : AppCompatActivity() {
         navController.removeOnDestinationChangedListener(listener)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        binding = null
+    }
+
 
     private fun initNavigation() {
         val graph = navController.navInflater.inflate(R.navigation.nav_graph)
 
-        graph.startDestination = when (hasConnection()) {
-            true -> R.id.homeFragment
-            false -> R.id.databaseFragment
+        graph.startDestination = if (hasConnection()) {
+            R.id.homeFragment
+        } else {
+            R.id.databaseFragment
         }
 
         navController.graph = graph
 
-        binding.bottomNavigation.setupWithNavController(navController)
+        binding!!.bottomNavigation.setupWithNavController(navController)
     }
 }
