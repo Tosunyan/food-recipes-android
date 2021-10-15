@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.IngredientAdapter.IngredientViewHolder
-import com.example.foodRecipes.databinding.IngredientItemBinding
+import com.example.foodRecipes.databinding.ItemIngredientBinding
 import com.example.foodRecipes.models.Ingredient
 
 class IngredientAdapter(
@@ -17,7 +17,7 @@ class IngredientAdapter(
         IngredientViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.ingredient_item,
+                R.layout.item_ingredient,
                 parent,
                 false
             )
@@ -33,7 +33,7 @@ class IngredientAdapter(
     override fun getItemCount() = ingredients.size
 
 
-    class IngredientViewHolder(val binding: IngredientItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class IngredientViewHolder(val binding: ItemIngredientBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindIngredient(ingredient: Ingredient) {
             binding.ingredient = ingredient

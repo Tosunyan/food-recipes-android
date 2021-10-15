@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.MealAdapter.MealViewHolder
-import com.example.foodRecipes.databinding.MealItemBinding
+import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.models.Meal
 
 class MealAdapter(
@@ -16,7 +16,7 @@ class MealAdapter(
 ) : ListAdapter<Meal, MealViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder =
-        MealViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.meal_item, parent, false))
+        MealViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_meal, parent, false))
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) =
         holder.setMeal(getItem(position))
@@ -33,7 +33,7 @@ class MealAdapter(
     }
 
 
-    inner class MealViewHolder(private val binding: MealItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MealViewHolder(private val binding: ItemMealBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {

@@ -9,4 +9,4 @@
     android:clipToPadding="false"
     android:overScrollMode="never"
     android:padding="10dp"
-    tools:listitem="@layout/meal_item" />
+    tools:listitem="@layout/item_meal" />

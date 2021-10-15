@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.CategoryAdapter.CategoryViewHolder
-import com.example.foodRecipes.databinding.CategoryItemBinding
+import com.example.foodRecipes.databinding.ItemCategoryBinding
 import com.example.foodRecipes.models.Category
 
 class CategoryAdapter(
@@ -18,7 +18,7 @@ class CategoryAdapter(
         CategoryViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.category_item,
+                R.layout.item_category,
                 parent,
                 false
             )
@@ -30,7 +30,7 @@ class CategoryAdapter(
     override fun getItemCount() = categories.size
 
 
-    inner class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CategoryViewHolder(private val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {

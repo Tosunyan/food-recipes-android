@@ -14,7 +14,7 @@ class AreaAdapter(
 ) : RecyclerView.Adapter<AreaAdapter.AreaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AreaViewHolder =
-        AreaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.area_item, parent, false))
+        AreaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_area, parent, false))
 
     override fun onBindViewHolder(holder: AreaViewHolder, position: Int) {
         holder.area.text = areas[position].strArea

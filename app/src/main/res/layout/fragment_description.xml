@@ -159,7 +159,7 @@
                         android:overScrollMode="never"
                         android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/ingredient_item" />
+                        tools:listitem="@layout/item_ingredient" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
