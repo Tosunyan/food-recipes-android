@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.MealAdapter.MealViewHolder
 import com.example.foodRecipes.databinding.ItemMealBinding
@@ -19,7 +20,7 @@ class MealAdapter(
         MealViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_meal, parent, false))
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) =
-        holder.setMeal(getItem(position))
+        holder.bind(getItem(position))
 
 
     companion object {
@@ -46,9 +47,10 @@ class MealAdapter(
             }
         }
 
-        fun setMeal(meal: Meal) {
-            binding.meal = meal
-            binding.executePendingBindings()
+        fun bind(meal: Meal) {
+            binding.mealName.text = meal.strMeal
+            binding.mealImage.load(meal.strMealThumb)
+            binding.mealImage.clipToOutline = true
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import coil.load
 import com.example.foodRecipes.adapters.AreaAdapter
 import com.example.foodRecipes.adapters.AreaAdapter.AreaItemClickListener
 import com.example.foodRecipes.adapters.CategoryAdapter
@@ -72,7 +73,8 @@ class HomeFragment : Fragment(),
             response ?: return@observe
 
             meal = response.meals[0]
-            binding.mealItem.meal = meal
+            binding.mealItem.mealName.text = meal.strMeal
+            binding.mealItem.mealImage.load(meal.strMealThumb)
         }
     }
 
