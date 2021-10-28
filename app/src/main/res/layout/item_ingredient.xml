@@ -1,52 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <data>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/advanced_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:fontFamily="@font/baloo2_regular"
+        android:gravity="center_vertical|start"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        tools:text="Potato"/>
 
-        <variable
-            name="ingredient"
-            type="com.example.foodRecipes.models.Ingredient" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/advanced_measure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:fontFamily="@font/baloo2_regular"
+        android:gravity="center_vertical|end"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        tools:text="200g"/>
 
-        <variable
-            name="isNull"
-            type="Boolean" />
-
-        <import type="android.view.View" />
-
-    </data>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/advanced_ingredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:fontFamily="@font/baloo2_regular"
-            android:gravity="center_vertical|start"
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            android:trim="@{ingredient.ingredient}"
-            android:visibility="@{isNull ? View.GONE : View.VISIBLE, default = gone}" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/advanced_measure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="@font/baloo2_regular"
-            android:gravity="center_vertical|end"
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            android:trim="@{ingredient.measure}"
-            android:visibility="@{isNull ? View.GONE : View.VISIBLE, default = gone}"
-            tools:ignore="RelativeOverlap" />
-
-    </RelativeLayout>
-
-</layout>
+</FrameLayout>

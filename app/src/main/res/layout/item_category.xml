@@ -1,44 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/category_item_background"
+    android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="category"
-            type="com.example.foodRecipes.models.Category" />
-
-    </data>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/category_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/category_item_background"
-        android:orientation="vertical">
+        android:paddingHorizontal="8dp"
+        android:paddingTop="8dp" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/category_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:imageURL="@{category.strCategoryThumb}"
-            android:minHeight="100dp"
-            android:paddingHorizontal="8dp"
-            android:paddingTop="8dp" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo2_regular"
+        android:gravity="center"
+        android:paddingVertical="4dp"
+        android:textColor="@color/colorText"
+        android:textSize="14sp"
+        tools:text="Breakfast" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/category_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/baloo2_regular"
-            android:gravity="center"
-            android:paddingVertical="4dp"
-            android:text="@{category.strCategory}"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text="Breakfast" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-</layout>
+</androidx.appcompat.widget.LinearLayoutCompat>

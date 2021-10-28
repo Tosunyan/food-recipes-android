@@ -1,15 +1,15 @@
 package com.example.foodRecipes.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.IngredientAdapter
 import com.example.foodRecipes.databinding.FragmentDescriptionBinding
@@ -29,7 +29,7 @@ class DescriptionFragment : Fragment() {
     private lateinit var meal: Meal
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_description, container, false)
+        binding = FragmentDescriptionBinding.inflate(inflater, container, false)
 
         if (fromBundle(requireArguments()).mealModel != null)
             fromParcelable()
@@ -51,12 +51,15 @@ class DescriptionFragment : Fragment() {
         init()
     }
 
-    private fun init() {
-        binding.meal = meal
-        binding.ingredientList.setHasFixedSize(true)
-        binding.ingredientList.adapter = IngredientAdapter(initIngredients(meal))
-        binding.tvInstruction.visibility = View.VISIBLE
-        binding.ingredientList.visibility = View.VISIBLE
+    private fun init() = binding.apply {
+        ivMeal.load(meal.strMealThumb)
+        tvInstruction.text = meal.strInstructions
+        tvMealCategory.text = meal.strCategory
+        tvMealCountry.text = meal.strArea
+
+        ingredientList.adapter = IngredientAdapter(initIngredients(meal))
+        tvInstruction.visibility = View.VISIBLE
+        ingredientList.visibility = View.VISIBLE
     }
 
     private fun initIngredients(meal: Meal): List<Ingredient> {
@@ -97,6 +100,22 @@ class DescriptionFragment : Fragment() {
             binding.btnSaveMeal.setImageResource(R.drawable.ic_like_filled)
             Toast.makeText(context, "Added to Database", Toast.LENGTH_SHORT).show()
             binding.btnSaveMeal.performHapticFeedback(1)
+        }
+
+        binding.btnSourceLink.setOnClickListener {
+            if (meal.strSource == null) {
+                Toast.makeText(it.context, "Link is NULL", Toast.LENGTH_SHORT).show()
+            } else {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(meal.strSource)))
+            }
+        }
+
+        binding.btnYoutubeLink.setOnClickListener {
+            if (meal.strYoutube == null) {
+                Toast.makeText(it.context, "Link is NULL", Toast.LENGTH_SHORT).show()
+            } else {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(meal.strYoutube)))
+            }
         }
     }
 }

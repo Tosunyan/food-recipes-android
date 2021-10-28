@@ -2,12 +2,10 @@ package com.example.foodRecipes.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.foodRecipes.R
 import com.example.foodRecipes.adapters.MealAdapter.MealViewHolder
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.models.Meal
@@ -16,12 +14,14 @@ class MealAdapter(
     private var listener: MealsItemClickListener
 ) : ListAdapter<Meal, MealViewHolder>(DIFF_CALLBACK) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder =
-        MealViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_meal, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return MealViewHolder(ItemMealBinding.inflate(inflater, parent, false))
+    }
 
-    override fun onBindViewHolder(holder: MealViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
         holder.bind(getItem(position))
-
+    }
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Meal>() {
@@ -50,7 +50,6 @@ class MealAdapter(
         fun bind(meal: Meal) {
             binding.mealName.text = meal.strMeal
             binding.mealImage.load(meal.strMealThumb)
-            binding.mealImage.clipToOutline = true
         }
     }
 
