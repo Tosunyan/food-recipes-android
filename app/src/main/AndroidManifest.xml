@@ -18,7 +18,8 @@
         <activity
             android:name="com.example.foodRecipes.activities.MainActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
