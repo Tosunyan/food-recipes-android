@@ -6,27 +6,25 @@ import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.example.foodRecipes.R
-import com.example.foodRecipes.presentation.adapters.MealAdapter
-import com.example.foodRecipes.presentation.adapters.MealAdapter.MealsItemClickListener
-import com.example.foodRecipes.databinding.FragmentMealsBinding
-import com.example.foodRecipes.presentation.fragments.SearchFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.data.models.Meal
 import com.example.foodRecipes.data.remote.responses.MealResponse
-import com.example.foodRecipes.domain.util.SimpleTextWatcher
+import com.example.foodRecipes.databinding.FragmentMealsBinding
+import com.example.foodRecipes.presentation.adapters.MealAdapter
+import com.example.foodRecipes.presentation.adapters.MealAdapter.MealsItemClickListener
+import com.example.foodRecipes.presentation.fragments.SearchFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.presentation.viewmodels.SearchViewModel
-import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment(), MealsItemClickListener {
 
@@ -51,32 +49,21 @@ class SearchFragment : Fragment(), MealsItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.initViews()
 
-        etSearch.addTextChangedListener(object : SimpleTextWatcher() {
-            private val handler = Handler(Looper.getMainLooper())
-            private lateinit var runnable: Runnable
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!this::runnable.isInitialized) return
-
-                handler.removeCallbacks(runnable)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.toString().trim().isNotEmpty()) {
-                    handler.postDelayed({
-                        if (s?.length == 1) {
-                            viewModel.getMealsByFirstLetter(s[0]).observe(viewLifecycleOwner, { response ->
-                                initRecyclerView(response)
-                            })
-                        } else {
-                            viewModel.getMealsByName(s.toString()).observe(viewLifecycleOwner, { response ->
-                                initRecyclerView(response)
-                            })
+        etSearch.doAfterTextChanged { text ->
+            if (text.toString().trim().isNotEmpty()) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (text?.length == 1) {
+                        viewModel.getMealsByFirstLetter(text[0]).observe(viewLifecycleOwner) { response ->
+                            initRecyclerView(response)
                         }
-                    }, 800)
-                }
+                    } else {
+                        viewModel.getMealsByName(text.toString()).observe(viewLifecycleOwner) { response ->
+                            initRecyclerView(response)
+                        }
+                    }
+                }, 800)
             }
-        })
+        }
     }
 
 
