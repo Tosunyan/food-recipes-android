@@ -8,7 +8,7 @@
     <!-- Home -->
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.foodRecipes.fragments.HomeFragment"
+        android:name="com.example.foodRecipes.presentation.fragments.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
 
@@ -24,13 +24,13 @@
     <!-- Meals -->
     <fragment
         android:id="@+id/mealsFragment"
-        android:name="com.example.foodRecipes.fragments.MealsFragment"
+        android:name="com.example.foodRecipes.presentation.fragments.MealsFragment"
         android:label="MealsFragment"
         tools:layout="@layout/fragment_meals">
 
         <argument
             android:name="action"
-            app:argType="com.example.foodRecipes.fragments.Actions" />
+            app:argType="com.example.foodRecipes.presentation.fragments.Actions" />
 
         <argument
             android:name="title"
@@ -47,7 +47,7 @@
     <!-- Description -->
     <fragment
         android:id="@+id/descriptionFragment"
-        android:name="com.example.foodRecipes.fragments.DescriptionFragment"
+        android:name="com.example.foodRecipes.presentation.fragments.DescriptionFragment"
         android:label="DescriptionFragment"
         tools:layout="@layout/fragment_description">
 
@@ -58,7 +58,7 @@
 
         <argument
             android:name="mealModel"
-            app:argType="com.example.foodRecipes.models.Meal"
+            app:argType="com.example.foodRecipes.data.models.Meal"
             app:nullable="true" />
 
     </fragment>
@@ -66,14 +66,14 @@
     <!-- Search -->
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.foodRecipes.fragments.SearchFragment"
+        android:name="com.example.foodRecipes.presentation.fragments.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_meals" />
 
     <!-- Database -->
     <fragment
         android:id="@+id/databaseFragment"
-        android:name="com.example.foodRecipes.fragments.DatabaseFragment"
+        android:name="com.example.foodRecipes.presentation.fragments.DatabaseFragment"
         android:label="DatabaseFragment"
         tools:layout="@layout/fragment_meals" />
 

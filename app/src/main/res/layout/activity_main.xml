@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    tools:context=".activities.MainActivity">
+    tools:context=".presentation.activities.MainActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -41,7 +41,6 @@
         app:itemIconTint="@color/bottom_navigation_item_color"
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
-        app:layout_behavior="com.example.foodRecipes.util.BottomViewBehavior"
         app:layout_dodgeInsetEdges="bottom"
         app:menu="@menu/bottom_navigation_menu" />
 
