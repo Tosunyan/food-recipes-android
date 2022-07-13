@@ -7,101 +7,118 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
-import com.example.foodRecipes.presentation.adapters.AreaAdapter
-import com.example.foodRecipes.presentation.adapters.AreaAdapter.AreaItemClickListener
-import com.example.foodRecipes.presentation.adapters.CategoryAdapter
-import com.example.foodRecipes.presentation.adapters.CategoryAdapter.CategoryItemClickListener
-import com.example.foodRecipes.databinding.FragmentHomeBinding
-import com.example.foodRecipes.presentation.fragments.Actions.*
-import com.example.foodRecipes.presentation.fragments.HomeFragmentDirections.*
+import com.example.foodRecipes.data.models.Category
 import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.remote.responses.CategoryResponse
+import com.example.foodRecipes.data.remote.responses.MealResponse
+import com.example.foodRecipes.databinding.FragmentHomeBinding
+import com.example.foodRecipes.databinding.ItemAreaBinding
+import com.example.foodRecipes.databinding.ItemCategoryBinding
+import com.example.foodRecipes.presentation.adapters.RegionHolder
+import com.example.foodRecipes.presentation.adapters.SimpleAdapter
+import com.example.foodRecipes.presentation.adapters.holder.CategoryHolder
+import com.example.foodRecipes.presentation.fragments.Actions.AREA
+import com.example.foodRecipes.presentation.fragments.HomeFragmentDirections.fromHomeToMeals
+import com.example.foodRecipes.presentation.fragments.HomeFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.presentation.viewmodels.HomeFragmentViewModel
 
-class HomeFragment : Fragment(),
-    CategoryItemClickListener,
-    AreaItemClickListener {
-
-    private lateinit var binding: FragmentHomeBinding
-    private lateinit var meal: Meal
+class HomeFragment : Fragment() {
 
     private val viewModel by viewModels<HomeFragmentViewModel>()
 
-    private val categorySpanCount: Int
-        get() = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 4 else 3
+    private var binding: FragmentHomeBinding? = null
 
-    private val areaSpanCount: Int
-        get() = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 3 else 4
+    private lateinit var categoryAdapter: SimpleAdapter<Category, CategoryHolder>
+    private lateinit var regionsAdapter: SimpleAdapter<String, RegionHolder>
 
+    private lateinit var meal: Meal
+
+    private val categoriesObserver = Observer<CategoryResponse> {
+        categoryAdapter.clearList()
+        categoryAdapter.submitList(it.categories)
+    }
+
+    private val regionsObserver = Observer<MealResponse> {
+        regionsAdapter.submitList(it.meals.map(Meal::strArea))
+    }
+
+    private val mealObserver = Observer<MealResponse> {
+        meal = it.meals[0]
+
+        binding?.apply {
+            mealItem.mealName.text = meal.strMeal
+            mealItem.mealImage.load(meal.strMealThumb)
+        }
+    }
+
+    private val categoryClickListener = { _: Int, item: Category ->
+        findNavController().navigate(fromHomeToMeals(Actions.CATEGORY, item.strCategory, item.strCategoryDescription))
+    }
+
+    private val regionClickListener = { _: Int, region: String ->
+        findNavController().navigate(fromHomeToMeals(AREA, region, null))
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentHomeBinding.inflate(inflater)
-        return binding.root
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecyclerViews()
-        initClickListeners()
+        super.onViewCreated(view, savedInstanceState)
 
-        getRandomMeal()
-        getCategories()
-        getAreas()
+        binding?.apply {
+            initViews()
+            initListeners()
+        }
 
-        viewModel.getRandomMeal()
-        viewModel.getCategories()
-        viewModel.getAreas()
-    }
-
-
-    private fun initRecyclerViews() {
-        binding.categoryList.setHasFixedSize(true)
-        binding.areaList.setHasFixedSize(true)
-
-        binding.categoryList.layoutManager = GridLayoutManager(context, categorySpanCount, VERTICAL, false)
-        binding.areaList.layoutManager = StaggeredGridLayoutManager(areaSpanCount, HORIZONTAL)
-    }
-
-    private fun getRandomMeal() {
-        viewModel.randomMealData.observe(viewLifecycleOwner) { response ->
-            response ?: return@observe
-
-            meal = response.meals[0]
-            binding.mealItem.mealName.text = meal.strMeal
-            binding.mealItem.mealImage.load(meal.strMealThumb)
+        viewModel.apply {
+            initObservers()
+            getRandomMeal()
+            getCategories()
+            getAreas()
         }
     }
 
-    private fun getCategories() {
-        viewModel.categoryData.observe(viewLifecycleOwner) { response ->
-            response ?: return@observe
+    override fun onDestroyView() {
+        super.onDestroyView()
 
-            binding.categoryList.adapter = CategoryAdapter(response.categories, this@HomeFragment)
-        }
+        binding = null
     }
 
-    private fun getAreas() {
-        viewModel.areaData.observe(viewLifecycleOwner) { response ->
-            response ?: return@observe
+    private fun FragmentHomeBinding.initViews() {
+        val categorySpanCount = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 4 else 3
+        val areaSpanCount = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 3 else 4
 
-            binding.areaList.adapter = AreaAdapter(response.meals, this@HomeFragment)
+        categoryAdapter = SimpleAdapter(itemClickListener = categoryClickListener) { viewGroup ->
+            CategoryHolder(ItemCategoryBinding.inflate(layoutInflater, viewGroup, false))
         }
+        categoryRecyclerView.adapter = categoryAdapter
+        categoryRecyclerView.layoutManager = GridLayoutManager(context, categorySpanCount, VERTICAL, false)
+
+        regionsAdapter = SimpleAdapter(itemClickListener = regionClickListener) { viewGroup ->
+            RegionHolder(ItemAreaBinding.inflate(layoutInflater, viewGroup, false))
+        }
+        areaList.adapter = regionsAdapter
+        areaList.layoutManager = StaggeredGridLayoutManager(areaSpanCount, HORIZONTAL)
     }
 
-    private fun initClickListeners() {
-        binding.mealItem.root.setOnClickListener {
+    private fun FragmentHomeBinding.initListeners() {
+        mealItem.root.setOnClickListener {
             findNavController().navigate(toDescriptionFragment(null, meal))
         }
     }
 
-
-    override fun onCategoryClick(categoryName: String, description: String) =
-        findNavController().navigate(fromHomeToMeals(CATEGORY, categoryName, description))
-
-    override fun onAreaClick(area: String) =
-        findNavController().navigate(fromHomeToMeals(AREA, area, null))
+    private fun HomeFragmentViewModel.initObservers() {
+        categoryData.observe(viewLifecycleOwner, categoriesObserver)
+        areaData.observe(viewLifecycleOwner, regionsObserver)
+        randomMealData.observe(viewLifecycleOwner, mealObserver)
+    }
 }

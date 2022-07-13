@@ -1,39 +1,13 @@
 package com.example.foodRecipes.presentation.adapters
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.recyclerview.widget.RecyclerView
-import com.example.foodRecipes.R
-import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.databinding.ItemAreaBinding
+import com.example.foodRecipes.presentation.adapters.holder.SimpleViewHolder
 
-class AreaAdapter(
-    private val areas: List<Meal>,
-    private val onClickListener: AreaItemClickListener
-) : RecyclerView.Adapter<AreaAdapter.AreaViewHolder>() {
+class RegionHolder(
+    private val binding: ItemAreaBinding
+) : SimpleViewHolder<String>(binding.root) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AreaViewHolder =
-        AreaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_area, parent, false))
-
-    override fun onBindViewHolder(holder: AreaViewHolder, position: Int) {
-        holder.area.text = areas[position].strArea
-    }
-
-    override fun getItemCount() = areas.size
-
-
-    inner class AreaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val area: AppCompatTextView = itemView.findViewById(R.id.tv_item)
-
-        init {
-            itemView.setOnClickListener {
-                onClickListener.onAreaClick(areas[adapterPosition].strArea)
-            }
-        }
-    }
-
-    interface AreaItemClickListener {
-        fun onAreaClick(area: String)
+    override fun onBind(item: String) = with(binding) {
+        tvItem.text = item
     }
 }
