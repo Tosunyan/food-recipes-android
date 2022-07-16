@@ -16,20 +16,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.foodRecipes.data.models.Meal
 import com.example.foodRecipes.databinding.FragmentMealsBinding
-import com.example.foodRecipes.presentation.adapters.MealAdapter
-import com.example.foodRecipes.presentation.adapters.MealAdapter.MealsItemClickListener
+import com.example.foodRecipes.databinding.ItemMealBinding
+import com.example.foodRecipes.presentation.adapters.SimpleAdapter
+import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.fragments.DatabaseFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.presentation.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DatabaseFragment : Fragment(),
-    MealsItemClickListener {
+class DatabaseFragment : Fragment() {
 
     private lateinit var binding: FragmentMealsBinding
     private lateinit var meals: List<Meal>
-    private lateinit var adapter: MealAdapter
+    private lateinit var adapter: SimpleAdapter<Meal, MealHolder>
 
     private val viewModel by viewModels<DatabaseViewModel>()
 
@@ -56,6 +56,9 @@ class DatabaseFragment : Fragment(),
         }
     }
 
+    private val mealClickListener = { _: Int, meal: Meal ->
+        findNavController().navigate(toDescriptionFragment(null, meal))
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMealsBinding.inflate(inflater)
@@ -71,7 +74,10 @@ class DatabaseFragment : Fragment(),
     }
 
     private fun initRecyclerView() {
-        adapter = MealAdapter(this@DatabaseFragment)
+        adapter = SimpleAdapter(itemClickListener = mealClickListener) {
+            val itemBinding = ItemMealBinding.inflate(layoutInflater, it, false)
+            MealHolder(itemBinding)
+        }
         binding.mealsList.adapter = adapter
         binding.mealsList.layoutManager = GridLayoutManager(context, spanCount)
     }
@@ -80,10 +86,4 @@ class DatabaseFragment : Fragment(),
         this.meals = meals
         adapter.submitList(meals)
     }
-
-
-    override fun onMealClick(meal: Meal) =
-        findNavController().navigate(toDescriptionFragment(null, meal))
-
-    override fun onMealLongClick(id: String) = Unit
 }
