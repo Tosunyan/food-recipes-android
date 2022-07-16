@@ -1,12 +1,10 @@
 package com.example.foodRecipes.presentation.fragments
 
-import android.app.Activity
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,12 +14,11 @@ import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.foodRecipes.R
+import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.presentation.adapters.MealAdapter
 import com.example.foodRecipes.presentation.adapters.MealAdapter.MealsItemClickListener
-import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.presentation.fragments.DatabaseFragmentDirections.toDescriptionFragment
-import com.example.foodRecipes.data.models.Meal
 import com.example.foodRecipes.presentation.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +30,6 @@ class DatabaseFragment : Fragment(),
     private lateinit var binding: FragmentMealsBinding
     private lateinit var meals: List<Meal>
     private lateinit var adapter: MealAdapter
-    private lateinit var btnShowDescription: AppCompatImageView
 
     private val viewModel by viewModels<DatabaseViewModel>()
 
@@ -67,20 +63,11 @@ class DatabaseFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.init()
         initRecyclerView()
 
         viewModel.getMealsFromDb().observe(requireActivity(), this::getMeals)
 
         ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.mealsList)
-    }
-
-
-    private fun Activity.init() {
-        btnShowDescription = findViewById(R.id.btn_showDescription)
-        btnShowDescription.visibility = View.GONE
-
-        //window.statusBarColor = Color.parseColor("#00000000")
     }
 
     private fun initRecyclerView() {
