@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
 import com.example.foodRecipes.data.models.Category
 import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.responses.CategoryResponse
 import com.example.foodRecipes.data.remote.responses.MealResponse
 import com.example.foodRecipes.databinding.FragmentHomeBinding
@@ -40,21 +41,27 @@ class HomeFragment : Fragment() {
 
     private lateinit var meal: Meal
 
-    private val categoriesObserver = Observer<CategoryResponse> {
-        categoryAdapter.clearList()
-        categoryAdapter.submitList(it.categories)
+    private val categoriesObserver = Observer<ApiResponse<CategoryResponse>> { response ->
+        if (response is ApiResponse.Success) {
+            categoryAdapter.clearList()
+            categoryAdapter.submitList(response.data.categories)
+        }
     }
 
-    private val regionsObserver = Observer<MealResponse> {
-        regionsAdapter.submitList(it.meals.map(Meal::strArea))
+    private val regionsObserver = Observer<ApiResponse<MealResponse>> { response ->
+        if (response is ApiResponse.Success) {
+            regionsAdapter.submitList(response.data.meals.map(Meal::strArea))
+        }
     }
 
-    private val mealObserver = Observer<MealResponse> {
-        meal = it.meals[0]
+    private val mealObserver = Observer<ApiResponse<MealResponse>> { response ->
+        if (response is ApiResponse.Success) {
+            meal = response.data.meals[0]
 
-        binding?.apply {
-            mealItem.mealName.text = meal.strMeal
-            mealItem.mealImage.load(meal.strMealThumb)
+            binding?.apply {
+                mealItem.mealName.text = meal.strMeal
+                mealItem.mealImage.load(meal.strMealThumb)
+            }
         }
     }
 
@@ -117,8 +124,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun HomeFragmentViewModel.initObservers() {
-        categoryData.observe(viewLifecycleOwner, categoriesObserver)
-        areaData.observe(viewLifecycleOwner, regionsObserver)
-        randomMealData.observe(viewLifecycleOwner, mealObserver)
+        getRandomMeal().observe(viewLifecycleOwner, mealObserver)
+        getCategories().observe(viewLifecycleOwner, categoriesObserver)
+        getAreas().observe(viewLifecycleOwner, regionsObserver)
     }
 }

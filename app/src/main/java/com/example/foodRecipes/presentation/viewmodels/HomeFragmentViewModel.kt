@@ -1,75 +1,46 @@
 package com.example.foodRecipes.presentation.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.foodRecipes.data.remote.ApiService
-import com.example.foodRecipes.data.remote.RetrofitClient
-import com.example.foodRecipes.domain.repositories.HomeRepository
+import androidx.lifecycle.viewModelScope
+import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.responses.CategoryResponse
 import com.example.foodRecipes.data.remote.responses.MealResponse
-import kotlinx.coroutines.*
+import com.example.foodRecipes.domain.repositories.HomeRepository
+import kotlinx.coroutines.launch
 
 class HomeFragmentViewModel : ViewModel() {
 
-    private val repository = HomeRepository(RetrofitClient.getInstance().create(ApiService::class.java))
+    private val repository = HomeRepository()
 
-    val randomMealData = MutableLiveData<MealResponse>()
-    val categoryData = MutableLiveData<CategoryResponse>()
-    val areaData = MutableLiveData<MealResponse>()
+    fun getRandomMeal(): LiveData<ApiResponse<MealResponse>> {
+        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
 
-    val loading = MutableLiveData<Boolean>()
-    val errorMessage = MutableLiveData<String>()
-
-    private var job: Job? = null
-
-
-    override fun onCleared() {
-        super.onCleared()
-
-        job?.cancel()
-    }
-
-    private fun onError(message: String) {
-        errorMessage.value = message
-        loading.value = false
-    }
-
-    fun getRandomMeal() {
-        job = CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getRandomMeal()
-
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    randomMealData.postValue(response.body())
-                    loading.value = false
-                } else onError("Error: ${response.message()}")
-            }
+        viewModelScope.launch {
+            liveData.value = repository.getRandomMeal()
         }
+
+        return liveData
     }
 
-    fun getCategories() {
-        job = CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getCategories()
+    fun getCategories(): LiveData<ApiResponse<CategoryResponse>> {
+        val liveData = MutableLiveData<ApiResponse<CategoryResponse>>()
 
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    categoryData.postValue(response.body())
-                    loading.value = false
-                } else onError("Error: ${response.message()}")
-            }
+        viewModelScope.launch {
+            liveData.value = repository.getCategories()
         }
+
+        return liveData
     }
 
-    fun getAreas() {
-        job = CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getAreas()
+    fun getAreas(): LiveData<ApiResponse<MealResponse>> {
+        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
 
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    areaData.postValue(response.body())
-                    loading.value = false
-                } else onError("Error: ${response.message()}")
-            }
+        viewModelScope.launch {
+            liveData.value = repository.getAreas()
         }
+
+        return liveData
     }
 }

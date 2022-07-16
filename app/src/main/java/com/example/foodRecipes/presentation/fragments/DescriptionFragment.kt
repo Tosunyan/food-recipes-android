@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.presentation.adapters.IngredientAdapter
@@ -16,6 +17,8 @@ import com.example.foodRecipes.databinding.FragmentDescriptionBinding
 import com.example.foodRecipes.presentation.fragments.DescriptionFragmentArgs.fromBundle
 import com.example.foodRecipes.data.models.Ingredient
 import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.responses.MealResponse
 import com.example.foodRecipes.presentation.viewmodels.DescriptionFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +30,13 @@ class DescriptionFragment : Fragment() {
     private val viewModel by viewModels<DescriptionFragmentViewModel>()
     private lateinit var binding: FragmentDescriptionBinding
     private lateinit var meal: Meal
+
+    private val mealObserver = Observer<ApiResponse<MealResponse>> { response ->
+        if (response is ApiResponse.Success) {
+            meal = response.data.meals[0]
+            init()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDescriptionBinding.inflate(inflater, container, false)
@@ -40,11 +50,9 @@ class DescriptionFragment : Fragment() {
         return binding.root
     }
 
-    private fun fromApi() =
-        viewModel.getMealInfo(fromBundle(requireArguments()).id).observe(viewLifecycleOwner, {
-            meal = it.meals[0]
-            init()
-        })
+    private fun fromApi() {
+        viewModel.getMealDetails(fromBundle(requireArguments()).id!!).observe(viewLifecycleOwner, mealObserver)
+    }
 
     private fun fromParcelable() {
         meal = fromBundle(requireArguments()).mealModel!!

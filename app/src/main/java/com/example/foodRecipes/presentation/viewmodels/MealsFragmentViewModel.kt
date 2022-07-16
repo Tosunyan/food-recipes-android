@@ -3,26 +3,40 @@ package com.example.foodRecipes.presentation.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.responses.MealResponse
 import com.example.foodRecipes.domain.repositories.DatabaseRepository
 import com.example.foodRecipes.domain.repositories.DescriptionRepository
 import com.example.foodRecipes.domain.repositories.MealRepository
-import com.example.foodRecipes.data.remote.responses.MealResponse
+import kotlinx.coroutines.launch
 
 class MealsFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mealRepository = MealRepository()
     private val databaseRepository = DatabaseRepository(application)
-    private val descriptionRepository = DescriptionRepository()
 
-    fun filterMealsByCategory(category: String?): LiveData<MealResponse?> =
-        mealRepository.filterMealsByCategory(category)
+    fun filterMealsByCategory(category: String?): LiveData<ApiResponse<MealResponse>> {
+        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
 
-    fun filterMealsByArea(area: String?): LiveData<MealResponse?> =
-        mealRepository.filterMealsByArea(area)
+        viewModelScope.launch {
+            liveData.value = mealRepository.filterMealsByCategory(category)
+        }
 
-    fun getMealInfo(id: String?): LiveData<MealResponse> =
-        descriptionRepository.getMealInfo(id)
+        return liveData
+    }
+
+    fun filterMealsByArea(area: String?): LiveData<ApiResponse<MealResponse>> {
+        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
+
+        viewModelScope.launch {
+            liveData.value = mealRepository.filterMealsByArea(area)
+        }
+
+        return liveData
+    }
 
 
     fun getMealsFromDb() = databaseRepository.getMeals()

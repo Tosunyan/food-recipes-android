@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.responses.MealResponse
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
@@ -33,8 +34,10 @@ class MealsFragment : Fragment() {
     private lateinit var title: String
     private lateinit var description: String
 
-    private val mealsObserver = Observer<MealResponse?> { response ->
-        adapter.submitList(response.meals)
+    private val mealsObserver = Observer<ApiResponse<MealResponse>> { response ->
+        if (response is ApiResponse.Success) {
+            adapter.submitList(response.data.meals)
+        }
     }
 
     private val mealClickListener = { _: Int, item: Meal ->
@@ -73,14 +76,15 @@ class MealsFragment : Fragment() {
             }
         }
 
+        adapter = SimpleAdapter(itemClickListener = mealClickListener) {
+            val itemBinding = ItemMealBinding.inflate(layoutInflater, it, false)
+            MealHolder(itemBinding)
+        }
+
         mealsList.apply {
             val spanCount = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 2 else 1
             layoutManager = GridLayoutManager(context, spanCount)
-
-            adapter = SimpleAdapter(itemClickListener = mealClickListener) {
-                val itemBinding = ItemMealBinding.inflate(layoutInflater, it, false)
-                MealHolder(itemBinding)
-            }
+            adapter = this@MealsFragment.adapter
         }
     }
 }

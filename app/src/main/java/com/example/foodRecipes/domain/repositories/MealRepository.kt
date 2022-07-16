@@ -1,55 +1,19 @@
 package com.example.foodRecipes.domain.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.foodRecipes.data.remote.ApiService
-import com.example.foodRecipes.data.remote.RetrofitClient
-import com.example.foodRecipes.data.remote.responses.MealResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.foodRecipes.data.remote.Api
+import com.example.foodRecipes.data.remote.makeApiCall
 
 class MealRepository {
 
-    private val apiService: ApiService = RetrofitClient.getInstance().create(ApiService::class.java)
-    private val data = MutableLiveData<MealResponse?>()
-
-    fun filterMealsByCategory(category: String?): LiveData<MealResponse?> {
-        apiService.filterMealsByCategory(category).enqueue(object : Callback<MealResponse?> {
-            override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
-                data.value = response.body()
-            }
-
-            override fun onFailure(call: Call<MealResponse?>, t: Throwable) {
-                data.value = null
-            }
-        })
-        return data
+    suspend fun filterMealsByCategory(category: String?) = makeApiCall {
+        Api.client.filterMealsByCategory(category)
     }
 
-    fun filterMealsByArea(area: String?): LiveData<MealResponse?> {
-        apiService.filterMealsByArea(area).enqueue(object : Callback<MealResponse?> {
-            override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
-                data.value = response.body()
-            }
-
-            override fun onFailure(call: Call<MealResponse?>, t: Throwable) {
-                data.value = null
-            }
-        })
-        return data
+    suspend fun filterMealsByArea(area: String?) = makeApiCall {
+        Api.client.filterMealsByArea(area)
     }
 
-    fun filterMealsByIngredient(ingredient: String?): LiveData<MealResponse?> {
-        apiService.filterMealsByIngredient(ingredient).enqueue(object : Callback<MealResponse?> {
-            override fun onResponse(call: Call<MealResponse?>, response: Response<MealResponse?>) {
-                data.value = response.body()
-            }
-
-            override fun onFailure(call: Call<MealResponse?>, t: Throwable) {
-                data.value = null
-            }
-        })
-        return data
+    suspend fun filterMealsByIngredient(ingredient: String?) = makeApiCall {
+        Api.client.filterMealsByIngredient(ingredient)
     }
 }
