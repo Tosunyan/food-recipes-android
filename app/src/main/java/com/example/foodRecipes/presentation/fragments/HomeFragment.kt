@@ -99,12 +99,7 @@ class HomeFragment : Fragment() {
             initListeners()
         }
 
-        viewModel.apply {
-            initObservers()
-            getRandomMeal()
-            getCategories()
-            getAreas()
-        }
+        initObservers()
     }
 
     override fun onDestroyView() {
@@ -140,9 +135,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun HomeFragmentViewModel.initObservers() {
-        getRandomMeal().observe(viewLifecycleOwner, mealObserver)
-        getCategories().observe(viewLifecycleOwner, categoriesObserver)
-        getAreas().observe(viewLifecycleOwner, regionsObserver)
+    private fun initObservers() {
+        with(viewModel) {
+            getRandomMeal().observe(viewLifecycleOwner, mealObserver)
+            getCategories().observe(viewLifecycleOwner, categoriesObserver)
+            getAreas().observe(viewLifecycleOwner, regionsObserver)
+        }
     }
 }
