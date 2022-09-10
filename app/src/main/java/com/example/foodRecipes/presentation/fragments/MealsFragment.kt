@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.foodRecipes.R
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealsDto
@@ -21,7 +22,6 @@ import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.fragments.Actions.AREA
 import com.example.foodRecipes.presentation.fragments.Actions.CATEGORY
 import com.example.foodRecipes.presentation.fragments.MealsFragmentArgs.fromBundle
-import com.example.foodRecipes.presentation.fragments.MealsFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.presentation.viewmodels.MealsFragmentViewModel
 
 class MealsFragment : Fragment() {
@@ -42,7 +42,7 @@ class MealsFragment : Fragment() {
     }
 
     private val mealClickListener = { _: Int, item: MealModel ->
-        findNavController().navigate(toDescriptionFragment(null, null))
+        findNavController().navigate(R.id.fragment_description)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

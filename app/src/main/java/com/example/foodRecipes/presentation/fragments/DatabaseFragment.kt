@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,11 +15,11 @@ import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.foodRecipes.R
 import com.example.foodRecipes.data.local.data.MealEntity
-import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.viewmodels.DatabaseViewModel
@@ -43,7 +44,11 @@ class DatabaseFragment : Fragment() {
     }
 
     private val mealClickListener = { _: Int, meal: MealModel ->
-        findNavController().navigate(DatabaseFragmentDirections.toDescriptionFragment(null, meal))
+        val args = bundleOf(
+            "" to null,
+            "" to meal
+        )
+        findNavController().navigate(R.id.fragment_description, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

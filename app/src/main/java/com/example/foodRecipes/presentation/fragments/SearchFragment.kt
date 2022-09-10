@@ -6,26 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView.VERTICAL
+import com.example.foodRecipes.R
 import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealsDto
-import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.databinding.FragmentMealsBinding
+import com.example.foodRecipes.databinding.FragmentSearchBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
-import com.example.foodRecipes.presentation.fragments.SearchFragmentDirections.toDescriptionFragment
-import com.example.foodRecipes.presentation.viewmodels.SearchViewModel
 
 class SearchFragment : Fragment() {
 
-    private val viewModel by viewModels<SearchViewModel>()
-    private lateinit var binding: FragmentMealsBinding
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
 
     private var meals: List<MealModel> = ArrayList()
@@ -37,11 +33,15 @@ class SearchFragment : Fragment() {
             else ORIENTATION_PORTRAIT
 
     private val mealClickListener = { _: Int, meal: MealModel ->
-        findNavController().navigate(toDescriptionFragment(meal.name, null))
+        val args = bundleOf(
+            "" to meal.name,
+            "" to null
+        )
+        findNavController().navigate(R.id.fragment_description, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentMealsBinding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,9 +54,9 @@ class SearchFragment : Fragment() {
             MealHolder(itemBinding)
         }
 
-        binding.mealsList.setHasFixedSize(true)
-        binding.mealsList.adapter = adapter
-        binding.mealsList.layoutManager = GridLayoutManager(context, spanCount, VERTICAL, false)
+//        binding.mealsList.setHasFixedSize(true)
+//        binding.mealsList.adapter = adapter
+//        binding.mealsList.layoutManager = GridLayoutManager(context, spanCount, VERTICAL, false)
         val oldCount = meals.size
         meals = mealResponse!!.data.meals.map { it.toMealModel() }
         adapter.notifyItemRangeInserted(oldCount, meals.size)
