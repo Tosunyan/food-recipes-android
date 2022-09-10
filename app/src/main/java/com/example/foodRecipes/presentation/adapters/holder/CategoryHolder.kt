@@ -1,7 +1,7 @@
 package com.example.foodRecipes.presentation.adapters.holder
 
 import coil.load
-import com.example.foodRecipes.data.models.Category
+import com.example.foodRecipes.domain.model.Category
 import com.example.foodRecipes.databinding.ItemCategoryBinding
 
 class CategoryHolder(

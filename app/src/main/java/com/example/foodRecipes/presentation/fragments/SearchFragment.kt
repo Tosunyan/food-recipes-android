@@ -11,10 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import com.example.foodRecipes.data.models.Meal
-import com.example.foodRecipes.data.remote.responses.MealResponse
+import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.data.MealsDto
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
+import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.fragments.SearchFragmentDirections.toDescriptionFragment
@@ -24,9 +26,9 @@ class SearchFragment : Fragment() {
 
     private val viewModel by viewModels<SearchViewModel>()
     private lateinit var binding: FragmentMealsBinding
-    private lateinit var adapter: SimpleAdapter<Meal, MealHolder>
+    private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
 
-    private var meals: List<Meal> = ArrayList()
+    private var meals: List<MealModel> = ArrayList()
 
     private val spanCount: Int
         get() =
@@ -34,8 +36,8 @@ class SearchFragment : Fragment() {
                 ORIENTATION_LANDSCAPE
             else ORIENTATION_PORTRAIT
 
-    private val mealClickListener = { _: Int, meal: Meal ->
-        findNavController().navigate(toDescriptionFragment(meal.strMeal, null))
+    private val mealClickListener = { _: Int, meal: MealModel ->
+        findNavController().navigate(toDescriptionFragment(meal.name, null))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -43,9 +45,9 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    private fun initRecyclerView(mealResponse: MealResponse?) {
+    private fun initRecyclerView(mealResponse: ApiResponse.Success<MealsDto>?) {
         adapter = SimpleAdapter(
-            items = mealResponse?.meals?.toMutableList() ?: mutableListOf(),
+            items = mealResponse?.data?.meals?.map { it.toMealModel() }?.toMutableList() ?: mutableListOf(),
             itemClickListener = mealClickListener
         ) {
             val itemBinding = ItemMealBinding.inflate(layoutInflater, it, false)
@@ -56,7 +58,7 @@ class SearchFragment : Fragment() {
         binding.mealsList.adapter = adapter
         binding.mealsList.layoutManager = GridLayoutManager(context, spanCount, VERTICAL, false)
         val oldCount = meals.size
-        meals = mealResponse!!.meals
+        meals = mealResponse!!.data.meals.map { it.toMealModel() }
         adapter.notifyItemRangeInserted(oldCount, meals.size)
     }
 }

@@ -10,11 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.responses.MealResponse
+import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
+import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.fragments.Actions.AREA
@@ -29,19 +30,19 @@ class MealsFragment : Fragment() {
 
     private var binding: FragmentMealsBinding? = null
 
-    private lateinit var adapter: SimpleAdapter<Meal, MealHolder>
+    private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
 
     private lateinit var title: String
     private lateinit var description: String
 
-    private val mealsObserver = Observer<ApiResponse<MealResponse>> { response ->
+    private val mealsObserver = Observer<ApiResponse<MealsDto>> { response ->
         if (response is ApiResponse.Success) {
-            adapter.submitList(response.data.meals)
+            adapter.submitList(response.data.meals.map { it.toMealModel() })
         }
     }
 
-    private val mealClickListener = { _: Int, item: Meal ->
-        findNavController().navigate(toDescriptionFragment(item.idMeal, null))
+    private val mealClickListener = { _: Int, item: MealModel ->
+        findNavController().navigate(toDescriptionFragment(null, null))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

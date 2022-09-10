@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.load
-import com.example.foodRecipes.data.models.Category
-import com.example.foodRecipes.data.models.Meal
 import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.responses.CategoryResponse
-import com.example.foodRecipes.data.remote.responses.MealResponse
+import com.example.foodRecipes.data.remote.data.*
 import com.example.foodRecipes.databinding.FragmentHomeBinding
 import com.example.foodRecipes.databinding.ItemAreaBinding
 import com.example.foodRecipes.databinding.ItemCategoryBinding
+import com.example.foodRecipes.domain.mapper.toMealModel
+import com.example.foodRecipes.domain.model.Category
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.RegionHolder
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.CategoryHolder
@@ -39,28 +39,28 @@ class HomeFragment : Fragment() {
     private lateinit var categoryAdapter: SimpleAdapter<Category, CategoryHolder>
     private lateinit var regionsAdapter: SimpleAdapter<String, RegionHolder>
 
-    private lateinit var meal: Meal
+    private lateinit var meal: MealModel
 
-    private val categoriesObserver = Observer<ApiResponse<CategoryResponse>> { response ->
+    private val categoriesObserver = Observer<ApiResponse<CategoriesDto>> { response ->
         if (response is ApiResponse.Success) {
             categoryAdapter.clearList()
             categoryAdapter.submitList(response.data.categories)
         }
     }
 
-    private val regionsObserver = Observer<ApiResponse<MealResponse>> { response ->
+    private val regionsObserver = Observer<ApiResponse<RegionsDto>> { response ->
         if (response is ApiResponse.Success) {
-            regionsAdapter.submitList(response.data.meals.map(Meal::strArea))
+            regionsAdapter.submitList(response.data.meals.map(RegionDto::strArea))
         }
     }
 
-    private val mealObserver = Observer<ApiResponse<MealResponse>> { response ->
+    private val mealObserver = Observer<ApiResponse<MealsDto>> { response ->
         if (response is ApiResponse.Success) {
-            meal = response.data.meals[0]
+            meal = response.data.meals[0].toMealModel()
 
             binding?.apply {
-                mealItem.mealName.text = meal.strMeal
-                mealItem.mealImage.load(meal.strMealThumb)
+                mealItem.mealName.text = meal.name
+                mealItem.mealImage.load(meal.image)
             }
         }
     }

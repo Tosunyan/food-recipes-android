@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodRecipes.presentation.adapters.IngredientAdapter.IngredientViewHolder
 import com.example.foodRecipes.databinding.ItemIngredientBinding
-import com.example.foodRecipes.data.models.Ingredient
+import com.example.foodRecipes.domain.model.IngredientModel
 
 class IngredientAdapter(
-    private val ingredients: List<Ingredient>
+    private val ingredients: List<IngredientModel>
 ) : RecyclerView.Adapter<IngredientViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
@@ -27,9 +27,9 @@ class IngredientAdapter(
         private val binding: ItemIngredientBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(ingredient: Ingredient) = binding.apply {
-            advancedIngredient.text = ingredient.ingredient ?: return@apply
-            advancedMeasure.text = ingredient.measure?.trim() ?: return@apply
+        fun bind(ingredient: IngredientModel) = binding.apply {
+            advancedIngredient.text = ingredient.name ?: return@apply
+            advancedMeasure.text = ingredient.quantity?.trim() ?: return@apply
         }
     }
 }

@@ -58,7 +58,7 @@
 
         <argument
             android:name="mealModel"
-            app:argType="com.example.foodRecipes.data.models.Meal"
+            app:argType="com.example.foodRecipes.domain.model.MealModel"
             app:nullable="true" />
 
     </fragment>

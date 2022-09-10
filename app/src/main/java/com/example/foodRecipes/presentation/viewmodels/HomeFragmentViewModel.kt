@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.responses.CategoryResponse
-import com.example.foodRecipes.data.remote.responses.MealResponse
+import com.example.foodRecipes.data.remote.data.CategoriesDto
+import com.example.foodRecipes.data.remote.data.MealsDto
+import com.example.foodRecipes.data.remote.data.RegionsDto
 import com.example.foodRecipes.domain.repositories.HomeRepository
 import kotlinx.coroutines.launch
 
@@ -14,8 +15,8 @@ class HomeFragmentViewModel : ViewModel() {
 
     private val repository = HomeRepository()
 
-    fun getRandomMeal(): LiveData<ApiResponse<MealResponse>> {
-        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
+    fun getRandomMeal(): LiveData<ApiResponse<MealsDto>> {
+        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
 
         viewModelScope.launch {
             liveData.value = repository.getRandomMeal()
@@ -24,8 +25,8 @@ class HomeFragmentViewModel : ViewModel() {
         return liveData
     }
 
-    fun getCategories(): LiveData<ApiResponse<CategoryResponse>> {
-        val liveData = MutableLiveData<ApiResponse<CategoryResponse>>()
+    fun getCategories(): LiveData<ApiResponse<CategoriesDto>> {
+        val liveData = MutableLiveData<ApiResponse<CategoriesDto>>()
 
         viewModelScope.launch {
             liveData.value = repository.getCategories()
@@ -34,8 +35,8 @@ class HomeFragmentViewModel : ViewModel() {
         return liveData
     }
 
-    fun getAreas(): LiveData<ApiResponse<MealResponse>> {
-        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
+    fun getAreas(): LiveData<ApiResponse<RegionsDto>> {
+        val liveData = MutableLiveData<ApiResponse<RegionsDto>>()
 
         viewModelScope.launch {
             liveData.value = repository.getAreas()

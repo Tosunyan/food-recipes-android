@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.local.data.MealEntity
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.responses.MealResponse
+import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.domain.repositories.DatabaseRepository
-import com.example.foodRecipes.domain.repositories.DescriptionRepository
 import com.example.foodRecipes.domain.repositories.MealRepository
 import kotlinx.coroutines.launch
 
@@ -18,8 +18,8 @@ class MealsFragmentViewModel(application: Application) : AndroidViewModel(applic
     private val mealRepository = MealRepository()
     private val databaseRepository = DatabaseRepository(application)
 
-    fun filterMealsByCategory(category: String?): LiveData<ApiResponse<MealResponse>> {
-        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
+    fun filterMealsByCategory(category: String?): LiveData<ApiResponse<MealsDto>> {
+        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
 
         viewModelScope.launch {
             liveData.value = mealRepository.filterMealsByCategory(category)
@@ -28,8 +28,8 @@ class MealsFragmentViewModel(application: Application) : AndroidViewModel(applic
         return liveData
     }
 
-    fun filterMealsByArea(area: String?): LiveData<ApiResponse<MealResponse>> {
-        val liveData = MutableLiveData<ApiResponse<MealResponse>>()
+    fun filterMealsByArea(area: String?): LiveData<ApiResponse<MealsDto>> {
+        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
 
         viewModelScope.launch {
             liveData.value = mealRepository.filterMealsByArea(area)
@@ -41,7 +41,7 @@ class MealsFragmentViewModel(application: Application) : AndroidViewModel(applic
 
     fun getMealsFromDb() = databaseRepository.getMeals()
 
-    suspend fun insertMeal(meal: Meal) = databaseRepository.insert(meal)
+    suspend fun insertMeal(meal: MealEntity) = databaseRepository.insert(meal)
 
-    suspend fun deleteMeal(meal: Meal) = databaseRepository.delete(meal)
+    suspend fun deleteMeal(meal: MealEntity) = databaseRepository.delete(meal)
 }

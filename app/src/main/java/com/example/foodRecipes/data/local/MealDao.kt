@@ -5,20 +5,20 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.local.data.MealEntity
 
 @Dao
 interface MealDao {
 
     @Insert
-    suspend fun insertMeal(meal: Meal)
+    suspend fun insertMeal(meal: MealEntity)
 
     @Delete
-    suspend fun deleteMeal(meal: Meal)
+    suspend fun deleteMeal(meal: MealEntity)
 
-    @Query("SELECT * FROM Meal ORDER BY strMeal")
-    fun getAllMeals(): LiveData<List<Meal>>
+    @Query("SELECT * FROM MealEntity ORDER BY name")
+    fun getAllMeals(): LiveData<List<MealEntity>>
 
-    @Query("SELECT * FROM Meal WHERE strMeal LIKE '%' || :search || '%' ORDER BY strMeal")
-    fun getMealsByName(search: String?): LiveData<List<Meal>>
+    @Query("SELECT * FROM MealEntity WHERE name LIKE '%' || :search || '%' ORDER BY name")
+    fun getMealsByName(search: String?): LiveData<List<MealEntity>>
 }

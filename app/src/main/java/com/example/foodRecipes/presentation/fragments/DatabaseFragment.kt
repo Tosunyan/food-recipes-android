@@ -14,22 +14,20 @@ import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.local.data.MealEntity
+import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
-import com.example.foodRecipes.presentation.fragments.DatabaseFragmentDirections.toDescriptionFragment
 import com.example.foodRecipes.presentation.viewmodels.DatabaseViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class DatabaseFragment : Fragment() {
 
     private lateinit var binding: FragmentMealsBinding
-    private lateinit var meals: List<Meal>
-    private lateinit var adapter: SimpleAdapter<Meal, MealHolder>
+    private lateinit var meals: List<MealModel>
+    private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
 
     private val viewModel by viewModels<DatabaseViewModel>()
 
@@ -40,24 +38,12 @@ class DatabaseFragment : Fragment() {
         override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean = false
 
         override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-            CoroutineScope(Dispatchers.IO).launch { viewModel.deleteMeal(meals[viewHolder.adapterPosition]) }
-
-//            SnackBar
-//                .make(binding.root, meals[viewHolder.adapterPosition].strMeal + " deleted", LENGTH_SHORT)
-//                .setTextColor(resources.getColor(R.color.colorBackground, activity?.theme))
-//                .setBackgroundTint(resources.getColor(R.color.colorText, activity?.theme))
-//                .setActionTextColor(resources.getColor(R.color.colorAccent, activity?.theme))
-//                .setAction("Undo") {
-//                    CoroutineScope(Dispatchers.IO).launch {
-//                        viewModel.insertMeal(meals[viewHolder.adapterPosition])
-//                    }
-//                }
-//                .show();
+            // TODO Will be re-implemented later
         }
     }
 
-    private val mealClickListener = { _: Int, meal: Meal ->
-        findNavController().navigate(toDescriptionFragment(null, meal))
+    private val mealClickListener = { _: Int, meal: MealModel ->
+        findNavController().navigate(DatabaseFragmentDirections.toDescriptionFragment(null, meal))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -82,8 +68,8 @@ class DatabaseFragment : Fragment() {
         binding.mealsList.layoutManager = GridLayoutManager(context, spanCount)
     }
 
-    private fun getMeals(meals: List<Meal>) {
-        this.meals = meals
-        adapter.submitList(meals)
+    private fun getMeals(meals: List<MealEntity>) {
+//        this.meals = meals
+//        adapter.submitList(meals)
     }
 }

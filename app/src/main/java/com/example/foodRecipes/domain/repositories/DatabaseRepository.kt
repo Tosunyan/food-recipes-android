@@ -3,7 +3,8 @@ package com.example.foodRecipes.domain.repositories
 import android.app.Application
 import com.example.foodRecipes.data.local.MealDao
 import com.example.foodRecipes.data.local.MealDatabase
-import com.example.foodRecipes.data.models.Meal
+import com.example.foodRecipes.data.local.data.MealEntity
+import com.example.foodRecipes.domain.model.MealModel
 
 class DatabaseRepository(application: Application) {
 
@@ -18,7 +19,7 @@ class DatabaseRepository(application: Application) {
 
     fun searchMeal(search: String?) = mealDao.getMealsByName(search)
 
-    suspend fun insert(meal: Meal) = mealDao.insertMeal(meal)
+    suspend fun insert(meal: MealEntity) = mealDao.insertMeal(meal)
 
-    suspend fun delete(meal: Meal) = mealDao.deleteMeal(meal)
+    suspend fun delete(meal: MealEntity) = mealDao.deleteMeal(meal)
 }
