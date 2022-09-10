@@ -1,4 +1,4 @@
-package com.example.foodRecipes.domain.util
+package com.example.foodRecipes.util
 
 import android.content.Context
 import android.net.ConnectivityManager

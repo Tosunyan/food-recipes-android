@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.foodRecipes.domain.util
+package com.example.foodRecipes.util
 
 import android.content.BroadcastReceiver
 import android.content.Context
