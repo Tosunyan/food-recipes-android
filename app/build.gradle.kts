@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
-    id("androidx.navigation.safeargs")
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
