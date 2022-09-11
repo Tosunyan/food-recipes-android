@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.data.local.data.MealEntity
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.data.MealDetailsDto
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.domain.repositories.DatabaseRepository
 import com.example.foodRecipes.domain.repositories.DescriptionRepository
@@ -17,8 +18,8 @@ class DescriptionFragmentViewModel(application: Application) : AndroidViewModel(
     private val repository: DescriptionRepository = DescriptionRepository()
     private val databaseRepository: DatabaseRepository = DatabaseRepository(application)
 
-    fun getMealDetails(id: String): MutableLiveData<ApiResponse<MealsDto>> {
-        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
+    fun getMealDetails(id: String): MutableLiveData<ApiResponse<MealDetailsDto>> {
+        val liveData = MutableLiveData<ApiResponse<MealDetailsDto>>()
 
         viewModelScope.launch {
             liveData.value = repository.getMealDetails(id)

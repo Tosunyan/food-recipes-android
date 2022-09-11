@@ -6,17 +6,19 @@ import com.example.foodRecipes.domain.model.IngredientModel
 import com.example.foodRecipes.domain.model.MealModel
 
 fun MealDto.toMealModel() = MealModel(
+    id = idMeal,
     name = strMeal,
     category = null,
     region = null,
     instructions = null,
-    image = null,
+    image = strMealThumb,
     youtubeUrl = null,
     sourceUrl = null,
     ingredients = null,
 )
 
 fun MealDetailsDto.toMealModel() = MealModel(
+    id = idMeal,
     name = strMeal,
     category = strCategory ?: "",
     region = strArea ?: "",

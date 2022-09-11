@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.foodRecipes.R
 import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealsDto
@@ -18,6 +17,7 @@ import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
+import com.example.foodRecipes.presentation.extension.navigate
 
 class SearchFragment : Fragment() {
 
@@ -37,7 +37,7 @@ class SearchFragment : Fragment() {
             "" to meal.name,
             "" to null
         )
-        findNavController().navigate(R.id.fragment_description, args)
+        navigate(R.id.fragment_description, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

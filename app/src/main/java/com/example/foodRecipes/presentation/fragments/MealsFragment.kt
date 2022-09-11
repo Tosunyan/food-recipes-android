@@ -5,23 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodRecipes.R
-import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
+import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
-import com.example.foodRecipes.presentation.fragments.Actions.AREA
-import com.example.foodRecipes.presentation.fragments.Actions.CATEGORY
-import com.example.foodRecipes.presentation.fragments.MealsFragmentArgs.fromBundle
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodels.MealsFragmentViewModel
 
 class MealsFragment : Fragment() {
@@ -42,7 +40,8 @@ class MealsFragment : Fragment() {
     }
 
     private val mealClickListener = { _: Int, item: MealModel ->
-        findNavController().navigate(R.id.fragment_description)
+        val args = bundleOf(DescriptionFragment.ARG_ID to item.id)
+        navigate(R.id.fragment_description, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -65,14 +64,14 @@ class MealsFragment : Fragment() {
     }
 
     private fun FragmentMealsBinding.initViews() {
-        title = fromBundle(requireArguments()).title
+        title = requireArguments().getString(ARG_TITLE)!!
 
-        when (arguments?.getSerializable("action")) {
-            CATEGORY -> {
-                description = fromBundle(requireArguments()).description!!
+        when (requireArguments().getSerializable(ARG_ACTION)) {
+            Action.CATEGORY -> {
+                description = requireArguments().getString(ARG_DESCRIPTION)!!
                 viewModel.filterMealsByCategory(title).observe(viewLifecycleOwner, mealsObserver)
             }
-            AREA -> {
+            Action.AREA -> {
                 viewModel.filterMealsByArea(title).observe(viewLifecycleOwner, mealsObserver)
             }
         }
@@ -88,9 +87,16 @@ class MealsFragment : Fragment() {
             adapter = this@MealsFragment.adapter
         }
     }
-}
 
-enum class Actions {
-    CATEGORY,
-    AREA
+    companion object {
+
+        const val ARG_TITLE = "arg.title"
+        const val ARG_ACTION = "arg.action"
+        const val ARG_DESCRIPTION = "arg.description"
+    }
+
+    enum class Action {
+        CATEGORY,
+        AREA
+    }
 }

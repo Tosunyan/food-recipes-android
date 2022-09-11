@@ -1,6 +1,7 @@
 package com.example.foodRecipes.data.remote
 
 import com.example.foodRecipes.data.remote.data.CategoriesDto
+import com.example.foodRecipes.data.remote.data.MealDetailsWrapperDto
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.data.remote.data.RegionsDto
 import retrofit2.Response
@@ -20,7 +21,7 @@ interface ApiService {
 
 
     @GET("lookup.php")
-    suspend fun getMealDetails(@Query("i") id: String?): Response<MealsDto>
+    suspend fun getMealDetails(@Query("i") id: String?): Response<MealDetailsWrapperDto>
 
 
     @GET("search.php")

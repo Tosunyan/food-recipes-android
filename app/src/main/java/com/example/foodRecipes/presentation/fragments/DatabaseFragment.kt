@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.LEFT
@@ -22,6 +21,7 @@ import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodels.DatabaseViewModel
 
 class DatabaseFragment : Fragment() {
@@ -48,7 +48,7 @@ class DatabaseFragment : Fragment() {
             "" to null,
             "" to meal
         )
-        findNavController().navigate(R.id.fragment_description, args)
+        navigate(R.id.fragment_description, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

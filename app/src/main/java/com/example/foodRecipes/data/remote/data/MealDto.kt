@@ -10,6 +10,10 @@ data class MealDto(
     val strMealThumb: String,
 )
 
+data class MealDetailsWrapperDto(
+    val meals: List<MealDetailsDto>
+)
+
 data class MealDetailsDto(
     val idMeal: String,
     val strMeal: String,

@@ -13,26 +13,23 @@ import androidx.lifecycle.Observer
 import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.data.MealsDto
+import com.example.foodRecipes.data.remote.data.MealDetailsDto
 import com.example.foodRecipes.databinding.FragmentDescriptionBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.IngredientAdapter
-import com.example.foodRecipes.presentation.fragments.DescriptionFragmentArgs.fromBundle
 import com.example.foodRecipes.presentation.viewmodels.DescriptionFragmentViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class DescriptionFragment : Fragment() {
 
     private val viewModel by viewModels<DescriptionFragmentViewModel>()
     private lateinit var binding: FragmentDescriptionBinding
+
     private lateinit var meal: MealModel
 
-    private val mealObserver = Observer<ApiResponse<MealsDto>> { response ->
+    private val mealObserver = Observer<ApiResponse<MealDetailsDto>> { response ->
         if (response is ApiResponse.Success) {
-            meal = response.data.meals[0].toMealModel()
+            meal = response.data.toMealModel()
             init()
         }
     }
@@ -40,9 +37,11 @@ class DescriptionFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDescriptionBinding.inflate(inflater, container, false)
 
-        if (fromBundle(requireArguments()).mealModel != null)
+        if (requireArguments()[ARG_MODEL] != null) {
             fromParcelable()
-        else fromApi()
+        } else {
+            fromApi()
+        }
 
         setupClickListeners()
 
@@ -50,11 +49,12 @@ class DescriptionFragment : Fragment() {
     }
 
     private fun fromApi() {
-        viewModel.getMealDetails(fromBundle(requireArguments()).id!!).observe(viewLifecycleOwner, mealObserver)
+        val mealId = requireArguments().getString(ARG_ID)!!
+        viewModel.getMealDetails(mealId).observe(viewLifecycleOwner, mealObserver)
     }
 
     private fun fromParcelable() {
-        meal = fromBundle(requireArguments()).mealModel!!
+        meal = requireArguments().getParcelable(ARG_MODEL)!!
         init()
     }
 
@@ -97,5 +97,11 @@ class DescriptionFragment : Fragment() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(meal.youtubeUrl)))
             }
         }
+    }
+
+    companion object {
+
+        const val ARG_ID = "arg.id"
+        const val ARG_MODEL = "arg.model"
     }
 }

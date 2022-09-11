@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
@@ -30,7 +29,7 @@ import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.RegionHolder
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.CategoryHolder
-import com.example.foodRecipes.presentation.fragments.Actions.AREA
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodels.HomeFragmentViewModel
 
 class HomeFragment : Fragment() {
@@ -70,20 +69,19 @@ class HomeFragment : Fragment() {
 
     private val categoryClickListener = { _: Int, item: Category ->
         val args = bundleOf(
-            "" to Actions.CATEGORY,
-            "" to item.strCategory,
-            "" to item.strCategoryDescription
+            MealsFragment.ARG_ACTION to MealsFragment.Action.CATEGORY,
+            MealsFragment.ARG_TITLE to item.strCategory,
+            MealsFragment.ARG_DESCRIPTION to item.strCategoryDescription
         )
-        findNavController().navigate(R.id.fragment_meals, args)
+        navigate(R.id.fragment_meals, args)
     }
 
     private val regionClickListener = { _: Int, region: String ->
         val args = bundleOf(
-            "" to AREA,
-            "" to region,
-            "" to null
+            MealsFragment.ARG_ACTION to MealsFragment.Action.AREA,
+            MealsFragment.ARG_TITLE to region,
         )
-        findNavController().navigate(R.id.fragment_meals, args)
+        navigate(R.id.fragment_meals, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -127,11 +125,8 @@ class HomeFragment : Fragment() {
 
     private fun FragmentHomeBinding.initListeners() {
         mealItem.root.setOnClickListener {
-            val args = bundleOf(
-                "" to meal.name,
-                "" to null
-            )
-            findNavController().navigate(R.id.fragment_description, args)
+            val args = bundleOf(DescriptionFragment.ARG_ID to meal.id)
+            navigate(R.id.fragment_description, args)
         }
     }
 

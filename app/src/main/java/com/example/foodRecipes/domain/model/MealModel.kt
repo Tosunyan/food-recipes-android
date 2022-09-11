@@ -8,6 +8,7 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class MealModel(
+        val id: String,
         val name: String,
         val category: String?,
         val region: String?,
