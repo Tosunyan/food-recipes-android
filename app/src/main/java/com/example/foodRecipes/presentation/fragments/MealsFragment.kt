@@ -35,7 +35,7 @@ class MealsFragment : Fragment() {
 
     private val mealsObserver = Observer<ApiResponse<MealsDto>> { response ->
         if (response is ApiResponse.Success) {
-            adapter.submitList(response.data.meals.map { it.toMealModel() })
+            adapter.submitList(response.data.meals!!.map { it.toMealModel() })
         }
     }
 

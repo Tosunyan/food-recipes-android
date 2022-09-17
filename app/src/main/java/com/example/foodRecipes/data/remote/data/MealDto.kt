@@ -1,7 +1,7 @@
 package com.example.foodRecipes.data.remote.data
 
 data class MealsDto(
-    val meals: List<MealDto>
+    val meals: List<MealDto>?
 )
 
 data class MealDto(

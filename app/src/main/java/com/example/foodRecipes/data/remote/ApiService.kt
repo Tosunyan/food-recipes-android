@@ -25,7 +25,7 @@ interface ApiService {
 
 
     @GET("search.php")
-    suspend fun searchMealByName(@Query("s") name: String?): Response<MealsDto>
+    suspend fun searchMealByName(@Query("s") name: String): Response<MealsDto>
 
     @GET("search.php")
     suspend fun searchMealByFirstLetter(@Query("f") firstLetter: Char): Response<MealsDto>

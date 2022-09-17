@@ -7,30 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.foodRecipes.R
-import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.databinding.FragmentSearchBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
-import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.extension.navigate
+import com.example.foodRecipes.presentation.viewmodels.SearchViewModel
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: FragmentSearchBinding
+    private val viewModel: SearchViewModel by viewModels()
+
+    private var binding: FragmentSearchBinding? = null
+
     private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
 
-    private var meals: List<MealModel> = ArrayList()
-
     private val spanCount: Int
-        get() =
-            if (resources.configuration.orientation == ORIENTATION_LANDSCAPE)
-                ORIENTATION_LANDSCAPE
-            else ORIENTATION_PORTRAIT
+        get() = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) ORIENTATION_LANDSCAPE else ORIENTATION_PORTRAIT
+
+    private val mealsObserver = Observer<List<MealModel>> { meals ->
+        adapter.clearList()
+        adapter.submitList(meals)
+    }
 
     private val mealClickListener = { _: Int, meal: MealModel ->
         val args = bundleOf(
@@ -42,23 +48,43 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding!!.root
     }
 
-    private fun initRecyclerView(mealResponse: ApiResponse.Success<MealsDto>?) {
-        adapter = SimpleAdapter(
-            items = mealResponse?.data?.meals?.map { it.toMealModel() }?.toMutableList() ?: mutableListOf(),
-            itemClickListener = mealClickListener
-        ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.apply {
+            initViews()
+            initListeners()
+        }
+
+        initObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        binding = null
+    }
+
+    private fun FragmentSearchBinding.initViews() {
+        adapter = SimpleAdapter(itemClickListener = mealClickListener) {
             val itemBinding = ItemMealBinding.inflate(layoutInflater, it, false)
             MealHolder(itemBinding)
         }
 
-//        binding.mealsList.setHasFixedSize(true)
-//        binding.mealsList.adapter = adapter
-//        binding.mealsList.layoutManager = GridLayoutManager(context, spanCount, VERTICAL, false)
-        val oldCount = meals.size
-        meals = mealResponse!!.data.meals.map { it.toMealModel() }
-        adapter.notifyItemRangeInserted(oldCount, meals.size)
+        mealsRecyclerView.adapter = adapter
+        mealsRecyclerView.layoutManager = GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
+    }
+
+    private fun FragmentSearchBinding.initListeners() {
+        searchEditText.doAfterTextChanged { text ->
+            viewModel.onInputTextChanged(text)
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.mealsLiveData.observe(viewLifecycleOwner, mealsObserver)
     }
 }

@@ -1,35 +1,32 @@
 package com.example.foodRecipes.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
-import com.example.foodRecipes.domain.repositories.SearchRepository
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.data.MealsDto
+import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.repositories.SearchRepository
 import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
-
+class SearchViewModel(
     private val repository: SearchRepository = SearchRepository()
+) : ViewModel() {
 
-    fun getMealsByFirstLetter(letter: Char): LiveData<ApiResponse<MealsDto>> {
-        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
+    val mealsLiveData = MutableLiveData<List<MealModel>>()
 
-        viewModelScope.launch {
-            liveData.value = repository.searchByFirstLetter(letter)
-        }
+    fun onInputTextChanged(text: CharSequence?) {
+        if (text.isNullOrBlank()) return
 
-        return liveData
+        searchForMeals(text.trim().toString())
     }
 
-    fun getMealsByName(name: String?): LiveData<ApiResponse<MealsDto>> {
-        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
-
+    private fun searchForMeals(text: String) {
         viewModelScope.launch {
-            liveData.value = repository.searchByName(name)
-        }
+            val response = repository.searchMeals(text)
 
-        return liveData
+            if (response is ApiResponse.Success) {
+                mealsLiveData.value = response.data
+            }
+        }
     }
 }

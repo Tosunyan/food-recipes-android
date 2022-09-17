@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
 
     private val mealObserver = Observer<ApiResponse<MealsDto>> { response ->
         if (response is ApiResponse.Success) {
-            meal = response.data.meals[0].toMealModel()
+            meal = response.data.meals!![0].toMealModel()
 
             binding?.apply {
                 mealItem.mealName.text = meal.name
