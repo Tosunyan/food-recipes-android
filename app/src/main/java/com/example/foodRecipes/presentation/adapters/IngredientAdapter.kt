@@ -28,8 +28,8 @@ class IngredientAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(ingredient: IngredientModel) = binding.apply {
-            advancedIngredient.text = ingredient.name ?: return@apply
-            advancedMeasure.text = ingredient.quantity?.trim() ?: return@apply
+            advancedIngredient.text = ingredient.name
+            advancedMeasure.text = ingredient.quantity.trim()
         }
     }
 }

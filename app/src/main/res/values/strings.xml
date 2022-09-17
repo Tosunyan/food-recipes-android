@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Food Recipes</string>
 
     <!-- Main Activity -->
@@ -11,24 +12,13 @@
     <string name="all_categories">All Categories</string>
     <string name="all_areas">All Areas</string>
 
-
-    <!-- Meals Fragment -->
-    <string name="added_to_favorites">Added to favorites</string>
-
-
     <!-- Search Fragment -->
     <string name="search_for_meals">Search for meals</string>
 
-
-    <!-- Favorites Fragment -->
-    <string name="liked_meals">Liked Meals</string>
-
-
     <!-- Description Fragment -->
-    <string name="country">Country</string>
-    <string name="category">Category</string>
     <string name="instruction">Instruction</string>
     <string name="ingredients">Ingredients</string>
     <string name="youtube">YouTube</string>
     <string name="source">Source</string>
+
 </resources>

@@ -1,89 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+    android:overScrollMode="never">
 
-    <androidx.core.widget.NestedScrollView
+    <!-- Main Stuff -->
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
-        <!-- Main Stuff -->
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/baloo2_extra_bold"
+            android:gravity="center_vertical|start"
+            android:text="@string/today_s_meal"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+
+        <include
+            android:id="@+id/meal_item"
+            layout="@layout/item_meal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:fontFamily="@font/baloo2_extra_bold"
-                android:gravity="center_vertical|start"
-                android:text="@string/today_s_meal"
-                android:textColor="@color/colorAccent"
-                android:textSize="24sp" />
-
-            <include
-                android:id="@+id/meal_item"
-                layout="@layout/item_meal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp" />
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_allCategories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="@font/baloo2_extra_bold"
-                android:gravity="center_vertical|start"
-                android:text="@string/all_categories"
-                android:textColor="@color/colorAccent"
-                android:textSize="24sp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/baloo2_extra_bold"
+            android:gravity="center_vertical|start"
+            android:text="@string/all_categories"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="5dp"
-                android:overScrollMode="never"
-                tools:listitem="@layout/item_category" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/category_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:overScrollMode="never"
+            tools:listitem="@layout/item_category"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_allAreas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/baloo2_extra_bold"
-                android:gravity="center_vertical|start"
-                android:text="@string/all_areas"
-                android:textColor="@color/colorAccent"
-                android:textSize="24sp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/baloo2_extra_bold"
+            android:gravity="center_vertical|start"
+            android:text="@string/all_areas"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/area_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:overScrollMode="never"
-                android:paddingHorizontal="15dp"
-                tools:listitem="@layout/item_area" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/area_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:paddingHorizontal="15dp"
+            tools:listitem="@layout/item_area" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

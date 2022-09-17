@@ -8,6 +8,6 @@ class RegionHolder(
 ) : SimpleViewHolder<String>(binding.root) {
 
     override fun onBind(item: String) = with(binding) {
-        tvItem.text = item
+        root.text = item
     }
 }
