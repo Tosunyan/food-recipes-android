@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
-    android:layout_margin="10dp"
-    android:backgroundTint="@color/colorToolbar">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/meal_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@drawable/item_foreground"
-        android:scaleType="centerCrop"/>
+        android:layout_height="140dp"
+        android:background="@drawable/shape_round_rect_8dp"
+        android:scaleType="centerCrop"
+        tools:backgroundTint="@android:color/black"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/meal_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:fontFamily="@font/baloo2_regular"
-        android:gravity="center_vertical|start"
         android:maxLines="1"
-        android:paddingHorizontal="25dp"
-        android:paddingVertical="8dp"
-        android:textColor="@android:color/white"
-        android:textSize="21sp"
-        android:layout_gravity="bottom"
+        android:paddingVertical="4dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         tools:text="Beef with potatoes"/>
 
-</FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

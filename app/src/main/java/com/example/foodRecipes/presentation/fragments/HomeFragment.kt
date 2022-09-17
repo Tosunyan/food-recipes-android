@@ -29,6 +29,7 @@ import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.adapters.RegionHolder
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.CategoryHolder
+import com.example.foodRecipes.presentation.adapters.holder.MealHolder
 import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodels.HomeFragmentViewModel
 
@@ -60,10 +61,7 @@ class HomeFragment : Fragment() {
         if (response is ApiResponse.Success) {
             meal = response.data.meals!![0].toMealModel()
 
-            binding?.apply {
-                mealItem.mealName.text = meal.name
-                mealItem.mealImage.load(meal.image)
-            }
+            MealHolder(binding!!.mealItem).onBind(meal)
         }
     }
 

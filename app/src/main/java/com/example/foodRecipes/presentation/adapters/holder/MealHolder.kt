@@ -11,5 +11,7 @@ class MealHolder(
     override fun onBind(item: MealModel) = with(binding) {
         mealName.text = item.name
         mealImage.load(item.image)
+
+        mealImage.clipToOutline = true
     }
 }
