@@ -1,47 +1,22 @@
 package com.example.foodRecipes.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.foodRecipes.datasource.remote.api.ApiResponse
-import com.example.foodRecipes.datasource.remote.data.CategoriesDto
-import com.example.foodRecipes.datasource.remote.data.MealsDto
-import com.example.foodRecipes.datasource.remote.data.RegionsDto
 import com.example.foodRecipes.domain.repository.HomeRepository
-import kotlinx.coroutines.launch
+import com.example.foodRecipes.presentation.extension.convertToLiveData
 
-class HomeFragmentViewModel : ViewModel() {
+class HomeFragmentViewModel(
+    private val homeRepository: HomeRepository = HomeRepository()
+) : ViewModel() {
 
-    private val repository = HomeRepository()
-
-    fun getRandomMeal(): LiveData<ApiResponse<MealsDto>> {
-        val liveData = MutableLiveData<ApiResponse<MealsDto>>()
-
-        viewModelScope.launch {
-            liveData.value = repository.getRandomMeal()
-        }
-
-        return liveData
+    fun getRandomMeal() = convertToLiveData {
+        homeRepository.getRandomMeal()
     }
 
-    fun getCategories(): LiveData<ApiResponse<CategoriesDto>> {
-        val liveData = MutableLiveData<ApiResponse<CategoriesDto>>()
-
-        viewModelScope.launch {
-            liveData.value = repository.getCategories()
-        }
-
-        return liveData
+    fun getCategories() = convertToLiveData {
+        homeRepository.getCategories()
     }
 
-    fun getAreas(): LiveData<ApiResponse<RegionsDto>> {
-        val liveData = MutableLiveData<ApiResponse<RegionsDto>>()
-
-        viewModelScope.launch {
-            liveData.value = repository.getAreas()
-        }
-
-        return liveData
+    fun getAreas() = convertToLiveData {
+        homeRepository.getAreas()
     }
 }
