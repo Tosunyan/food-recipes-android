@@ -67,7 +67,7 @@ class DescriptionFragment : Fragment() {
         tvMealCountry.text = meal.region
 
         ingredientList.adapter = SimpleAdapter(meal.ingredients?.toMutableList() ?: mutableListOf()) {
-            val itemBinding = ItemIngredientBinding.bind(root)
+            val itemBinding = ItemIngredientBinding.inflate(layoutInflater)
             IngredientHolder(itemBinding)
         }
         tvInstruction.visibility = View.VISIBLE

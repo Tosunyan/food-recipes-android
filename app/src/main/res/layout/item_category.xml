@@ -19,7 +19,6 @@
         android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/baloo2_regular"
         android:gravity="center"
         android:paddingVertical="4dp"
         android:textColor="@color/colorText"

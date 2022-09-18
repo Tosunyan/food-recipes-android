@@ -15,14 +15,13 @@
         android:background="@drawable/layout_bg"
         android:backgroundTint="@color/colorToolbar"
         android:focusable="true"
-        android:fontFamily="@font/google_regular"
         android:gravity="center_vertical|start"
         android:hint="@string/search_for_meals"
         android:inputType="text"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="@color/colorText"
-        android:textColorHint="@color/colorBtnSource"
-        android:textSize="18sp"/>
+        android:textColorHint="@color/colorBtnSource"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/meals_recycler_view"
