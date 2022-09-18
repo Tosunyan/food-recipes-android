@@ -15,9 +15,11 @@ import com.example.foodRecipes.R
 import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealDetailsDto
 import com.example.foodRecipes.databinding.FragmentDescriptionBinding
+import com.example.foodRecipes.databinding.ItemIngredientBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.adapters.IngredientAdapter
+import com.example.foodRecipes.presentation.adapters.holder.IngredientHolder
+import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.viewmodels.DescriptionFragmentViewModel
 
 class DescriptionFragment : Fragment() {
@@ -64,7 +66,10 @@ class DescriptionFragment : Fragment() {
         tvMealCategory.text = meal.category
         tvMealCountry.text = meal.region
 
-        ingredientList.adapter = IngredientAdapter(meal.ingredients ?: emptyList())
+        ingredientList.adapter = SimpleAdapter(meal.ingredients?.toMutableList() ?: mutableListOf()) {
+            val itemBinding = ItemIngredientBinding.bind(root)
+            IngredientHolder(itemBinding)
+        }
         tvInstruction.visibility = View.VISIBLE
         ingredientList.visibility = View.VISIBLE
     }
