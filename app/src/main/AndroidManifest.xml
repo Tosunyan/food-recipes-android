@@ -16,7 +16,7 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name="com.example.foodRecipes.presentation.activities.MainActivity"
+            android:name="com.example.foodRecipes.presentation.activity.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustNothing"
             android:exported="true">

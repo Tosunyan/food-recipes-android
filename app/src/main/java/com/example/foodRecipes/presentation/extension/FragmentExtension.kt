@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import com.example.foodRecipes.presentation.activities.MainActivity
+import com.example.foodRecipes.presentation.activity.MainActivity
 import com.example.foodRecipes.util.NavigationUtil
 
 val Fragment.mainNavController: NavController

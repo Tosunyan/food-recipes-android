@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/fragment_bottom_navigation"
-        android:name="com.example.foodRecipes.presentation.fragments.BottomNavigationFragment"
+        android:name="com.example.foodRecipes.presentation.fragment.BottomNavigationFragment"
         tools:layout="@layout/fragment_bottom_navigation" />
 
     <fragment
         android:id="@+id/fragment_meals"
-        android:name="com.example.foodRecipes.presentation.fragments.MealsFragment"
+        android:name="com.example.foodRecipes.presentation.fragment.MealsFragment"
         tools:layout="@layout/fragment_meals" />
 
     <fragment
         android:id="@+id/fragment_description"
-        android:name="com.example.foodRecipes.presentation.fragments.DescriptionFragment"
+        android:name="com.example.foodRecipes.presentation.fragment.DescriptionFragment"
         tools:layout="@layout/fragment_description" />
 
 </navigation>

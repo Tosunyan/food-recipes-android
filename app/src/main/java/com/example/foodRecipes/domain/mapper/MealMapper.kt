@@ -1,7 +1,7 @@
 package com.example.foodRecipes.domain.mapper
 
-import com.example.foodRecipes.data.remote.data.MealDetailsDto
-import com.example.foodRecipes.data.remote.data.MealDto
+import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
+import com.example.foodRecipes.datasource.remote.data.MealDto
 import com.example.foodRecipes.domain.model.IngredientModel
 import com.example.foodRecipes.domain.model.MealModel
 
