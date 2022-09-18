@@ -1,7 +1,6 @@
-package com.example.foodRecipes.presentation.adapters
+package com.example.foodRecipes.presentation.adapters.holder
 
 import com.example.foodRecipes.databinding.ItemAreaBinding
-import com.example.foodRecipes.presentation.adapters.holder.SimpleViewHolder
 
 class RegionHolder(
     private val binding: ItemAreaBinding

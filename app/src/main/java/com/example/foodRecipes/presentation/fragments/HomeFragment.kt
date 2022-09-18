@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.data.remote.ApiResponse
 import com.example.foodRecipes.data.remote.data.CategoriesDto
@@ -26,7 +25,7 @@ import com.example.foodRecipes.databinding.ItemCategoryBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.Category
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.adapters.RegionHolder
+import com.example.foodRecipes.presentation.adapters.holder.RegionHolder
 import com.example.foodRecipes.presentation.adapters.SimpleAdapter
 import com.example.foodRecipes.presentation.adapters.holder.CategoryHolder
 import com.example.foodRecipes.presentation.adapters.holder.MealHolder
