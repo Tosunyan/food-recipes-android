@@ -1,10 +1,9 @@
 package com.example.foodRecipes.domain.repositories
 
 import android.app.Application
-import com.example.foodRecipes.data.local.MealDao
-import com.example.foodRecipes.data.local.MealDatabase
+import com.example.foodRecipes.data.local.database.MealDao
+import com.example.foodRecipes.data.local.database.MealDatabase
 import com.example.foodRecipes.data.local.data.MealEntity
-import com.example.foodRecipes.domain.model.MealModel
 
 class DatabaseRepository(application: Application) {
 

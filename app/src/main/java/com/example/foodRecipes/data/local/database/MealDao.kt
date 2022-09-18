@@ -1,4 +1,4 @@
-package com.example.foodRecipes.data.local
+package com.example.foodRecipes.data.local.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
