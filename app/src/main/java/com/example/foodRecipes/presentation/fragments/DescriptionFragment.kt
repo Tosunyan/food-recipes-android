@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import coil.load
 import com.example.foodRecipes.R
-import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.api.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealDetailsDto
 import com.example.foodRecipes.databinding.FragmentDescriptionBinding
 import com.example.foodRecipes.databinding.ItemIngredientBinding

@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.data.local.data.MealEntity
-import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.api.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.domain.repositories.DatabaseRepository
 import com.example.foodRecipes.domain.repositories.MealRepository

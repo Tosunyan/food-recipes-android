@@ -1,4 +1,4 @@
-package com.example.foodRecipes.data.remote
+package com.example.foodRecipes.data.remote.api
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

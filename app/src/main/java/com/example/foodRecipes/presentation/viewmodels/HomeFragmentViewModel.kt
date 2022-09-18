@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.api.ApiResponse
 import com.example.foodRecipes.data.remote.data.CategoriesDto
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.data.remote.data.RegionsDto

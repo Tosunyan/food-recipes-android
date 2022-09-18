@@ -3,7 +3,7 @@ package com.example.foodRecipes.presentation.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.api.ApiResponse
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.domain.repositories.SearchRepository
 import kotlinx.coroutines.launch

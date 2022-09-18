@@ -1,4 +1,4 @@
-package com.example.foodRecipes.data.remote
+package com.example.foodRecipes.data.remote.api
 
 import com.example.foodRecipes.data.remote.data.CategoriesDto
 import com.example.foodRecipes.data.remote.data.MealDetailsWrapperDto

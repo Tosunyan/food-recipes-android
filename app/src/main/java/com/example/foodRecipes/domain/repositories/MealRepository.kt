@@ -1,7 +1,7 @@
 package com.example.foodRecipes.domain.repositories
 
-import com.example.foodRecipes.data.remote.Api
-import com.example.foodRecipes.data.remote.makeApiCall
+import com.example.foodRecipes.data.remote.api.Api
+import com.example.foodRecipes.data.remote.api.makeApiCall
 
 class MealRepository {
 

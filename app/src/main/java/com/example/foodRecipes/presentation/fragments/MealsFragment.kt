@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodRecipes.R
-import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.api.ApiResponse
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding

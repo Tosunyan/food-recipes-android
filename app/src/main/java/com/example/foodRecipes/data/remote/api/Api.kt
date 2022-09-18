@@ -1,4 +1,4 @@
-package com.example.foodRecipes.data.remote
+package com.example.foodRecipes.data.remote.api
 
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit

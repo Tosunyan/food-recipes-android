@@ -1,8 +1,8 @@
 package com.example.foodRecipes.domain.repositories
 
-import com.example.foodRecipes.data.remote.Api
-import com.example.foodRecipes.data.remote.ApiResponse
-import com.example.foodRecipes.data.remote.makeApiCall
+import com.example.foodRecipes.data.remote.api.Api
+import com.example.foodRecipes.data.remote.api.ApiResponse
+import com.example.foodRecipes.data.remote.api.makeApiCall
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 

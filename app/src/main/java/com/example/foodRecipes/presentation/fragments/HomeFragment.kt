@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.foodRecipes.R
-import com.example.foodRecipes.data.remote.ApiResponse
+import com.example.foodRecipes.data.remote.api.ApiResponse
 import com.example.foodRecipes.data.remote.data.CategoriesDto
 import com.example.foodRecipes.data.remote.data.MealsDto
 import com.example.foodRecipes.data.remote.data.RegionDto
