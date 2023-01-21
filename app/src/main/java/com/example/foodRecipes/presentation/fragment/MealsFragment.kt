@@ -11,15 +11,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodRecipes.R
-import com.example.foodRecipes.datasource.remote.api.ApiResponse
-import com.example.foodRecipes.datasource.remote.data.MealsDto
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
+import com.example.foodRecipes.datasource.remote.api.ApiResponse
+import com.example.foodRecipes.datasource.remote.data.MealsDto
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.presentation.extension.navigate
+import com.example.foodRecipes.presentation.extension.navigateUp
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
-import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodel.MealsFragmentViewModel
 
 class MealsFragment : Fragment() {
@@ -54,6 +55,7 @@ class MealsFragment : Fragment() {
 
         binding?.apply {
             initViews()
+            initListeners()
         }
     }
 
@@ -64,15 +66,16 @@ class MealsFragment : Fragment() {
     }
 
     private fun FragmentMealsBinding.initViews() {
-        title = requireArguments().getString(ARG_TITLE)!!
+        this@MealsFragment.title = requireArguments().getString(ARG_TITLE)!!
+        title.text = this@MealsFragment.title
 
         when (requireArguments().getSerializable(ARG_ACTION)) {
             Action.CATEGORY -> {
                 description = requireArguments().getString(ARG_DESCRIPTION)!!
-                viewModel.filterMealsByCategory(title).observe(viewLifecycleOwner, mealsObserver)
+                viewModel.filterMealsByCategory(this@MealsFragment.title).observe(viewLifecycleOwner, mealsObserver)
             }
             Action.AREA -> {
-                viewModel.filterMealsByArea(title).observe(viewLifecycleOwner, mealsObserver)
+                viewModel.filterMealsByArea(this@MealsFragment.title).observe(viewLifecycleOwner, mealsObserver)
             }
         }
 
@@ -85,6 +88,12 @@ class MealsFragment : Fragment() {
             val spanCount = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 2 else 1
             layoutManager = GridLayoutManager(context, spanCount)
             adapter = this@MealsFragment.adapter
+        }
+    }
+
+    private fun FragmentMealsBinding.initListeners() {
+        backButton.setOnClickListener {
+            navigateUp()
         }
     }
 
