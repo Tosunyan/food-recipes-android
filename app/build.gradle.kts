@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.pizzaHut"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 32
         versionCode = 1
         versionName = "0.3"
