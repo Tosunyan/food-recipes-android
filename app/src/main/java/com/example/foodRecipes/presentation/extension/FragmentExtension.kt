@@ -1,19 +1,24 @@
 package com.example.foodRecipes.presentation.extension
 
 import android.os.Bundle
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import com.example.foodRecipes.presentation.activity.MainActivity
-import com.example.foodRecipes.util.NavigationUtil
+import androidx.fragment.app.FragmentManager
+import com.example.foodRecipes.R
+import com.example.navigation.NavigationManager
+import kotlin.reflect.KClass
 
-val Fragment.mainNavController: NavController
-    get() = (requireActivity() as MainActivity).navController
+inline val Fragment.activityFragmentManager: FragmentManager
+    get() = requireActivity().supportFragmentManager
 
-fun Fragment.navigate(@IdRes destinationId: Int, args: Bundle? = null) {
-    NavigationUtil.navigate(mainNavController, destinationId, args)
+fun Fragment.navigate(
+    destinationFragment: KClass<out Fragment>,
+    args: Bundle? = null,
+    containerViewId: Int = R.id.main_fragment_container,
+    fragmentManager: FragmentManager = activityFragmentManager,
+) {
+    NavigationManager.navigate(containerViewId, fragmentManager, destinationFragment, args)
 }
 
 fun Fragment.navigateUp() {
-    NavigationUtil.navigateUp(mainNavController)
+    NavigationManager.navigateUp(activityFragmentManager)
 }

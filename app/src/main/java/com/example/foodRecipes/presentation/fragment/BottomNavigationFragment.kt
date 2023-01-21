@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.foodRecipes.R
 import com.example.foodRecipes.databinding.FragmentBottomNavigationBinding
+import com.example.foodRecipes.presentation.extension.navigate
 
 class BottomNavigationFragment : Fragment() {
 
@@ -34,8 +33,17 @@ class BottomNavigationFragment : Fragment() {
     }
 
     private fun FragmentBottomNavigationBinding.initBottomNavigation() {
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.bottom_navigation_fragment_container) as NavHostFragment
-        bottomNavigationView.setupWithNavController(navHostFragment.navController)
+        bottomNavigationView.setOnItemSelectedListener {
+            val destinationClass = when (it.itemId) {
+                R.id.fragment_home -> HomeFragment::class
+                R.id.fragment_search -> SearchFragment::class
+                R.id.fragment_database -> DatabaseFragment::class
+                else -> HomeFragment::class
+            }
+            navigate(destinationClass, null, R.id.bottom_navigation_fragment_container, childFragmentManager)
+
+            true
+        }
         bottomNavigationView.setOnItemReselectedListener {
             // Intentionally left blank
         }

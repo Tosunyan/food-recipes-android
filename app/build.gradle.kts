@@ -60,9 +60,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
 
-    // Navigation Component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
+    // Navigation
+    implementation(project(":navigation"))
 
     // Coil
     implementation("io.coil-kt:coil:1.4.0")

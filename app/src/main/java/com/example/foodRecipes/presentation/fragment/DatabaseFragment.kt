@@ -14,14 +14,13 @@ import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.foodRecipes.R
-import com.example.foodRecipes.datasource.local.data.MealEntity
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
+import com.example.foodRecipes.datasource.local.data.MealEntity
 import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
-import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodel.DatabaseViewModel
 
 class DatabaseFragment : Fragment() {
@@ -48,7 +47,7 @@ class DatabaseFragment : Fragment() {
             "" to null,
             "" to meal
         )
-        navigate(R.id.fragment_description, args)
+        navigate(DescriptionFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

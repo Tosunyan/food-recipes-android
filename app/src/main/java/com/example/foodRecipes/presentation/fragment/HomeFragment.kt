@@ -13,23 +13,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.foodRecipes.R
+import com.example.foodRecipes.databinding.FragmentHomeBinding
+import com.example.foodRecipes.databinding.ItemAreaBinding
+import com.example.foodRecipes.databinding.ItemCategoryBinding
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.datasource.remote.data.CategoriesDto
 import com.example.foodRecipes.datasource.remote.data.MealsDto
 import com.example.foodRecipes.datasource.remote.data.RegionDto
 import com.example.foodRecipes.datasource.remote.data.RegionsDto
-import com.example.foodRecipes.databinding.FragmentHomeBinding
-import com.example.foodRecipes.databinding.ItemAreaBinding
-import com.example.foodRecipes.databinding.ItemCategoryBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.Category
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.recyclerview.holder.RegionHolder
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.CategoryHolder
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
-import com.example.foodRecipes.presentation.extension.navigate
+import com.example.foodRecipes.presentation.recyclerview.holder.RegionHolder
 import com.example.foodRecipes.presentation.viewmodel.HomeFragmentViewModel
 
 class HomeFragment : Fragment() {
@@ -70,7 +69,7 @@ class HomeFragment : Fragment() {
             MealsFragment.ARG_TITLE to item.strCategory,
             MealsFragment.ARG_DESCRIPTION to item.strCategoryDescription
         )
-        navigate(R.id.fragment_meals, args)
+        navigate(MealsFragment::class, args)
     }
 
     private val regionClickListener = { _: Int, region: String ->
@@ -78,7 +77,7 @@ class HomeFragment : Fragment() {
             MealsFragment.ARG_ACTION to MealsFragment.Action.AREA,
             MealsFragment.ARG_TITLE to region,
         )
-        navigate(R.id.fragment_meals, args)
+        navigate(MealsFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -123,7 +122,7 @@ class HomeFragment : Fragment() {
     private fun FragmentHomeBinding.initListeners() {
         mealItem.root.setOnClickListener {
             val args = bundleOf(DescriptionFragment.ARG_ID to meal.id)
-            navigate(R.id.fragment_description, args)
+            navigate(DescriptionFragment::class, args)
         }
     }
 

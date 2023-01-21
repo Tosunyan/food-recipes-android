@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_navigation_fragment_container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:name="com.example.foodRecipes.presentation.fragment.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:navGraph="@navigation/bottom_navigation_graph" />
+        tools:layout="@layout/fragment_home"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
@@ -23,6 +24,6 @@
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:layout_dodgeInsetEdges="bottom"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

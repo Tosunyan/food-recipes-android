@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.foodRecipes.R
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
@@ -42,7 +41,7 @@ class MealsFragment : Fragment() {
 
     private val mealClickListener = { _: Int, item: MealModel ->
         val args = bundleOf(DescriptionFragment.ARG_ID to item.id)
-        navigate(R.id.fragment_description, args)
+        navigate(DescriptionFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

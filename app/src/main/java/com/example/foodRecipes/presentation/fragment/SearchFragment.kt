@@ -13,13 +13,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodRecipes.R
 import com.example.foodRecipes.databinding.FragmentSearchBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
-import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.viewmodel.SearchViewModel
 
 class SearchFragment : Fragment() {
@@ -43,7 +42,7 @@ class SearchFragment : Fragment() {
             "" to meal.name,
             "" to null
         )
-        navigate(R.id.fragment_description, args)
+        navigate(DescriptionFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
