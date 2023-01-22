@@ -7,7 +7,7 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-suspend inline fun <T> makeApiCall(crossinline apiCall: suspend () -> Response<T>) = withContext(Dispatchers.IO) {
+suspend fun <T> makeApiCall(apiCall: suspend () -> Response<T>) = withContext(Dispatchers.IO) {
     try {
         convertResponse(apiCall.invoke())
     } catch (e: UnknownHostException) {
