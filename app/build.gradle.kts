@@ -39,6 +39,8 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    namespace = "com.example.foodRecipes"
 }
 
 dependencies {
