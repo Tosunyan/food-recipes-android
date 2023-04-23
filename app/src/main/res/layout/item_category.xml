@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,14 +8,15 @@
     android:background="@drawable/category_item_background"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/category_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         android:paddingHorizontal="8dp"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +24,6 @@
         android:paddingVertical="4dp"
         android:textColor="@color/colorText"
         android:textSize="14sp"
-        tools:text="Breakfast" />
+        tools:text="Breakfast"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

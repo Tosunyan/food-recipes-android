@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,15 +7,16 @@
     android:layout_margin="8dp"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/meal_image"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="@drawable/shape_round_rect_8dp"
+        android:contentDescription="@null"
         android:scaleType="centerCrop"
         tools:backgroundTint="@android:color/black"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/meal_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,4 +26,4 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         tools:text="Beef with potatoes"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>
