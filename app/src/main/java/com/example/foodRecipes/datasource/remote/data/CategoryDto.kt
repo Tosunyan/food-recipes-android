@@ -1,9 +1,7 @@
 package com.example.foodRecipes.datasource.remote.data
 
-import com.example.foodRecipes.domain.model.Category
-
 data class CategoriesDto(
-    val categories: List<Category>
+    val categories: List<CategoryDto>
 )
 
 data class CategoryDto(
