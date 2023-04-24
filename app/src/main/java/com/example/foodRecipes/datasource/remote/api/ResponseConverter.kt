@@ -1,5 +1,6 @@
 package com.example.foodRecipes.datasource.remote.api
 
+import com.example.foodRecipes.util.logApiResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -9,7 +10,10 @@ import java.net.UnknownHostException
 
 suspend fun <T> makeApiCall(apiCall: suspend () -> Response<T>) = withContext(Dispatchers.IO) {
     try {
-        convertResponse(apiCall.invoke())
+        val response = apiCall.invoke()
+        convertResponse(response).also {
+            logApiResponse(response.raw().request().url(), it)
+        }
     } catch (e: UnknownHostException) {
         ApiResponse.Failure("No Internet", -1, "")
     } catch (e: SocketTimeoutException) {
