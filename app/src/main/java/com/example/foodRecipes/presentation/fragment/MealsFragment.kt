@@ -40,8 +40,8 @@ class MealsFragment : Fragment() {
     }
 
     private val mealClickListener = { _: Int, item: MealModel ->
-        val args = bundleOf(DescriptionFragment.ARG_ID to item.id)
-        navigate(DescriptionFragment::class, args)
+        val args = bundleOf(MealDetailsFragment.ARG_ID to item.id)
+        navigate(MealDetailsFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

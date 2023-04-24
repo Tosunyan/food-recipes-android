@@ -47,7 +47,7 @@ class DatabaseFragment : Fragment() {
             "" to null,
             "" to meal
         )
-        navigate(DescriptionFragment::class, args)
+        navigate(MealDetailsFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

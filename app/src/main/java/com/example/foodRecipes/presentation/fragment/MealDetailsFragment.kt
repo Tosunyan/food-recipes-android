@@ -14,18 +14,18 @@ import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
-import com.example.foodRecipes.databinding.FragmentDescriptionBinding
+import com.example.foodRecipes.databinding.FragmentMealDetailsBinding
 import com.example.foodRecipes.databinding.ItemIngredientBinding
 import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.recyclerview.holder.IngredientHolder
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
-import com.example.foodRecipes.presentation.viewmodel.DescriptionFragmentViewModel
+import com.example.foodRecipes.presentation.viewmodel.MealDetailsViewModel
 
-class DescriptionFragment : Fragment() {
+class MealDetailsFragment : Fragment() {
 
-    private val viewModel by viewModels<DescriptionFragmentViewModel>()
-    private lateinit var binding: FragmentDescriptionBinding
+    private val viewModel by viewModels<MealDetailsViewModel>()
+    private lateinit var binding: FragmentMealDetailsBinding
 
     private lateinit var meal: MealModel
 
@@ -37,7 +37,7 @@ class DescriptionFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentDescriptionBinding.inflate(inflater, container, false)
+        binding = FragmentMealDetailsBinding.inflate(inflater, container, false)
 
         if (requireArguments()[ARG_MODEL] != null) {
             fromParcelable()

@@ -42,7 +42,7 @@ class SearchFragment : Fragment() {
             "" to meal.name,
             "" to null
         )
-        navigate(DescriptionFragment::class, args)
+        navigate(MealDetailsFragment::class, args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

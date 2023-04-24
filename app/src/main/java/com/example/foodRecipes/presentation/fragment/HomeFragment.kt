@@ -96,8 +96,8 @@ class HomeFragment : Fragment() {
     private fun FragmentHomeBinding.initListeners() {
         mealItem.root.setOnClickListener {
             val mealId = viewModel.randomMeal.value?.id ?: return@setOnClickListener
-            val args = bundleOf(DescriptionFragment.ARG_ID to mealId)
-            navigate(DescriptionFragment::class, args)
+            val args = bundleOf(MealDetailsFragment.ARG_ID to mealId)
+            navigate(MealDetailsFragment::class, args)
         }
     }
 
