@@ -3,27 +3,26 @@ package com.example.foodRecipes.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
-import com.example.foodRecipes.datasource.remote.data.CategoriesDto
-import com.example.foodRecipes.datasource.remote.data.CategoryDto
 import com.example.foodRecipes.datasource.remote.data.RegionDto
 import com.example.foodRecipes.datasource.remote.data.RegionsDto
 import com.example.foodRecipes.domain.model.CategoryModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.domain.repository.HomeRepository
 import com.example.foodRecipes.domain.usecase.GetCategories
+import com.example.foodRecipes.domain.usecase.GetRegions
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class HomeFragmentViewModel(
     private val getCategories: GetCategories = GetCategories,
+    private val getRegions: GetRegions = GetRegions,
     private val homeRepository: HomeRepository = HomeRepository()
 ) : ViewModel() {
 
     private val randomMealResponse = MutableSharedFlow<ApiResponse<MealModel?>>()
     private val categoriesResponse = MutableSharedFlow<ApiResponse<List<CategoryModel>>>()
-    private val regionsResponse = MutableSharedFlow<ApiResponse<RegionsDto>>()
+    private val regionsResponse = MutableSharedFlow<ApiResponse<List<RegionDto>>>()
 
     val randomMeal = MutableStateFlow<MealModel?>(null)
     val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
@@ -39,7 +38,7 @@ class HomeFragmentViewModel(
     private fun makeApiCalls() {
         getRandomMeal()
         getCategories()
-        getAreas()
+        getRegions()
     }
 
     private fun getRandomMeal() {
@@ -56,9 +55,9 @@ class HomeFragmentViewModel(
         }
     }
 
-    private fun getAreas() {
+    private fun getRegions() {
         viewModelScope.launch {
-            val response = homeRepository.getAreas()
+            val response = getRegions.execute()
             regionsResponse.emit(response)
         }
     }
@@ -91,9 +90,9 @@ class HomeFragmentViewModel(
         }
     }
 
-    private fun onRegionsResponse(response: ApiResponse<RegionsDto>) {
+    private fun onRegionsResponse(response: ApiResponse<List<RegionDto>>) {
         when (response) {
-            is ApiResponse.Success -> regions.value = response.data.meals
+            is ApiResponse.Success -> regions.value = response.data
             is ApiResponse.Failure -> showErrorMessage("Failed to fetch regions")
         }
     }
