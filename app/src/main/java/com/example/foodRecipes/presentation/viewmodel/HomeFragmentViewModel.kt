@@ -10,12 +10,14 @@ import com.example.foodRecipes.datasource.remote.data.RegionsDto
 import com.example.foodRecipes.domain.model.CategoryModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.domain.repository.HomeRepository
+import com.example.foodRecipes.domain.usecase.GetCategories
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class HomeFragmentViewModel(
+    private val getCategories: GetCategories = GetCategories,
     private val homeRepository: HomeRepository = HomeRepository()
 ) : ViewModel() {
 
@@ -30,8 +32,8 @@ class HomeFragmentViewModel(
     val showErrorMessage = MutableSharedFlow<String>()
 
     init {
-        makeApiCalls()
         initObservers()
+        makeApiCalls()
     }
 
     private fun makeApiCalls() {
@@ -49,7 +51,7 @@ class HomeFragmentViewModel(
 
     private fun getCategories() {
         viewModelScope.launch {
-            val response = homeRepository.getCategories()
+            val response = getCategories.execute()
             categoriesResponse.emit(response)
         }
     }
