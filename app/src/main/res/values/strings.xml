@@ -2,23 +2,23 @@
 
     <string name="app_name">Food Recipes</string>
 
-    <!-- Main Activity -->
-    <string name="home">Home</string>
-    <string name="search">Search</string>
-    <string name="favorites">Favorites</string>
+    <!-- Navigation Items -->
+    <string name="navigation_item_home">Home</string>
+    <string name="navigation_item_search">Search</string>
+    <string name="navigation_item_favorites">Favorites</string>
 
-    <!-- Home Fragment -->
-    <string name="today_s_meal">Today\'s Meal</string>
-    <string name="all_categories">All Categories</string>
-    <string name="all_areas">All Areas</string>
+    <!-- Home Screen -->
+    <string name="home_daily_special">Daily Special</string>
+    <string name="home_categories">Categories</string>
+    <string name="home_regions">Regions</string>
 
-    <!-- Search Fragment -->
-    <string name="search_for_meals">Search for meals</string>
+    <!-- Search Screen -->
+    <string name="search_hint">Search for meals</string>
 
-    <!-- Description Fragment -->
-    <string name="instruction">Instruction</string>
-    <string name="ingredients">Ingredients</string>
-    <string name="youtube">YouTube</string>
-    <string name="source">Source</string>
+    <!-- Details Screen -->
+    <string name="meal_details_cooking_process">Cooking process</string>
+    <string name="meal_details_ingredients">Ingredients</string>
+    <string name="meal_details_youtube">YouTube</string>
+    <string name="meal_details_source">Source</string>
 
 </resources>

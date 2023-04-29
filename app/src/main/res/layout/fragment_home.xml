@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:text="@string/today_s_meal"
+            android:text="@string/home_daily_special"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textStyle="bold"/>
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:text="@string/all_categories"
+            android:text="@string/home_categories"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textStyle="bold"/>
 
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="30dp"
-            android:text="@string/all_areas"
+            android:text="@string/home_regions"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
         <androidx.recyclerview.widget.RecyclerView

@@ -4,16 +4,16 @@
     <item
         android:id="@+id/fragment_home"
         android:icon="@drawable/ic_home"
-        android:title="@string/home" />
+        android:title="@string/navigation_item_home" />
 
     <item
         android:id="@+id/fragment_search"
         android:icon="@drawable/ic_search"
-        android:title="@string/search" />
+        android:title="@string/navigation_item_search" />
 
     <item
         android:id="@+id/fragment_database"
         android:icon="@drawable/ic_like"
-        android:title="@string/favorites" />
+        android:title="@string/navigation_item_favorites" />
 
 </menu>

@@ -16,7 +16,7 @@
         android:backgroundTint="@color/colorToolbar"
         android:focusable="true"
         android:gravity="center_vertical|start"
-        android:hint="@string/search_for_meals"
+        android:hint="@string/search_hint"
         android:inputType="text"
         android:paddingHorizontal="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
