@@ -17,7 +17,7 @@ android {
         buildConfigField(
             type = "String",
             name = "MEAL_API_BASE_URL",
-            value = properties.getProperty("MEAL_API_BASE_URL")
+            value = properties.getProperty("MEAL_API_URL")
         )
         buildConfigField(
             type = "String",
