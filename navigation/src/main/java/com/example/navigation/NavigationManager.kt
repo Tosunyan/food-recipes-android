@@ -88,7 +88,7 @@ object NavigationManager {
     ) {
         fragmentManager.beginTransaction()
             .replace(containerViewId, destinationFragment.java, args, destinationFragment.simpleName)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .addToBackStack(destinationFragment.simpleName)
             .commit()
     }
