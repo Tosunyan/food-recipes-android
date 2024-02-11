@@ -1,4 +1,4 @@
-rootProject.name = "Food Recipes"
+rootProject.name = "food-recipes"
 
 include(":app")
 include(":navigation")
