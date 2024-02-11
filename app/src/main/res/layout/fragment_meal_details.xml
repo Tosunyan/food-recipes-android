@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -44,12 +45,12 @@
 
                 <TextView
                     android:id="@+id/tv_meal_category"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:gravity="center_vertical|end"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    tools:text="Pizza"/>
 
                 <View
                     android:layout_width="2dp"
@@ -59,12 +60,12 @@
 
                 <TextView
                     android:id="@+id/tv_meal_country"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:gravity="center_vertical|start"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    tools:text="Italy"/>
 
             </LinearLayout>
 
@@ -132,8 +133,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:overScrollMode="never"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_ingredient"/>
 
             </LinearLayout>
 

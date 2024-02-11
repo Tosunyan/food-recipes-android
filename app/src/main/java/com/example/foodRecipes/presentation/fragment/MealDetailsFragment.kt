@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
@@ -67,7 +68,7 @@ class MealDetailsFragment : Fragment() {
         tvMealCountry.text = meal.region
 
         ingredientList.adapter = SimpleAdapter(meal.ingredients?.toMutableList() ?: mutableListOf()) {
-            val itemBinding = ItemIngredientBinding.inflate(layoutInflater)
+            val itemBinding = ItemIngredientBinding.inflate(layoutInflater, it, false)
             IngredientHolder(itemBinding)
         }
         tvInstruction.visibility = View.VISIBLE
