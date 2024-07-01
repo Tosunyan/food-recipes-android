@@ -28,12 +28,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -69,9 +69,9 @@ dependencies {
     implementation("io.coil-kt:coil:1.4.0")
 
     // Room
-    implementation("androidx.room:room-runtime:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
