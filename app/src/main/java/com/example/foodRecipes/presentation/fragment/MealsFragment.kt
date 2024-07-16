@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
-import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.extension.navigateUp
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
 import com.example.foodRecipes.presentation.viewmodel.MealsFragmentViewModel
+import com.example.foodRecipes.util.collect
 
 class MealsFragment : Fragment() {
 
@@ -28,18 +27,15 @@ class MealsFragment : Fragment() {
 
     private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
 
-    private lateinit var title: String
-    private lateinit var description: String
-
-    private val mealsObserver = Observer<ApiResponse<List<MealModel>>> { response ->
-        if (response is ApiResponse.Success) {
-            adapter.submitList(response.data)
-        }
-    }
-
     private val mealClickListener = { _: Int, item: MealModel ->
         val args = bundleOf(MealDetailsFragment.ARG_ID to item.id)
         navigate(MealDetailsFragment::class, args)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let(viewModel::onArgumentsReceive)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -54,6 +50,8 @@ class MealsFragment : Fragment() {
             initViews()
             initListeners()
         }
+
+        initObservers()
     }
 
     override fun onDestroyView() {
@@ -63,19 +61,6 @@ class MealsFragment : Fragment() {
     }
 
     private fun FragmentMealsBinding.initViews() {
-        this@MealsFragment.title = requireArguments().getString(ARG_TITLE)!!
-        title.text = this@MealsFragment.title
-
-        when (requireArguments().getSerializable(ARG_ACTION)) {
-            Action.CATEGORY -> {
-                description = requireArguments().getString(ARG_DESCRIPTION)!!
-                viewModel.filterMealsByCategory(this@MealsFragment.title).observe(viewLifecycleOwner, mealsObserver)
-            }
-            Action.AREA -> {
-                viewModel.filterMealsByArea(this@MealsFragment.title).observe(viewLifecycleOwner, mealsObserver)
-            }
-        }
-
         adapter = SimpleAdapter(itemClickListener = mealClickListener) {
             val itemBinding = ItemMealBinding.inflate(layoutInflater, it, false)
             MealHolder(itemBinding)
@@ -91,6 +76,16 @@ class MealsFragment : Fragment() {
     private fun FragmentMealsBinding.initListeners() {
         backButton.setOnClickListener {
             navigateUp()
+        }
+    }
+
+    private fun initObservers() {
+        with(viewModel) {
+            title.collect(viewLifecycleOwner) {
+                binding?.title?.text = it
+            }
+
+            meals.collect(viewLifecycleOwner, adapter::submitList)
         }
     }
 

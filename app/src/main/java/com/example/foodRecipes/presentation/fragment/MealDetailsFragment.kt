@@ -7,99 +7,91 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import coil.load
 import com.example.foodRecipes.R
-import com.example.foodRecipes.datasource.remote.api.ApiResponse
-import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
 import com.example.foodRecipes.databinding.FragmentMealDetailsBinding
 import com.example.foodRecipes.databinding.ItemIngredientBinding
-import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.recyclerview.holder.IngredientHolder
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
+import com.example.foodRecipes.presentation.recyclerview.holder.IngredientHolder
 import com.example.foodRecipes.presentation.viewmodel.MealDetailsViewModel
+import com.example.foodRecipes.util.collect
+import kotlinx.coroutines.flow.filterNotNull
 
 class MealDetailsFragment : Fragment() {
 
     private val viewModel by viewModels<MealDetailsViewModel>()
-    private lateinit var binding: FragmentMealDetailsBinding
 
-    private lateinit var meal: MealModel
+    private var binding: FragmentMealDetailsBinding? = null
 
-    private val mealObserver = Observer<ApiResponse<MealDetailsDto>> { response ->
-        if (response is ApiResponse.Success) {
-            meal = response.data.toMealModel()
-            init()
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let(viewModel::onArgumentsReceive)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMealDetailsBinding.inflate(inflater, container, false)
+        return binding!!.root
+    }
 
-        if (requireArguments()[ARG_MODEL] != null) {
-            fromParcelable()
-        } else {
-            fromApi()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.apply {
+            initClickListeners()
+
+            viewModel.mealDetails
+                .filterNotNull()
+                .collect(viewLifecycleOwner, ::initViews)
         }
-
-        setupClickListeners()
-
-        return binding.root
     }
 
-    private fun fromApi() {
-        val mealId = requireArguments().getString(ARG_ID)!!
-        viewModel.getMealDetails(mealId).observe(viewLifecycleOwner, mealObserver)
-    }
+    private fun initViews(mealDetails: MealModel) = binding?.apply {
+        ivMeal.load(mealDetails.thumbnail)
+        tvInstruction.text = mealDetails.instructions
+        tvMealCategory.text = mealDetails.category
+        tvMealCountry.text = mealDetails.region
 
-    private fun fromParcelable() {
-        meal = requireArguments().getParcelable(ARG_MODEL)!!
-        init()
-    }
-
-    private fun init() = binding.apply {
-        ivMeal.load(meal.thumbnail)
-        tvInstruction.text = meal.instructions
-        tvMealCategory.text = meal.category
-        tvMealCountry.text = meal.region
-
-        ingredientList.adapter = SimpleAdapter(meal.ingredients.toMutableList()) {
+        ingredientList.adapter = SimpleAdapter(mealDetails.ingredients.toMutableList()) {
             val itemBinding = ItemIngredientBinding.inflate(layoutInflater, it, false)
             IngredientHolder(itemBinding)
         }
-        tvInstruction.visibility = View.VISIBLE
-        ingredientList.visibility = View.VISIBLE
+        tvInstruction.isVisible = true
+        ingredientList.isVisible = true
     }
 
-    private fun setupClickListeners() {
-        binding.btnBackToMeals.setOnClickListener {
+    private fun FragmentMealDetailsBinding.initClickListeners() {
+        btnBackToMeals.setOnClickListener {
             requireActivity().onBackPressed()
-            binding.btnBackToMeals.performHapticFeedback(1)
+            btnBackToMeals.performHapticFeedback(1)
         }
 
-        binding.btnSaveMeal.setOnClickListener {
+        btnSaveMeal.setOnClickListener {
 //            CoroutineScope(Dispatchers.IO).launch { viewModel.insertMeal(meal) }
-            binding.btnSaveMeal.setImageResource(R.drawable.ic_like_filled)
+            btnSaveMeal.setImageResource(R.drawable.ic_like_filled)
             Toast.makeText(context, "Added to Database", Toast.LENGTH_SHORT).show()
-            binding.btnSaveMeal.performHapticFeedback(1)
+            btnSaveMeal.performHapticFeedback(1)
         }
 
-        binding.btnSourceLink.setOnClickListener {
-            if (meal.sourceUrl == null) {
+        btnSourceLink.setOnClickListener {
+            viewModel.mealDetails.value?.sourceUrl?.let {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                startActivity(intent)
+            } ?: run {
                 Toast.makeText(it.context, "Link is NULL", Toast.LENGTH_SHORT).show()
-            } else {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(meal.sourceUrl)))
             }
         }
 
-        binding.btnYoutubeLink.setOnClickListener {
-            if (meal.youtubeUrl == null) {
+        btnYoutubeLink.setOnClickListener {
+            viewModel.mealDetails.value?.youtubeUrl?.let {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                startActivity(intent)
+            } ?: run {
                 Toast.makeText(it.context, "Link is NULL", Toast.LENGTH_SHORT).show()
-            } else {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(meal.youtubeUrl)))
             }
         }
     }

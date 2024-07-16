@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.LEFT
@@ -16,20 +15,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
-import com.example.foodRecipes.datasource.local.data.MealEntity
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
-import com.example.foodRecipes.presentation.viewmodel.DatabaseViewModel
 
 class DatabaseFragment : Fragment() {
 
     private lateinit var binding: FragmentMealsBinding
-    private lateinit var meals: List<MealModel>
     private lateinit var adapter: SimpleAdapter<MealModel, MealHolder>
-
-    private val viewModel by viewModels<DatabaseViewModel>()
 
     private val spanCount: Int
         get() = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 2 else 1
@@ -58,8 +52,6 @@ class DatabaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerView()
 
-        viewModel.getMealsFromDb().observe(requireActivity(), this::getMeals)
-
         ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.mealsList)
     }
 
@@ -70,10 +62,5 @@ class DatabaseFragment : Fragment() {
         }
         binding.mealsList.adapter = adapter
         binding.mealsList.layoutManager = GridLayoutManager(context, spanCount)
-    }
-
-    private fun getMeals(meals: List<MealEntity>) {
-//        this.meals = meals
-//        adapter.submitList(meals)
     }
 }

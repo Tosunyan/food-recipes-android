@@ -5,6 +5,7 @@ import com.example.foodRecipes.datasource.local.database.MealDao
 import com.example.foodRecipes.datasource.local.database.MealDatabase
 import com.example.foodRecipes.datasource.local.data.MealEntity
 
+@Suppress("unused")
 class DatabaseRepository(application: Application) {
 
     private val mealDao: MealDao

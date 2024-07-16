@@ -20,6 +20,7 @@ import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.recyclerview.adapter.SimpleAdapter
 import com.example.foodRecipes.presentation.recyclerview.holder.MealHolder
 import com.example.foodRecipes.presentation.viewmodel.SearchViewModel
+import com.example.foodRecipes.util.collect
 
 class SearchFragment : Fragment() {
 
@@ -39,8 +40,7 @@ class SearchFragment : Fragment() {
 
     private val mealClickListener = { _: Int, meal: MealModel ->
         val args = bundleOf(
-            "" to meal.name,
-            "" to null
+            MealDetailsFragment.ARG_ID to meal.id,
         )
         navigate(MealDetailsFragment::class, args)
     }
@@ -84,6 +84,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.mealsLiveData.observe(viewLifecycleOwner, mealsObserver)
+        viewModel.meals.collect(viewLifecycleOwner, mealsObserver::onChanged)
     }
 }
