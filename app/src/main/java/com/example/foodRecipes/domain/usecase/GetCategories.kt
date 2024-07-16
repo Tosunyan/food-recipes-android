@@ -2,7 +2,7 @@ package com.example.foodRecipes.domain.usecase
 
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.domain.model.CategoryModel
-import com.example.foodRecipes.domain.repository.HomeRepository
+import com.example.foodRecipes.datasource.repository.HomeRepository
 
 object GetCategories {
 

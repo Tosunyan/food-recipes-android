@@ -1,7 +1,7 @@
 package com.example.foodRecipes.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.foodRecipes.domain.repository.MealDetailsRepository
+import com.example.foodRecipes.datasource.repository.MealDetailsRepository
 import com.example.foodRecipes.presentation.extension.convertToLiveData
 
 class MealDetailsViewModel(

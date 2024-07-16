@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.foodRecipes.datasource.local.data.MealEntity
-import com.example.foodRecipes.domain.repository.DatabaseRepository
+import com.example.foodRecipes.datasource.repository.DatabaseRepository
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 

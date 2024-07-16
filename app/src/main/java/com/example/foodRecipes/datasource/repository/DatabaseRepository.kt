@@ -1,4 +1,4 @@
-package com.example.foodRecipes.domain.repository
+package com.example.foodRecipes.datasource.repository
 
 import android.app.Application
 import com.example.foodRecipes.datasource.local.database.MealDao

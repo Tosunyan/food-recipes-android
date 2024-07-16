@@ -10,3 +10,10 @@ sealed class ApiResponse<out T> {
         var errorCode: String?
     ) : ApiResponse<Nothing>()
 }
+
+fun <T, R> ApiResponse<T>.mapOnSuccess(action: T.() -> R): ApiResponse<R> {
+    return when (this) {
+        is ApiResponse.Success -> ApiResponse.Success(data.action())
+        is ApiResponse.Failure -> this
+    }
+}

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.foodRecipes.R
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
@@ -62,12 +61,12 @@ class MealDetailsFragment : Fragment() {
     }
 
     private fun init() = binding.apply {
-        ivMeal.load(meal.image)
+        ivMeal.load(meal.thumbnail)
         tvInstruction.text = meal.instructions
         tvMealCategory.text = meal.category
         tvMealCountry.text = meal.region
 
-        ingredientList.adapter = SimpleAdapter(meal.ingredients?.toMutableList() ?: mutableListOf()) {
+        ingredientList.adapter = SimpleAdapter(meal.ingredients.toMutableList()) {
             val itemBinding = ItemIngredientBinding.inflate(layoutInflater, it, false)
             IngredientHolder(itemBinding)
         }

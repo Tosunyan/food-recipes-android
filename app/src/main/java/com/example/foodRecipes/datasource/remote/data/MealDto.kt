@@ -1,9 +1,5 @@
 package com.example.foodRecipes.datasource.remote.data
 
-data class MealsDto(
-    val meals: List<MealDto>?
-)
-
 data class MealDto(
     val idMeal: String,
     val strMeal: String,

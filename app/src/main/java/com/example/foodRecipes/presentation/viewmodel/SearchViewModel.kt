@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.domain.repository.SearchRepository
+import com.example.foodRecipes.datasource.repository.SearchRepository
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -14,10 +14,10 @@ class SearchViewModel(
 
     val mealsLiveData = MutableLiveData<List<MealModel>>()
 
-    fun onInputTextChanged(text: CharSequence?) {
-        if (text.isNullOrBlank()) return
+    fun onSearchInputChange(text: String = "") {
+        if (text.trim().isBlank()) return
 
-        searchForMeals(text.trim().toString())
+        searchForMeals(text)
     }
 
     private fun searchForMeals(text: String) {

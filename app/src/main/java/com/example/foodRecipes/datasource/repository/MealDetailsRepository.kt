@@ -1,16 +1,16 @@
-package com.example.foodRecipes.domain.repository
+package com.example.foodRecipes.datasource.repository
 
 import com.example.foodRecipes.datasource.remote.api.Api
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
 import com.example.foodRecipes.datasource.remote.api.makeApiCall
+import com.example.foodRecipes.datasource.remote.api.mapOnSuccess
 
 class MealDetailsRepository {
 
     suspend fun getMealDetails(id: String): ApiResponse<MealDetailsDto> {
-        return when (val response = makeApiCall { Api.client.getMealDetails(id) }) {
-            is ApiResponse.Success -> ApiResponse.Success(response.data.meals.first())
-            is ApiResponse.Failure -> response
-        }
+        val response = makeApiCall { Api.client.getMealDetails(id) }
+
+        return response.mapOnSuccess { meals.first() }
     }
 }

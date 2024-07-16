@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodRecipes.databinding.FragmentMealsBinding
 import com.example.foodRecipes.databinding.ItemMealBinding
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
-import com.example.foodRecipes.datasource.remote.data.MealsDto
-import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.extension.navigateUp
@@ -33,9 +31,9 @@ class MealsFragment : Fragment() {
     private lateinit var title: String
     private lateinit var description: String
 
-    private val mealsObserver = Observer<ApiResponse<MealsDto>> { response ->
+    private val mealsObserver = Observer<ApiResponse<List<MealModel>>> { response ->
         if (response is ApiResponse.Success) {
-            adapter.submitList(response.data.meals!!.map { it.toMealModel() })
+            adapter.submitList(response.data)
         }
     }
 

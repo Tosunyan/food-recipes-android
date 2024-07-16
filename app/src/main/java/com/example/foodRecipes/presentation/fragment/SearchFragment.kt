@@ -79,7 +79,7 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.initListeners() {
         searchEditText.doAfterTextChanged { text ->
-            viewModel.onInputTextChanged(text)
+            viewModel.onSearchInputChange(text?.toString().orEmpty())
         }
     }
 

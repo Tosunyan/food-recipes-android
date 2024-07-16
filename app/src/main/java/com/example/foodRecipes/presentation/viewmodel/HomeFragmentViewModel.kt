@@ -3,11 +3,10 @@ package com.example.foodRecipes.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
-import com.example.foodRecipes.datasource.remote.data.RegionDto
-import com.example.foodRecipes.datasource.remote.data.RegionsDto
+import com.example.foodRecipes.datasource.repository.HomeRepository
 import com.example.foodRecipes.domain.model.CategoryModel
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.domain.repository.HomeRepository
+import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.domain.usecase.GetCategories
 import com.example.foodRecipes.domain.usecase.GetRegions
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,11 +21,11 @@ class HomeFragmentViewModel(
 
     private val randomMealResponse = MutableSharedFlow<ApiResponse<MealModel?>>()
     private val categoriesResponse = MutableSharedFlow<ApiResponse<List<CategoryModel>>>()
-    private val regionsResponse = MutableSharedFlow<ApiResponse<List<RegionDto>>>()
+    private val regionsResponse = MutableSharedFlow<ApiResponse<List<RegionModel>>>()
 
     val randomMeal = MutableStateFlow<MealModel?>(null)
     val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
-    val regions = MutableStateFlow<List<RegionDto>>(emptyList())
+    val regions = MutableStateFlow<List<RegionModel>>(emptyList())
 
     val showErrorMessage = MutableSharedFlow<String>()
 
@@ -90,7 +89,7 @@ class HomeFragmentViewModel(
         }
     }
 
-    private fun onRegionsResponse(response: ApiResponse<List<RegionDto>>) {
+    private fun onRegionsResponse(response: ApiResponse<List<RegionModel>>) {
         when (response) {
             is ApiResponse.Success -> regions.value = response.data
             is ApiResponse.Failure -> showErrorMessage("Failed to fetch regions")

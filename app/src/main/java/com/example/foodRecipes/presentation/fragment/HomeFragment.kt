@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.foodRecipes.databinding.FragmentHomeBinding
 import com.example.foodRecipes.databinding.ItemAreaBinding
 import com.example.foodRecipes.databinding.ItemCategoryBinding
-import com.example.foodRecipes.datasource.remote.data.RegionDto
 import com.example.foodRecipes.domain.model.CategoryModel
+import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.presentation.extension.isLandscape
 import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.extension.showSnackBar
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
             }
 
             regions.collect(viewLifecycleOwner) {
-                regionsAdapter.submitList(it.map(RegionDto::strArea))
+                regionsAdapter.submitList(it.map(RegionModel::name))
             }
         }
     }
