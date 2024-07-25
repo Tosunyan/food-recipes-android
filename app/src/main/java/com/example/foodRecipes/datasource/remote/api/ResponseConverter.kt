@@ -12,7 +12,7 @@ suspend fun <T> makeApiCall(apiCall: suspend () -> Response<T>) = withContext(Di
     try {
         val response = apiCall.invoke()
         convertResponse(response).also {
-            logApiResponse(response.raw().request().url(), it)
+            logApiResponse(response.raw().request.url, it)
         }
     } catch (e: UnknownHostException) {
         ApiResponse.Failure("No Internet", -1, "")

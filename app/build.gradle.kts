@@ -38,6 +38,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 
     namespace = "com.example.foodRecipes"
@@ -61,7 +66,7 @@ dependencies {
     implementation(project(":navigation"))
 
     // Coil
-    implementation("io.coil-kt:coil:1.4.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
@@ -72,4 +77,15 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.1.0")
+
+    // Jetpack Compose
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+    implementation(composeBom)
+    implementation("androidx.compose.foundation:foundation:1.7.0-beta05")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
+    implementation("com.github.inconcept:android-design-system:1.0.0")
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }

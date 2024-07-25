@@ -9,15 +9,19 @@ import com.example.foodRecipes.domain.mapper.toMealModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_ID
 import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_MODEL
+import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_NAME
+import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_THUMBNAIL
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class MealDetailsViewModel(
     private val repository: MealDetailsRepository = MealDetailsRepository()
 ) : ViewModel() {
 
-    private val _mealDetails = MutableStateFlow<MealModel?>(null)
+    private val _mealDetails = MutableStateFlow(MealModel(id = "", name = ""))
     val mealDetails = _mealDetails.asStateFlow()
 
     fun onArgumentsReceive(arguments: Bundle) {
@@ -25,12 +29,23 @@ class MealDetailsViewModel(
             setMealDetailsFromBundle(arguments)
         } else {
             val id = arguments.getString(ARG_ID)!!
+            val name = arguments.getString(ARG_NAME)
+            val thumbnail = arguments.getString(ARG_THUMBNAIL)
+            _mealDetails.value = MealModel(
+                id = id,
+                name = name.orEmpty(),
+                thumbnail = thumbnail
+            )
+
             getMealDetailsFromApi(id)
         }
     }
 
     private fun setMealDetailsFromBundle(bundle: Bundle) {
-        _mealDetails.value = bundle.getParcelable(ARG_MODEL)!!
+        viewModelScope.launch {
+            delay(0.2.seconds) // To make animations work
+            _mealDetails.value = bundle.getParcelable(ARG_MODEL)!!
+        }
     }
 
     private fun getMealDetailsFromApi(id: String) {

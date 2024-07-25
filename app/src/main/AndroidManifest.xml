@@ -18,6 +18,7 @@
             android:name="com.example.foodRecipes.presentation.activity.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"
             android:exported="true">
 
             <intent-filter>

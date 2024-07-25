@@ -14,14 +14,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MealsFragmentViewModel(
-    private val mealRepository: MealRepository = MealRepository()
+    private val mealRepository: MealRepository = MealRepository(),
 ): ViewModel() {
+
+    private val _title = MutableStateFlow("")
+    val title = _title.asStateFlow()
 
     private val _meals = MutableStateFlow<List<MealModel>>(emptyList())
     val meals = _meals.asStateFlow()
 
-    private val _title = MutableStateFlow("")
-    val title = _title.asStateFlow()
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    init {
+        showLoading()
+    }
 
     fun onArgumentsReceive(arguments: Bundle) {
         _title.value = arguments.getString(ARG_TITLE)!!
@@ -37,6 +44,7 @@ class MealsFragmentViewModel(
             mealRepository
                 .filterMealsByCategory(title.value)
                 .onSuccess { _meals.value = this }
+                .also { _isLoading.value = false }
         }
     }
 
@@ -45,6 +53,16 @@ class MealsFragmentViewModel(
             mealRepository
                 .filterMealsByArea(title.value)
                 .onSuccess { _meals.value = this }
+                .also { _isLoading.value = false }
+        }
+    }
+
+    private fun showLoading() {
+        _isLoading.value = true
+        _meals.value = buildList {
+            repeat(8) {
+                add(MealModel(id = it.toString(), name = ""))
+            }
         }
     }
 }

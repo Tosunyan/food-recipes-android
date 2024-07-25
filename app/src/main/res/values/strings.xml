@@ -10,15 +10,21 @@
     <!-- Home Screen -->
     <string name="home_daily_special">Daily Special</string>
     <string name="home_categories">Categories</string>
-    <string name="home_regions">Regions</string>
+    <string name="home_cuisines">Cuisines</string>
 
     <!-- Search Screen -->
     <string name="search_hint">Search for meals</string>
 
+    <!-- Favorites Screen -->
+    <string name="favorites_title">Saved Meals</string>
+    <string name="favorites_empty_list_title">No saved items!</string>
+
     <!-- Details Screen -->
     <string name="meal_details_cooking_process">Cooking process</string>
     <string name="meal_details_ingredients">Ingredients</string>
+    <string name="meal_details_external_sources">External sources</string>
+    <string name="meal_details_external_sources_description">Curious for more? Check out these links:</string>
     <string name="meal_details_youtube">YouTube</string>
-    <string name="meal_details_source">Source</string>
+    <string name="meal_details_website">Website</string>
 
 </resources>
