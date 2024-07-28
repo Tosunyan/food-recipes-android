@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodRecipes.R
 import com.example.foodRecipes.domain.model.CategoryModel
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.presentation.theme.components.DailySpecialItem
 import com.example.foodRecipes.presentation.theme.components.listitem.CategoryItem
@@ -29,10 +29,10 @@ private const val SPAN_COUNT = 3
 
 @Composable
 fun HomeScreen(
-    dailySpecial: MealModel?,
+    dailySpecial: MealDetailsModel?,
     categories: List<CategoryModel>,
     regions: List<RegionModel>,
-    onDailySpecialClick: (MealModel) -> Unit = {},
+    onDailySpecialClick: (MealDetailsModel) -> Unit = {},
     onCategoryItemClick: (CategoryModel) -> Unit = {},
     onRegionItemClick: (RegionModel) -> Unit = {},
 ) {
@@ -82,8 +82,8 @@ private fun LazyGridScope.titleSection(
 }
 
 private fun LazyGridScope.dailySpecialSection(
-    model: MealModel? = null,
-    onDailySpecialClick: (MealModel) -> Unit = {},
+    model: MealDetailsModel? = null,
+    onDailySpecialClick: (MealDetailsModel) -> Unit = {},
 ) {
     model ?: return
 
@@ -191,7 +191,7 @@ private fun LazyGridScope.regionsSection(
 @Composable
 private fun ScreenPreview() {
     HomeScreen(
-        dailySpecial = MealModel("", "Pizza de Italiano"),
+        dailySpecial = MealDetailsModel(name = "Pizza de Italiano"),
         categories = listOf(
             CategoryModel("Beef", "", ""),
             CategoryModel("Chicken", "", ""),

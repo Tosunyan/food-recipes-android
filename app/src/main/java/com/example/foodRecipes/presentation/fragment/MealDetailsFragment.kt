@@ -45,9 +45,7 @@ class MealDetailsFragment : Fragment() {
 
     companion object {
 
-        const val ARG_ID = "arg.id"
-        const val ARG_NAME = "arg.name"
-        const val ARG_THUMBNAIL = "arg.thumbnail"
-        const val ARG_MODEL = "arg.model"
+        const val ARG_MEAL_MODEL = "arg.meal_model"
+        const val ARG_MEAL_DETAILS_MODEL = "arg.meal_details_model"
     }
 }

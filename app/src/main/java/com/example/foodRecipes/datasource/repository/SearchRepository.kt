@@ -6,12 +6,12 @@ import com.example.foodRecipes.datasource.remote.api.makeApiCall
 import com.example.foodRecipes.datasource.remote.api.mapOnSuccess
 import com.example.foodRecipes.datasource.remote.data.ListDto
 import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
-import com.example.foodRecipes.domain.mapper.toMealModel
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.mapper.toMealDetailsModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 
 class SearchRepository {
 
-    suspend fun searchMeals(searchQuery: String): ApiResponse<List<MealModel>> {
+    suspend fun searchMeals(searchQuery: String): ApiResponse<List<MealDetailsModel>> {
         val response = if (searchQuery.length == 1) {
             searchByFirstLetter(searchQuery.first())
         } else {
@@ -19,7 +19,7 @@ class SearchRepository {
         }
 
         return response.mapOnSuccess {
-            items?.map(MealDetailsDto::toMealModel).orEmpty()
+            items?.map(MealDetailsDto::toMealDetailsModel).orEmpty()
         }
     }
 

@@ -2,13 +2,12 @@ package com.example.foodRecipes.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.screens.SearchScreen
 import com.example.foodRecipes.presentation.theme.ProvideThemedContent
@@ -32,9 +31,9 @@ class SearchFragment : Fragment() {
         )
     }
 
-    private fun onMealClick(meal: MealModel) {
+    private fun onMealClick(meal: MealDetailsModel) {
         val args = bundleOf(
-            MealDetailsFragment.ARG_MODEL to meal,
+            MealDetailsFragment.ARG_MEAL_DETAILS_MODEL to meal,
         )
         navigate(MealDetailsFragment::class, args)
     }

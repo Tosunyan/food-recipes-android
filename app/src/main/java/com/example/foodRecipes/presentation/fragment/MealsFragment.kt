@@ -44,11 +44,7 @@ class MealsFragment : Fragment() {
     }
 
     private fun onMealItemClick(item: MealModel) {
-        val args = bundleOf(
-            MealDetailsFragment.ARG_ID to item.id,
-            MealDetailsFragment.ARG_NAME to item.name,
-            MealDetailsFragment.ARG_THUMBNAIL to item.thumbnail,
-        )
+        val args = bundleOf(MealDetailsFragment.ARG_MEAL_MODEL to item)
         navigate(MealDetailsFragment::class, args)
     }
 

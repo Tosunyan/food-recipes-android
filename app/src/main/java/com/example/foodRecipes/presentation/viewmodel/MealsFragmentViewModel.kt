@@ -61,7 +61,7 @@ class MealsFragmentViewModel(
         _isLoading.value = true
         _meals.value = buildList {
             repeat(8) {
-                add(MealModel(id = it.toString(), name = ""))
+                add(MealModel(id = "$it"))
             }
         }
     }

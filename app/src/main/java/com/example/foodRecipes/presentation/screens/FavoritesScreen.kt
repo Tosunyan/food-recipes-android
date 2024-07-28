@@ -12,15 +12,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.foodRecipes.R
-import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.theme.components.MealsList
+import com.example.foodRecipes.domain.model.MealDetailsModel
+import com.example.foodRecipes.presentation.theme.components.MealDetailsList
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 
 @Composable
 fun FavoritesScreen(
-    meals: List<MealModel>,
-    onMealClick: (MealModel) -> Unit,
+    meals: List<MealDetailsModel>,
+    onMealClick: (MealDetailsModel) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -46,7 +46,7 @@ fun FavoritesScreen(
                 )
             }
         } else {
-            MealsList(
+            MealDetailsList(
                 meals = meals,
                 contentPadding = PaddingValues(vertical = 24.dp),
                 onItemClick = onMealClick,

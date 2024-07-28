@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.foodRecipes.domain.mapper.toMealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.presentation.theme.components.listitem.MealItem
 
@@ -16,6 +18,26 @@ private val defaultPadding = PaddingValues(
     vertical = 24.dp,
     horizontal = 20.dp,
 )
+
+@Composable
+fun MealDetailsList(
+    meals: List<MealDetailsModel>,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    contentPadding: PaddingValues = defaultPadding,
+    onItemClick: (MealDetailsModel) -> Unit = { }
+) {
+    MealsList(
+        meals = meals.map(MealDetailsModel::toMealModel),
+        modifier = modifier,
+        isLoading = isLoading,
+        contentPadding = contentPadding,
+        onItemClick = {
+            val item = meals.first { details -> details.id == it.id }
+            onItemClick(item)
+        }
+    )
+}
 
 @Composable
 fun MealsList(

@@ -5,54 +5,63 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.onSuccess
 import com.example.foodRecipes.datasource.repository.MealDetailsRepository
-import com.example.foodRecipes.domain.mapper.toMealModel
+import com.example.foodRecipes.domain.mapper.toMealDetailsModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_ID
-import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_MODEL
-import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_NAME
-import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_THUMBNAIL
+import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_MEAL_DETAILS_MODEL
+import com.example.foodRecipes.presentation.fragment.MealDetailsFragment.Companion.ARG_MEAL_MODEL
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class MealDetailsViewModel(
-    private val repository: MealDetailsRepository = MealDetailsRepository()
+    private val repository: MealDetailsRepository = MealDetailsRepository(),
 ) : ViewModel() {
 
-    private val _mealDetails = MutableStateFlow(MealModel(id = "", name = ""))
+    private val _mealDetails = MutableStateFlow(MealDetailsModel())
     val mealDetails = _mealDetails.asStateFlow()
 
     fun onArgumentsReceive(arguments: Bundle) {
-        if (arguments[ARG_MODEL] != null) {
-            setMealDetailsFromBundle(arguments)
-        } else {
-            val id = arguments.getString(ARG_ID)!!
-            val name = arguments.getString(ARG_NAME)
-            val thumbnail = arguments.getString(ARG_THUMBNAIL)
-            _mealDetails.value = MealModel(
-                id = id,
-                name = name.orEmpty(),
-                thumbnail = thumbnail
-            )
-
-            getMealDetailsFromApi(id)
+        when {
+            arguments.containsKey(ARG_MEAL_DETAILS_MODEL) -> {
+                arguments.getMealDetailsModel()
+                    ?.let(::setMealDetails)
+            }
+            arguments.containsKey(ARG_MEAL_MODEL) -> {
+                arguments.getMealModel()
+                    ?.toMealDetailsModel()
+                    ?.let {
+                        setMealDetails(it)
+                        getMealDetailsFromApi(it.id)
+                    }
+            }
         }
     }
 
-    private fun setMealDetailsFromBundle(bundle: Bundle) {
+    private fun setMealDetails(mealDetails: MealDetailsModel) {
         viewModelScope.launch {
             delay(0.2.seconds) // To make animations work
-            _mealDetails.value = bundle.getParcelable(ARG_MODEL)!!
+            _mealDetails.update { mealDetails }
         }
     }
 
     private fun getMealDetailsFromApi(id: String) {
         viewModelScope.launch {
+            delay(0.2.seconds)
             repository
                 .getMealDetails(id)
-                .onSuccess { _mealDetails.value = this.toMealModel() }
+                .onSuccess { _mealDetails.update { toMealDetailsModel() } }
         }
+    }
+
+    private fun Bundle.getMealDetailsModel(): MealDetailsModel? {
+        return getParcelable(ARG_MEAL_DETAILS_MODEL)
+    }
+
+    private fun Bundle.getMealModel(): MealModel? {
+        return getParcelable(ARG_MEAL_MODEL)
     }
 }

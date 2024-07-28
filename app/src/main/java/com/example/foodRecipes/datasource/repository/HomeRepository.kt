@@ -6,19 +6,19 @@ import com.example.foodRecipes.datasource.remote.api.makeApiCall
 import com.example.foodRecipes.datasource.remote.api.mapOnSuccess
 import com.example.foodRecipes.datasource.remote.data.CategoryDto
 import com.example.foodRecipes.domain.mapper.toCategoryModel
-import com.example.foodRecipes.domain.mapper.toMealModel
+import com.example.foodRecipes.domain.mapper.toMealDetailsModel
 import com.example.foodRecipes.domain.mapper.toRegionModels
 import com.example.foodRecipes.domain.model.CategoryModel
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.RegionModel
 
 class HomeRepository {
 
-    suspend fun getRandomMeal(): ApiResponse<MealModel?> {
+    suspend fun getRandomMeal(): ApiResponse<MealDetailsModel?> {
         val apiResponse = makeApiCall(Api.client::getRandomMeal)
 
         return apiResponse.mapOnSuccess {
-            items?.firstOrNull()?.toMealModel()
+            items?.firstOrNull()?.toMealDetailsModel()
         }
     }
 

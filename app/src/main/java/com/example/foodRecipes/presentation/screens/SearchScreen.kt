@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.foodRecipes.R
-import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.theme.components.MealsList
+import com.example.foodRecipes.domain.model.MealDetailsModel
+import com.example.foodRecipes.presentation.theme.components.MealDetailsList
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.components.input.InputForm
 import com.inconceptlabs.designsystem.theme.AppTheme
@@ -20,9 +20,9 @@ import com.inconceptlabs.designsystem.utils.clearFocusOnGesture
 
 @Composable
 fun SearchScreen(
-    meals: List<MealModel>,
+    meals: List<MealDetailsModel>,
     onSearchInputChange: (String) -> Unit,
-    onMealItemClick: (MealModel) -> Unit,
+    onMealItemClick: (MealDetailsModel) -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -48,7 +48,7 @@ fun SearchScreen(
             onInputChange = onSearchInputChange
         )
 
-        MealsList(
+        MealDetailsList(
             meals = meals,
             contentPadding = PaddingValues(horizontal = 0.dp, vertical = 24.dp),
             onItemClick = onMealItemClick

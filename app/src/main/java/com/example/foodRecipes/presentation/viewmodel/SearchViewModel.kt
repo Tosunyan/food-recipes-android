@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.datasource.repository.SearchRepository
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ class SearchViewModel(
     private val repository: SearchRepository = SearchRepository()
 ) : ViewModel() {
 
-    private val _meals = MutableStateFlow<List<MealModel>>(emptyList())
+    private val _meals = MutableStateFlow<List<MealDetailsModel>>(emptyList())
     val meals = _meals.asStateFlow()
 
     fun onSearchInputChange(text: String = "") {

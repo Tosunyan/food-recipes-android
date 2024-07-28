@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.foodRecipes.R
 import com.example.foodRecipes.domain.model.IngredientModel
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.presentation.theme.Gray900
 import com.example.foodRecipes.presentation.theme.Orange500
 import com.example.foodRecipes.presentation.theme.Red900
@@ -44,7 +44,7 @@ import com.inconceptlabs.designsystem.theme.attributes.Size
 
 @Composable
 fun MealDetailsScreen(
-    meal: MealModel,
+    meal: MealDetailsModel,
     onBackButtonClick: () -> Unit,
     onYoutubeClick: (String) -> Unit,
     onSourceClick: (String) -> Unit,
@@ -88,7 +88,7 @@ fun MealDetailsScreen(
 private fun ScreenPreview() {
     AppTheme(indication = ScaleIndicationNodeFactory) {
         MealDetailsScreen(
-            meal = MealModel(
+            meal = MealDetailsModel(
                 id = "1234",
                 name = "La Omelet de Paris",
                 category = "Breakfast",
@@ -112,7 +112,7 @@ private fun ScreenPreview() {
 }
 
 private fun LazyListScope.toolbar(
-    meal: MealModel,
+    meal: MealDetailsModel,
     onBackButtonClick: () -> Unit,
 ) {
     item(key = meal.name) {
@@ -136,8 +136,9 @@ private fun LazyListScope.toolbar(
     }
 }
 
-private fun LazyListScope.mealThumbnail(meal: MealModel) {
-    meal.thumbnail ?: return
+private fun LazyListScope.mealThumbnail(meal: MealDetailsModel) {
+    if (meal.thumbnail.isBlank()) return
+
     var isImageLoading = true
 
     item(key = meal.thumbnail) {
@@ -158,8 +159,8 @@ private fun LazyListScope.mealThumbnail(meal: MealModel) {
     }
 }
 
-private fun LazyListScope.categoryRegion(meal: MealModel) {
-    if (meal.region.isNullOrBlank() && meal.category.isNullOrBlank()) return
+private fun LazyListScope.categoryRegion(meal: MealDetailsModel) {
+    if (meal.region.isBlank() && meal.category.isBlank()) return
 
     item(key = meal.category + meal.region) {
         CompositionLocalProvider(
@@ -172,29 +173,25 @@ private fun LazyListScope.categoryRegion(meal: MealModel) {
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
-                meal.region?.let {
-                    TextButton(
-                        text = it,
-                        modifier = Modifier.weight(1f),
-                        onClick = {}
-                    )
-                }
+                TextButton(
+                    text = meal.region,
+                    modifier = Modifier.weight(1f),
+                    onClick = {}
+                )
 
-                meal.category?.let {
-                    TextButton(
-                        text = it,
-                        modifier = Modifier
-                            .weight(1f),
-                        onClick = {}
-                    )
-                }
+                TextButton(
+                    text = meal.category,
+                    modifier = Modifier
+                        .weight(1f),
+                    onClick = {}
+                )
             }
         }
     }
 }
 
-private fun LazyListScope.instructions(meal: MealModel) {
-    meal.instructions ?: return
+private fun LazyListScope.instructions(meal: MealDetailsModel) {
+    if (meal.instructions.isBlank()) return
 
     item(key = "InstructionsTitle") {
         Text(
@@ -219,7 +216,7 @@ private fun LazyListScope.instructions(meal: MealModel) {
     }
 }
 
-private fun LazyListScope.ingredients(meal: MealModel) {
+private fun LazyListScope.ingredients(meal: MealDetailsModel) {
     if (meal.ingredients.isEmpty()) return
 
     item(key = "IngredientsTitle") {
@@ -248,7 +245,7 @@ private fun LazyListScope.ingredients(meal: MealModel) {
 }
 
 private fun LazyListScope.externalLinks(
-    meal: MealModel,
+    meal: MealDetailsModel,
     onYoutubeClick: (String) -> Unit,
     onSourceClick: (String) -> Unit,
 ) {

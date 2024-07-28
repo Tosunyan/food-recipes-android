@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.presentation.theme.Gray100
 import com.example.foodRecipes.presentation.theme.shimmerBrush
 import com.inconceptlabs.designsystem.components.core.Text
@@ -30,10 +30,10 @@ import com.inconceptlabs.designsystem.theme.AppTheme
 
 @Composable
 fun DailySpecialItem(
-    item: MealModel,
+    item: MealDetailsModel,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
-    onClick: (MealModel) -> Unit,
+    onClick: (MealDetailsModel) -> Unit,
 ) {
     var isImageLoading by remember { mutableStateOf(true) }
     val shape = RoundedCornerShape(8.dp)

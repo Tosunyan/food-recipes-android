@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.datasource.repository.HomeRepository
 import com.example.foodRecipes.domain.model.CategoryModel
-import com.example.foodRecipes.domain.model.MealModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.domain.usecase.GetCategories
 import com.example.foodRecipes.domain.usecase.GetRegions
@@ -19,11 +19,11 @@ class HomeFragmentViewModel(
     private val homeRepository: HomeRepository = HomeRepository()
 ) : ViewModel() {
 
-    private val randomMealResponse = MutableSharedFlow<ApiResponse<MealModel?>>()
+    private val randomMealResponse = MutableSharedFlow<ApiResponse<MealDetailsModel?>>()
     private val categoriesResponse = MutableSharedFlow<ApiResponse<List<CategoryModel>>>()
     private val regionsResponse = MutableSharedFlow<ApiResponse<List<RegionModel>>>()
 
-    val randomMeal = MutableStateFlow<MealModel?>(null)
+    val randomMeal = MutableStateFlow<MealDetailsModel?>(null)
     val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val regions = MutableStateFlow<List<RegionModel>>(emptyList())
 
@@ -75,7 +75,7 @@ class HomeFragmentViewModel(
         }
     }
 
-    private fun onRandomMealResponse(response: ApiResponse<MealModel?>) {
+    private fun onRandomMealResponse(response: ApiResponse<MealDetailsModel?>) {
         when (response) {
             is ApiResponse.Success -> randomMeal.value = response.data
             is ApiResponse.Failure -> showErrorMessage("Failed to fetch today's meal")
