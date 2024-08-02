@@ -12,19 +12,19 @@ class MealRepository {
     suspend fun filterMealsByCategory(category: String): ApiResponse<List<MealModel>> {
         val response = makeApiCall { Api.client.filterMealsByCategory(category) }
 
-        return response.mapOnSuccess { items?.toMealModels().orEmpty() }
+        return response.mapOnSuccess { items.toMealModels() }
     }
 
     suspend fun filterMealsByArea(area: String): ApiResponse<List<MealModel>> {
         val response = makeApiCall { Api.client.filterMealsByArea(area) }
 
-        return response.mapOnSuccess { items?.toMealModels().orEmpty() }
+        return response.mapOnSuccess { items.toMealModels() }
     }
 
     @Suppress("unused")
     suspend fun filterMealsByIngredient(ingredient: String): ApiResponse<List<MealModel>> {
         val response = makeApiCall { Api.client.filterMealsByIngredient(ingredient) }
 
-        return response.mapOnSuccess { items?.toMealModels().orEmpty() }
+        return response.mapOnSuccess { items.toMealModels() }
     }
 }

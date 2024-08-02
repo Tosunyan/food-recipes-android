@@ -1,12 +1,13 @@
 package com.example.foodRecipes.datasource.remote.api
 
+import com.example.foodRecipes.util.configuredJson
 import com.example.foodRecipes.util.logApiRequest
-import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 
 object Api {
@@ -18,12 +19,10 @@ object Api {
     }
 
     private val retrofit: Retrofit by lazy {
-        val gson = GsonBuilder().setLenient().create()
-
         Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(converterFactory)
             .build()
     }
 
@@ -31,6 +30,11 @@ object Api {
         OkHttpClient.Builder()
             .addInterceptor(::intercept)
             .build()
+    }
+
+    private val converterFactory by lazy {
+        val contentType = "application/json".toMediaType()
+        configuredJson.asConverterFactory(contentType)
     }
 
     private fun intercept(chain: Interceptor.Chain): Response {

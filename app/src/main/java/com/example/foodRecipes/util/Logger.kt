@@ -19,9 +19,18 @@ fun logApiResponse(url: HttpUrl, response: ApiResponse<*>) {
 }
 
 fun Any.logException(exception: Exception) {
+    logException(
+        tag = this::class.simpleName,
+        exception = exception
+    )
+}
+
+fun logException(
+    tag: String? = null,
+    exception: Exception,
+) {
     if (BuildConfig.DEBUG) throw exception
 
-    val tag = this::class.simpleName ?: "TAG"
     val message = exception.message ?: "Unknown error!"
-    Log.e(tag, message)
+    Log.e(tag ?: "TAG", message)
 }

@@ -11,6 +11,6 @@ class MealDetailsRepository {
     suspend fun getMealDetails(id: String): ApiResponse<MealDetailsDto> {
         val response = makeApiCall { Api.client.getMealDetails(id) }
 
-        return response.mapOnSuccess { meals.first() }
+        return response.mapOnSuccess { items.first() }
     }
 }

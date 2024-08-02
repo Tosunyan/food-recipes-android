@@ -21,7 +21,7 @@ suspend fun <T> makeApiCall(apiCall: suspend () -> Response<T>) = withContext(Di
     } catch (e: ConnectException) {
         ApiResponse.Failure("Server is unavailable", -1, "")
     } catch (e: Exception) {
-        ApiResponse.Failure("Unknown error", -1, "")
+        ApiResponse.Failure(e.message, -1, "")
     }
 }
 

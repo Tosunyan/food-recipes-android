@@ -18,7 +18,7 @@ class HomeRepository {
         val apiResponse = makeApiCall(Api.client::getRandomMeal)
 
         return apiResponse.mapOnSuccess {
-            items?.firstOrNull()?.toMealDetailsModel()
+            items.firstOrNull()?.toMealDetailsModel()
         }
     }
 
@@ -35,6 +35,6 @@ class HomeRepository {
     suspend fun getRegions(): ApiResponse<List<RegionModel>> {
         val response = makeApiCall(Api.client::getAreas)
 
-        return response.mapOnSuccess { items?.toRegionModels().orEmpty() }
+        return response.mapOnSuccess { items.toRegionModels() }
     }
 }

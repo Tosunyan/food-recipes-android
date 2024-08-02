@@ -3,7 +3,6 @@ package com.example.foodRecipes.datasource.remote.api
 import com.example.foodRecipes.datasource.remote.data.CategoriesDto
 import com.example.foodRecipes.datasource.remote.data.ListDto
 import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
-import com.example.foodRecipes.datasource.remote.data.MealDetailsWrapperDto
 import com.example.foodRecipes.datasource.remote.data.MealDto
 import com.example.foodRecipes.datasource.remote.data.RegionDto
 import retrofit2.Response
@@ -25,7 +24,7 @@ interface ApiService {
     @GET("lookup.php")
     suspend fun getMealDetails(
         @Query("i") id: String
-    ): Response<MealDetailsWrapperDto>
+    ): Response<ListDto<MealDetailsDto>>
 
 
     @GET("search.php")

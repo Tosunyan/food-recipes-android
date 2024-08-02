@@ -4,6 +4,8 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -73,10 +75,14 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
+    // KotlinX Serialization
+    val kotlinX = "1.6.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinX")
+
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:converter-scalars:2.1.0")
+    val retrofitVersion = "2.11.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:$retrofitVersion")
 
     // Jetpack Compose
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")

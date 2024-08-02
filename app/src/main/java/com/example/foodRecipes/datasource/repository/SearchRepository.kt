@@ -19,7 +19,7 @@ class SearchRepository {
         }
 
         return response.mapOnSuccess {
-            items?.map(MealDetailsDto::toMealDetailsModel).orEmpty()
+            items.map(MealDetailsDto::toMealDetailsModel)
         }
     }
 

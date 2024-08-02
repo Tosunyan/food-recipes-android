@@ -1,15 +1,15 @@
 package com.example.foodRecipes.datasource.remote.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class MealDto(
     val idMeal: String,
     val strMeal: String,
     val strMealThumb: String,
 )
 
-data class MealDetailsWrapperDto(
-    val meals: List<MealDetailsDto>
-)
-
+@Serializable
 data class MealDetailsDto(
     val idMeal: String,
     val strMeal: String,
