@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.foodRecipes.presentation.extension.navigate
 import com.example.foodRecipes.presentation.extension.navigateUp
 import com.example.foodRecipes.presentation.screens.MealDetailsScreen
 import com.example.foodRecipes.presentation.theme.ProvideThemedContent
@@ -31,9 +33,20 @@ class MealDetailsFragment : Fragment() {
         MealDetailsScreen(
             meal = viewModel.mealDetails.collectAsState().value,
             onBackButtonClick = ::navigateUp,
+            onCategoryClick = { onLabelClick(it, MealsFragment.Action.CATEGORY) },
+            onRegionClick = { onLabelClick(it, MealsFragment.Action.AREA) },
             onYoutubeClick = ::onLinkClick,
             onSourceClick = ::onLinkClick,
         )
+    }
+
+    private fun onLabelClick(label: String, action: MealsFragment.Action) {
+        val args = bundleOf(
+            MealsFragment.ARG_TITLE to label,
+            MealsFragment.ARG_ACTION to action,
+        )
+
+        navigate(MealsFragment::class, args)
     }
 
     // TODO Move implementation details to utility file `IntentUtils`

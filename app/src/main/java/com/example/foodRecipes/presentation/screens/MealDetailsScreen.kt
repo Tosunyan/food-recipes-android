@@ -27,9 +27,9 @@ import coil.compose.AsyncImage
 import com.example.foodRecipes.R
 import com.example.foodRecipes.domain.model.IngredientModel
 import com.example.foodRecipes.domain.model.MealDetailsModel
-import com.example.foodRecipes.presentation.theme.Gray900
 import com.example.foodRecipes.presentation.theme.Orange500
 import com.example.foodRecipes.presentation.theme.Red900
+import com.example.foodRecipes.presentation.theme.components.Label
 import com.example.foodRecipes.presentation.theme.components.TextButton
 import com.example.foodRecipes.presentation.theme.components.listitem.IngredientItem
 import com.example.foodRecipes.presentation.theme.indication.ScaleIndicationNodeFactory
@@ -46,6 +46,8 @@ import com.inconceptlabs.designsystem.theme.attributes.Size
 fun MealDetailsScreen(
     meal: MealDetailsModel,
     onBackButtonClick: () -> Unit,
+    onCategoryClick: (String) -> Unit,
+    onRegionClick: (String) -> Unit,
     onYoutubeClick: (String) -> Unit,
     onSourceClick: (String) -> Unit,
 ) {
@@ -55,7 +57,6 @@ fun MealDetailsScreen(
             .fillMaxSize()
     ) {
         toolbar(
-            meal = meal,
             onBackButtonClick = onBackButtonClick
         )
 
@@ -63,8 +64,14 @@ fun MealDetailsScreen(
             meal = meal,
         )
 
-        categoryRegion(
+        mealName(
+            meal = meal
+        )
+
+        labels(
             meal = meal,
+            onCategoryClick = onCategoryClick,
+            onRegionClick = onRegionClick
         )
 
         instructions(
@@ -105,17 +112,18 @@ private fun ScreenPreview() {
                 ),
             ),
             onBackButtonClick = {},
+            onCategoryClick = {},
+            onRegionClick = {},
             onYoutubeClick = {},
-            onSourceClick = {}
+            onSourceClick = {},
         )
     }
 }
 
 private fun LazyListScope.toolbar(
-    meal: MealDetailsModel,
     onBackButtonClick: () -> Unit,
 ) {
-    item(key = meal.name) {
+    item(key = "Toolbar") {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -129,8 +137,9 @@ private fun LazyListScope.toolbar(
             )
 
             Text(
-                text = meal.name,
-                style = AppTheme.typography.H5,
+                text = "Meal Details",
+                style = AppTheme.typography.S1,
+                modifier = Modifier.weight(1f)
             )
         }
     }
@@ -159,7 +168,21 @@ private fun LazyListScope.mealThumbnail(meal: MealDetailsModel) {
     }
 }
 
-private fun LazyListScope.categoryRegion(meal: MealDetailsModel) {
+private fun LazyListScope.mealName(meal: MealDetailsModel) {
+    item(key = meal.name) {
+        Text(
+            text = meal.name,
+            style = AppTheme.typography.H5,
+            modifier = Modifier.padding(top = 12.dp)
+        )
+    }
+}
+
+private fun LazyListScope.labels(
+    meal: MealDetailsModel,
+    onCategoryClick: (String) -> Unit,
+    onRegionClick: (String) -> Unit,
+) {
     if (meal.region.isBlank() && meal.category.isBlank()) return
 
     item(key = meal.category + meal.region) {
@@ -171,20 +194,21 @@ private fun LazyListScope.categoryRegion(meal: MealDetailsModel) {
                 modifier = Modifier
                     .animateItem()
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
+                    .padding(top = 24.dp)
             ) {
-                TextButton(
-                    text = meal.region,
-                    modifier = Modifier.weight(1f),
-                    onClick = {}
-                )
-
-                TextButton(
-                    text = meal.category,
-                    modifier = Modifier
-                        .weight(1f),
-                    onClick = {}
-                )
+                listOf(
+                    meal.region to onRegionClick,
+                    meal.category to onCategoryClick
+                ).forEach { (name, action) ->
+                    Label(
+                        text = name,
+                        textStyle = AppTheme.typography.P4,
+                        textColor = AppTheme.colorScheme.T8,
+                        backgroundColor = AppTheme.colorScheme.BG4,
+                        paddingValues = PaddingValues(horizontal = 20.dp, vertical = 4.dp),
+                        onClick = { action(name) }
+                    )
+                }
             }
         }
     }
@@ -293,7 +317,7 @@ private fun LazyListScope.externalLinks(
                     TextButton(
                         text = stringResource(id = R.string.meal_details_website),
                         icon = painterResource(id = R.drawable.ic_link),
-                        backgroundColor = Gray900,
+                        backgroundColor = AppTheme.colorScheme.BG8,
                         modifier = Modifier.weight(1f),
                         onClick = { onSourceClick(it) }
                     )

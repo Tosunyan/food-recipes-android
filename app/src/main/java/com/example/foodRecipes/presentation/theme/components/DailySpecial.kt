@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,17 +19,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.foodRecipes.domain.model.IngredientModel
 import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.presentation.theme.Gray100
 import com.example.foodRecipes.presentation.theme.shimmerBrush
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 
+private const val ItemHeight = 160
+private const val MaxLabelsCount = 6
+private const val MaxLabelLength = 15
+
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DailySpecialItem(
     item: MealDetailsModel,
@@ -40,7 +47,7 @@ fun DailySpecialItem(
 
     Row(
         modifier = modifier
-            .height(160.dp)
+            .height(ItemHeight.dp)
             .clickable { onClick(item) }
             .background(color = Gray100, shape = shape)
     ) {
@@ -52,7 +59,7 @@ fun DailySpecialItem(
             onSuccess = { isImageLoading = false },
             onError = { isImageLoading = false },
             modifier = Modifier
-                .fillMaxWidth(0.5f)
+                .fillMaxWidth(0.45f)
                 .fillMaxHeight()
                 .clip(shape)
                 .background(shimmerBrush(isLoading || isImageLoading))
@@ -61,7 +68,7 @@ fun DailySpecialItem(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Text(
                 text = item.name,
@@ -70,41 +77,24 @@ fun DailySpecialItem(
                 maxLines = 2,
             )
 
-            Row(
+            FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(top = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 16.dp)
             ) {
-                Label(tag = item.region)
-
-                Label(tag = item.category)
+                buildSet {
+                    add(item.region)
+                    add(item.category)
+                    addAll(item.ingredients.map(IngredientModel::name))
+                }
+                    .filter { it.length < MaxLabelLength }
+                    .take(MaxLabelsCount)
+                    .forEach {
+                        Label(text = it)
+                    }
             }
-
-            Text(
-                text = item.ingredients.joinToString(
-                    separator = "\n",
-                    limit = 2,
-                    truncated = "",
-                    transform = { "#${it.name}" }
-                ),
-                style = AppTheme.typography.P5,
-                modifier = Modifier.padding(top = 8.dp),
-            )
         }
     }
-}
-
-@Composable
-private fun Label(
-    tag: String?,
-) {
-    Text(
-        text = tag ?: return,
-        style = AppTheme.typography.P5,
-        modifier = Modifier
-            .background(
-                color = Color.LightGray,
-                shape = RoundedCornerShape(4.dp)
-            )
-            .padding(horizontal = 8.dp, vertical = 1.dp)
-    )
 }
