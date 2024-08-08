@@ -3,7 +3,8 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
+
+    id("com.google.devtools.ksp") version "1.9.24-1.0.20"
 
     kotlin("plugin.serialization") version "1.9.22"
 }
@@ -73,7 +74,7 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // KotlinX Serialization
     val kotlinX = "1.6.3"
