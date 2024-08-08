@@ -15,17 +15,19 @@ fun MealDto.toMealModel() = MealModel(
     thumbnail = strMealThumb,
 )
 
-fun MealDetailsDto.toMealDetailsModel() = MealDetailsModel(
-    id = idMeal,
-    name = strMeal,
-    category = strCategory ?: "",
-    region = strArea ?: "",
-    instructions = strInstructions,
-    thumbnail = strMealThumb,
-    youtubeUrl = strYoutube,
-    sourceUrl = strSource,
-    ingredients = toIngredientModels(),
-)
+fun MealDetailsDto.toMealDetailsModel(): MealDetailsModel {
+    return MealDetailsModel(
+        id = idMeal,
+        name = strMeal,
+        category = strCategory ?: "",
+        region = strArea ?: "",
+        instructions = strInstructions,
+        thumbnail = strMealThumb,
+        youtubeUrl = strYoutube.takeIf { !it.isNullOrBlank() },
+        sourceUrl = strSource.takeIf { !it.isNullOrBlank() },
+        ingredients = toIngredientModels(),
+    )
+}
 
 fun MealModel.toMealDetailsModel(): MealDetailsModel {
     return MealDetailsModel(id, name, thumbnail)
