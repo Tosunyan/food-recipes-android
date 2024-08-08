@@ -5,7 +5,7 @@
     <!-- Navigation Items -->
     <string name="navigation_item_home">Home</string>
     <string name="navigation_item_search">Search</string>
-    <string name="navigation_item_favorites">Favorites</string>
+    <string name="navigation_item_saved_meals">Saved Meals</string>
 
     <!-- Home Screen -->
     <string name="home_daily_special">Daily Special</string>
@@ -15,9 +15,9 @@
     <!-- Search Screen -->
     <string name="search_hint">Search for meals</string>
 
-    <!-- Favorites Screen -->
-    <string name="favorites_title">Saved Meals</string>
-    <string name="favorites_empty_list_title">No saved items!</string>
+    <!-- Saved Meals Screen -->
+    <string name="saved_meals_title">Saved Meals</string>
+    <string name="saved_meals_empty_list_title">No saved items!</string>
 
     <!-- Details Screen -->
     <string name="meal_details_cooking_process">Cooking process</string>

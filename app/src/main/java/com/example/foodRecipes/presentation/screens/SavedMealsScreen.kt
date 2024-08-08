@@ -18,7 +18,7 @@ import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 
 @Composable
-fun FavoritesScreen(
+fun SavedMealsScreen(
     meals: List<MealDetailsModel>,
     onMealClick: (MealDetailsModel) -> Unit,
 ) {
@@ -31,14 +31,14 @@ fun FavoritesScreen(
             )
     ) {
         Text(
-            text = stringResource(id = R.string.favorites_title),
+            text = stringResource(id = R.string.saved_meals_title),
             style = AppTheme.typography.H4,
         )
 
         if (meals.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
-                    text = stringResource(id = R.string.favorites_empty_list_title),
+                    text = stringResource(id = R.string.saved_meals_empty_list_title),
                     style = AppTheme.typography.S1,
                     textAlign = TextAlign.Center,
                     modifier = Modifier

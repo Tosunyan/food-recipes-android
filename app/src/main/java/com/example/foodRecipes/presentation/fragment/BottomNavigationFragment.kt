@@ -37,7 +37,7 @@ class BottomNavigationFragment : Fragment() {
             val destinationClass = when (it.itemId) {
                 R.id.fragment_home -> HomeFragment::class
                 R.id.fragment_search -> SearchFragment::class
-                R.id.fragment_database -> DatabaseFragment::class
+                R.id.fragment_saved_meals -> SavedMealsFragment::class
                 else -> HomeFragment::class
             }
             navigate(destinationClass, null, R.id.bottom_navigation_fragment_container, childFragmentManager)
