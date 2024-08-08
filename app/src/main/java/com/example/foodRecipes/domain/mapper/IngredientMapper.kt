@@ -1,7 +1,22 @@
 package com.example.foodRecipes.domain.mapper
 
+import com.example.foodRecipes.datasource.local.data.IngredientEntity
 import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
 import com.example.foodRecipes.domain.model.IngredientModel
+import com.example.foodRecipes.domain.model.MealDetailsModel
+import java.util.UUID
+
+fun IngredientEntity.toIngredientModel(): IngredientModel {
+    return IngredientModel(
+        id = id,
+        name = name,
+        quantity = quantity
+    )
+}
+
+fun MealDetailsModel.toIngredientEntities(): List<IngredientEntity> {
+    return ingredients.map { it.toIngredientEntity(id) }
+}
 
 fun MealDetailsDto.toIngredientModels(): List<IngredientModel> {
     return buildSet {
@@ -28,11 +43,24 @@ fun MealDetailsDto.toIngredientModels(): List<IngredientModel> {
     }.toList()
 }
 
+private fun IngredientModel.toIngredientEntity(mealId: String): IngredientEntity {
+    return IngredientEntity(
+        id = id,
+        mealId = mealId,
+        name = name,
+        quantity = quantity,
+    )
+}
+
 private fun MutableSet<IngredientModel>.addIngredientIfValid(ingredient: String?, measure: String?) {
     asValidIngredientOrNull(ingredient, measure)?.let(::add)
 }
 
 private fun asValidIngredientOrNull(name: String?, measure: String?): IngredientModel? {
     if (name.isNullOrBlank() || measure.isNullOrBlank()) return null
-    return IngredientModel(name, measure)
+    return IngredientModel(
+        id = UUID.randomUUID().toString(),
+        name = name,
+        quantity = measure
+    )
 }

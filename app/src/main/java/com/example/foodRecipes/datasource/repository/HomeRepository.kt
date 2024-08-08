@@ -1,5 +1,7 @@
 package com.example.foodRecipes.datasource.repository
 
+import com.example.foodRecipes.datasource.local.database.DatabaseProvider
+import com.example.foodRecipes.datasource.local.database.MealDatabase
 import com.example.foodRecipes.datasource.remote.api.Api
 import com.example.foodRecipes.datasource.remote.api.ApiResponse
 import com.example.foodRecipes.datasource.remote.api.makeApiCall
@@ -12,14 +14,16 @@ import com.example.foodRecipes.domain.model.CategoryModel
 import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.RegionModel
 
-class HomeRepository {
+class HomeRepository(
+    private val database: MealDatabase = DatabaseProvider.instance,
+) {
 
     suspend fun getRandomMeal(): ApiResponse<MealDetailsModel?> {
-        val apiResponse = makeApiCall(Api.client::getRandomMeal)
-
-        return apiResponse.mapOnSuccess {
-            items.firstOrNull()?.toMealDetailsModel()
-        }
+        return getMealsWithSavedStatus(
+            mealDao = database.mealDao,
+            apiCall = Api.client::getRandomMeal,
+            mapper = { items.firstOrNull()?.toMealDetailsModel(it) }
+        )
     }
 
     suspend fun getCategories(): ApiResponse<List<CategoryModel>> {

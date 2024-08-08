@@ -33,6 +33,7 @@ class MealDetailsFragment : Fragment() {
         MealDetailsScreen(
             meal = viewModel.mealDetails.collectAsState().value,
             onBackButtonClick = ::navigateUp,
+            onSaveButtonClick = viewModel::onSaveButtonClick,
             onCategoryClick = { onLabelClick(it, MealsFragment.Action.CATEGORY) },
             onRegionClick = { onLabelClick(it, MealsFragment.Action.AREA) },
             onYoutubeClick = ::onLinkClick,

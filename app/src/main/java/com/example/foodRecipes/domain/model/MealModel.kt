@@ -8,4 +8,6 @@ data class MealModel(
     val id: String,
     val name: String = "",
     val thumbnail: String = "",
+
+    val isSaved: Boolean = false,
 ) : Parcelable

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.onSuccess
-import com.example.foodRecipes.datasource.repository.MealDetailsRepository
+import com.example.foodRecipes.datasource.repository.MealRepository
 import com.example.foodRecipes.domain.mapper.toMealDetailsModel
 import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.MealModel
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class MealDetailsViewModel(
-    private val repository: MealDetailsRepository = MealDetailsRepository(),
+    private val repository: MealRepository = MealRepository(),
 ) : ViewModel() {
 
     private val _mealDetails = MutableStateFlow(MealDetailsModel())
@@ -41,6 +41,22 @@ class MealDetailsViewModel(
         }
     }
 
+    fun onSaveButtonClick() {
+        viewModelScope.launch {
+            if (_mealDetails.value.isSaved) {
+                repository.removeSavedMeal(_mealDetails.value)
+            } else {
+                repository.saveMeal(_mealDetails.value)
+            }
+            _mealDetails.update { it.copy(isSaved = !it.isSaved) }
+
+            val isSaved = repository.isMealSaved(_mealDetails.value)
+            if (_mealDetails.value.isSaved != isSaved) {
+                _mealDetails.update { it.copy(isSaved = !isSaved) }
+            }
+        }
+    }
+
     private fun setMealDetails(mealDetails: MealDetailsModel) {
         viewModelScope.launch {
             delay(0.2.seconds) // To make animations work
@@ -53,7 +69,7 @@ class MealDetailsViewModel(
             delay(0.2.seconds)
             repository
                 .getMealDetails(id)
-                .onSuccess { _mealDetails.update { toMealDetailsModel() } }
+                .onSuccess { _mealDetails.update { this } }
         }
     }
 

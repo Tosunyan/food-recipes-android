@@ -46,6 +46,7 @@ import com.inconceptlabs.designsystem.theme.attributes.Size
 fun MealDetailsScreen(
     meal: MealDetailsModel,
     onBackButtonClick: () -> Unit,
+    onSaveButtonClick: () -> Unit,
     onCategoryClick: (String) -> Unit,
     onRegionClick: (String) -> Unit,
     onYoutubeClick: (String) -> Unit,
@@ -57,7 +58,9 @@ fun MealDetailsScreen(
             .fillMaxSize()
     ) {
         toolbar(
-            onBackButtonClick = onBackButtonClick
+            meal = meal,
+            onBackButtonClick = onBackButtonClick,
+            onSaveButtonClick = onSaveButtonClick,
         )
 
         mealThumbnail(
@@ -106,12 +109,13 @@ private fun ScreenPreview() {
                 youtubeUrl = "https://youtube.com",
                 sourceUrl = "https://google.com",
                 ingredients = listOf(
-                    IngredientModel("Egg", "2"),
-                    IngredientModel("Bacon", "20g"),
-                    IngredientModel("Pepper", "5g")
+                    IngredientModel("", "Egg", "2"),
+                    IngredientModel("", "Bacon", "20g"),
+                    IngredientModel("", "Pepper", "5g")
                 ),
             ),
             onBackButtonClick = {},
+            onSaveButtonClick = {},
             onCategoryClick = {},
             onRegionClick = {},
             onYoutubeClick = {},
@@ -121,7 +125,9 @@ private fun ScreenPreview() {
 }
 
 private fun LazyListScope.toolbar(
+    meal: MealDetailsModel,
     onBackButtonClick: () -> Unit,
+    onSaveButtonClick: () -> Unit,
 ) {
     item(key = "Toolbar") {
         Row(
@@ -141,6 +147,20 @@ private fun LazyListScope.toolbar(
                 style = AppTheme.typography.S1,
                 modifier = Modifier.weight(1f)
             )
+
+            val iconResId = if (meal.isSaved) R.drawable.ic_like_filled else R.drawable.ic_like
+
+            CompositionLocalProvider(
+                LocalContentColor provides Red900
+            ) {
+                IconButton(
+                    icon = painterResource(id = iconResId),
+                    size = Size.S,
+                    cornerType = CornerType.CIRCULAR,
+                    keyColor = KeyColor.SECONDARY,
+                    onClick = onSaveButtonClick
+                )
+            }
         }
     }
 }

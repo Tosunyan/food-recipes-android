@@ -14,4 +14,6 @@ data class MealDetailsModel(
     val youtubeUrl: String? = null,
     val sourceUrl: String? = null,
     val ingredients: List<IngredientModel> = emptyList(),
+
+    val isSaved: Boolean = false,
 ) : Parcelable

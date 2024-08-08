@@ -26,8 +26,9 @@ fun SavedMealsScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                horizontal = 20.dp,
-                vertical = 24.dp,
+                start = 20.dp,
+                end = 20.dp,
+                top = 24.dp
             )
     ) {
         Text(
