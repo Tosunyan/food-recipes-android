@@ -59,14 +59,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 
-    // Material Design
-    implementation("com.google.android.material:material:1.6.1")
-
-    // Fragment KTX
-    implementation("androidx.fragment:fragment-ktx:1.5.2")
-
     // Navigation
-    implementation(project(":navigation"))
+    val voyagerVersion = "1.1.0-beta02"
+    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.6.0")

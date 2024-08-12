@@ -1,19 +1,17 @@
 package com.example.foodRecipes.presentation.viewmodel
 
-import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodRecipes.datasource.remote.api.onSuccess
 import com.example.foodRecipes.datasource.repository.MealRepository
+import com.example.foodRecipes.domain.model.CategoryModel
 import com.example.foodRecipes.domain.model.MealModel
-import com.example.foodRecipes.presentation.fragment.MealsFragment.Action
-import com.example.foodRecipes.presentation.fragment.MealsFragment.Companion.ARG_ACTION
-import com.example.foodRecipes.presentation.fragment.MealsFragment.Companion.ARG_TITLE
+import com.example.foodRecipes.domain.model.RegionModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MealsFragmentViewModel(
+class MealsViewModel(
     private val mealRepository: MealRepository = MealRepository(),
 ): ViewModel() {
 
@@ -30,13 +28,14 @@ class MealsFragmentViewModel(
         showLoading()
     }
 
-    fun onArgumentsReceive(arguments: Bundle) {
-        _title.value = arguments.getString(ARG_TITLE)!!
+    fun onArgumentsReceive(
+        category: CategoryModel?,
+        region: RegionModel?,
+    ) {
+        _title.value = category?.name ?: region?.name ?: return
 
-        when (arguments.getSerializable(ARG_ACTION)) {
-            Action.CATEGORY -> filterMealsByCategory()
-            Action.AREA -> filterMealsByArea()
-        }
+        category?.let { filterMealsByCategory() }
+        region?.let { filterMealsByArea() }
     }
 
     private fun filterMealsByCategory() {

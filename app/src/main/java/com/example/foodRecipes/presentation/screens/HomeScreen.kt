@@ -1,5 +1,7 @@
 package com.example.foodRecipes.presentation.screens
 
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +13,19 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.example.foodRecipes.R
 import com.example.foodRecipes.domain.model.CategoryModel
 import com.example.foodRecipes.domain.model.MealDetailsModel
@@ -22,208 +33,252 @@ import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.presentation.theme.components.DailySpecialItem
 import com.example.foodRecipes.presentation.theme.components.listitem.CategoryItem
 import com.example.foodRecipes.presentation.theme.components.listitem.RegionItem
+import com.example.foodRecipes.presentation.viewmodel.HomeViewModel
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 
-private const val SPAN_COUNT = 3
+class HomeScreen : Tab {
 
-@Composable
-fun HomeScreen(
-    dailySpecial: MealDetailsModel?,
-    categories: List<CategoryModel>,
-    regions: List<RegionModel>,
-    onDailySpecialClick: (MealDetailsModel) -> Unit = {},
-    onCategoryItemClick: (CategoryModel) -> Unit = {},
-    onRegionItemClick: (RegionModel) -> Unit = {},
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(SPAN_COUNT),
-        contentPadding = PaddingValues(vertical = 24.dp, horizontal = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .safeDrawingPadding(),
-    ) {
-        titleSection()
-
-        dailySpecialSection(
-            model = dailySpecial,
-            onDailySpecialClick = onDailySpecialClick
+    override val options: TabOptions
+        @Composable
+        get() = TabOptions(
+            index = 0u,
+            title = stringResource(id = R.string.navigation_item_home),
+            icon = painterResource(id = R.drawable.ic_home),
         )
 
-        categoriesSection(
-            categories = categories,
-            onCategoryItemClick = onCategoryItemClick
-        )
+    @Composable
+    override fun Content() {
+        val viewModel = viewModel<HomeViewModel>()
+        val navigator = LocalNavigator.current?.parent ?: return
 
-        regionsSection(
-            regions = regions,
-            onRegionItemClick = onRegionItemClick
+        val errorMessage by viewModel.errorMessage.collectAsState()
+        errorMessage?.let {
+            Toast.makeText(LocalContext.current, it, Toast.LENGTH_SHORT).show()
+        }
+
+        Content(
+            dailySpecial = viewModel.randomMeal.collectAsState().value,
+            categories = viewModel.categories.collectAsState().value,
+            regions = viewModel.regions.collectAsState().value,
+            onDailySpecialClick = {
+                val screen = MealDetailsScreen(mealDetailsModel = it)
+                navigator.push(screen)
+            },
+            onCategoryItemClick = {
+                val screen = MealsScreen(category = it)
+                navigator.push(screen)
+            },
+            onRegionItemClick = {
+                val screen = MealsScreen(region = it)
+                navigator.push(screen)
+            }
         )
     }
-}
 
-private fun LazyGridScope.titleSection(
-) {
-    item(
-        key = "HomeScreen",
-        contentType = ContentType.ScreenName,
-        span = { GridItemSpan(SPAN_COUNT) }
+    @Composable
+    private fun Content(
+        dailySpecial: MealDetailsModel?,
+        categories: List<CategoryModel>,
+        regions: List<RegionModel>,
+        onDailySpecialClick: (MealDetailsModel) -> Unit = {},
+        onCategoryItemClick: (CategoryModel) -> Unit = {},
+        onRegionItemClick: (RegionModel) -> Unit = {},
     ) {
-        Text(
-            text = stringResource(id = R.string.navigation_item_home),
-            style = AppTheme.typography.H4,
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(SPAN_COUNT),
+            contentPadding = PaddingValues(vertical = 24.dp, horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
-                .animateItem()
-                .padding(bottom = 8.dp)
+                .background(Color.White)
+                .fillMaxSize()
+                .safeDrawingPadding(),
+        ) {
+            titleSection()
+
+            dailySpecialSection(
+                model = dailySpecial,
+                onDailySpecialClick = onDailySpecialClick
+            )
+
+            categoriesSection(
+                categories = categories,
+                onCategoryItemClick = onCategoryItemClick
+            )
+
+            regionsSection(
+                regions = regions,
+                onRegionItemClick = onRegionItemClick
+            )
+        }
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun ContentPreview() {
+        Content(
+            dailySpecial = MealDetailsModel(name = "Pizza de Italiano"),
+            categories = listOf(
+                CategoryModel("Beef", "", ""),
+                CategoryModel("Chicken", "", ""),
+                CategoryModel("Pork", "", ""),
+                CategoryModel("Pork", "", ""),
+                CategoryModel("Pork", "", ""),
+                CategoryModel("Pork", "", ""),
+                CategoryModel("Pork", "", ""),
+                CategoryModel("Pork", "", ""),
+                CategoryModel("Goose", "", ""),
+                CategoryModel("Rabbit", "", ""),
+                CategoryModel("Cat", "", ""),
+            ),
+            regions = listOf(
+                RegionModel("China"),
+                RegionModel("China"),
+                RegionModel("China"),
+                RegionModel("India"),
+                RegionModel("Russia"),
+                RegionModel("Indonesia"),
+                RegionModel("Indonesia"),
+                RegionModel("Indonesia"),
+                RegionModel("Indonesia"),
+                RegionModel("Indonesia"),
+            )
         )
     }
-}
 
-private fun LazyGridScope.dailySpecialSection(
-    model: MealDetailsModel? = null,
-    onDailySpecialClick: (MealDetailsModel) -> Unit = {},
-) {
-    model ?: return
+    private fun LazyGridScope.titleSection() {
+        item(
+            key = "HomeScreen",
+            contentType = ContentType.ScreenName,
+            span = { GridItemSpan(SPAN_COUNT) }
+        ) {
+            Text(
+                text = stringResource(id = R.string.navigation_item_home),
+                style = AppTheme.typography.H4,
+                modifier = Modifier
+                    .animateItem()
+                    .padding(bottom = 8.dp)
+            )
+        }
+    }
 
-    item(
-        key = "DailySpecialTitle",
-        contentType = ContentType.SectionTitle,
-        span = { GridItemSpan(SPAN_COUNT) },
+    private fun LazyGridScope.dailySpecialSection(
+        model: MealDetailsModel? = null,
+        onDailySpecialClick: (MealDetailsModel) -> Unit = {},
     ) {
-        Text(
-            text = stringResource(id = R.string.home_daily_special),
-            style = AppTheme.typography.S1,
-            modifier = Modifier
-                .animateItem()
-                .padding(bottom = 4.dp)
-        )
+        model ?: return
+
+        item(
+            key = "DailySpecialTitle",
+            contentType = ContentType.SectionTitle,
+            span = { GridItemSpan(SPAN_COUNT) },
+        ) {
+            Text(
+                text = stringResource(id = R.string.home_daily_special),
+                style = AppTheme.typography.S1,
+                modifier = Modifier
+                    .animateItem()
+                    .padding(bottom = 4.dp)
+            )
+        }
+
+        item(
+            key = "DailySpecialItem",
+            contentType = ContentType.DailySpecial,
+            span = { GridItemSpan(SPAN_COUNT) }
+        ) {
+            DailySpecialItem(
+                item = model,
+                isLoading = false,
+                onClick = onDailySpecialClick,
+                modifier = Modifier
+                    .animateItem()
+            )
+        }
     }
 
-    item(
-        key = "DailySpecialItem",
-        contentType = ContentType.DailySpecial,
-        span = { GridItemSpan(SPAN_COUNT) }
+    private fun LazyGridScope.categoriesSection(
+        categories: List<CategoryModel>,
+        onCategoryItemClick: (CategoryModel) -> Unit,
     ) {
-        DailySpecialItem(
-            item = model,
-            isLoading = false,
-            onClick = onDailySpecialClick,
-            modifier = Modifier
-                .animateItem()
-        )
+        categories.ifEmpty { return }
+
+        item(
+            key = "CategoryTitle",
+            contentType = ContentType.SectionTitle,
+            span = { GridItemSpan(SPAN_COUNT) }
+        ) {
+            Text(
+                text = stringResource(id = R.string.home_categories),
+                style = AppTheme.typography.S1,
+                modifier = Modifier
+                    .animateItem()
+                    .padding(
+                        top = 24.dp,
+                        bottom = 4.dp
+                    )
+            )
+        }
+
+        items(
+            key = CategoryModel::name,
+            contentType = { ContentType.CategoryItem },
+            items = categories
+        ) {
+            CategoryItem(
+                category = it,
+                onClick = onCategoryItemClick,
+                modifier = Modifier
+                    .animateItem()
+            )
+        }
     }
-}
 
-private fun LazyGridScope.categoriesSection(
-    categories: List<CategoryModel>,
-    onCategoryItemClick: (CategoryModel) -> Unit,
-) {
-    categories.ifEmpty { return }
-
-    item(
-        key = "CategoryTitle",
-        contentType = ContentType.SectionTitle,
-        span = { GridItemSpan(SPAN_COUNT) }
+    private fun LazyGridScope.regionsSection(
+        regions: List<RegionModel>,
+        onRegionItemClick: (RegionModel) -> Unit,
     ) {
-        Text(
-            text = stringResource(id = R.string.home_categories),
-            style = AppTheme.typography.S1,
-            modifier = Modifier
-                .animateItem()
-                .padding(
-                    top = 24.dp,
-                    bottom = 4.dp
-                )
-        )
+        regions.ifEmpty { return }
+
+        item(
+            key = "RegionsTitle",
+            contentType = ContentType.SectionTitle,
+            span = { GridItemSpan(SPAN_COUNT) }
+        ) {
+            Text(
+                text = stringResource(id = R.string.home_cuisines),
+                style = AppTheme.typography.S1,
+                modifier = Modifier
+                    .animateItem()
+                    .padding(top = 24.dp, bottom = 4.dp)
+            )
+        }
+
+        items(
+            key = RegionModel::name,
+            contentType = { ContentType.RegionItem },
+            items = regions
+        ) {
+            RegionItem(
+                region = it,
+                onClick = onRegionItemClick,
+                modifier = Modifier
+                    .animateItem()
+            )
+        }
     }
 
-    items(
-        key = CategoryModel::name,
-        contentType = { ContentType.CategoryItem },
-        items = categories
-    ) {
-        CategoryItem(
-            category = it,
-            onClick = onCategoryItemClick,
-            modifier = Modifier
-                .animateItem()
-        )
-    }
-}
+    companion object {
 
-private fun LazyGridScope.regionsSection(
-    regions: List<RegionModel>,
-    onRegionItemClick: (RegionModel) -> Unit,
-) {
-    regions.ifEmpty { return }
-
-    item(
-        key = "RegionsTitle",
-        contentType = ContentType.SectionTitle,
-        span = { GridItemSpan(SPAN_COUNT) }
-    ) {
-        Text(
-            text = stringResource(id = R.string.home_cuisines),
-            style = AppTheme.typography.S1,
-            modifier = Modifier
-                .animateItem()
-                .padding(top = 24.dp, bottom = 4.dp)
-        )
+        private const val SPAN_COUNT = 3
     }
 
-    items(
-        key = RegionModel::name,
-        contentType = { ContentType.RegionItem },
-        items = regions
-    ) {
-        RegionItem(
-            region = it,
-            onClick = onRegionItemClick,
-            modifier = Modifier
-                .animateItem()
-        )
+    private enum class ContentType {
+        ScreenName,
+        SectionTitle,
+        DailySpecial,
+        CategoryItem,
+        RegionItem,
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ScreenPreview() {
-    HomeScreen(
-        dailySpecial = MealDetailsModel(name = "Pizza de Italiano"),
-        categories = listOf(
-            CategoryModel("Beef", "", ""),
-            CategoryModel("Chicken", "", ""),
-            CategoryModel("Pork", "", ""),
-            CategoryModel("Pork", "", ""),
-            CategoryModel("Pork", "", ""),
-            CategoryModel("Pork", "", ""),
-            CategoryModel("Pork", "", ""),
-            CategoryModel("Pork", "", ""),
-            CategoryModel("Goose", "", ""),
-            CategoryModel("Rabbit", "", ""),
-            CategoryModel("Cat", "", ""),
-        ),
-        regions = listOf(
-            RegionModel("China"),
-            RegionModel("China"),
-            RegionModel("China"),
-            RegionModel("India"),
-            RegionModel("Russia"),
-            RegionModel("Indonesia"),
-            RegionModel("Indonesia"),
-            RegionModel("Indonesia"),
-            RegionModel("Indonesia"),
-            RegionModel("Indonesia"),
-        )
-    )
-}
-
-private enum class ContentType {
-    ScreenName,
-    SectionTitle,
-    DailySpecial,
-    CategoryItem,
-    RegionItem,
 }

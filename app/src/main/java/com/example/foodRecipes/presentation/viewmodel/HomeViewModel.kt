@@ -9,11 +9,13 @@ import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.domain.usecase.GetCategories
 import com.example.foodRecipes.domain.usecase.GetRegions
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
-class HomeFragmentViewModel(
+class HomeViewModel(
     private val getCategories: GetCategories = GetCategories,
     private val getRegions: GetRegions = GetRegions,
     private val homeRepository: HomeRepository = HomeRepository()
@@ -27,7 +29,7 @@ class HomeFragmentViewModel(
     val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val regions = MutableStateFlow<List<RegionModel>>(emptyList())
 
-    val showErrorMessage = MutableSharedFlow<String>()
+    val errorMessage = MutableStateFlow<String?>(null)
 
     init {
         initObservers()
@@ -98,7 +100,9 @@ class HomeFragmentViewModel(
 
     private fun showErrorMessage(message: String) {
         viewModelScope.launch {
-            showErrorMessage.emit(message)
+            errorMessage.value = message
+            delay(1.seconds)
+            errorMessage.value = null
         }
     }
 }
