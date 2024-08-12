@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,13 +44,17 @@ fun DailySpecialItem(
     onClick: (MealDetailsModel) -> Unit,
 ) {
     var isImageLoading by remember { mutableStateOf(true) }
-    val shape = RoundedCornerShape(8.dp)
+    val itemShape = RoundedCornerShape(8.dp)
+    val imageShape = itemShape.copy(
+        topEnd = CornerSize(0.dp),
+        bottomEnd = CornerSize(0.dp),
+    )
 
     Row(
         modifier = modifier
             .height(ItemHeight.dp)
             .clickable { onClick(item) }
-            .background(color = Gray100, shape = shape)
+            .background(color = Gray100, shape = itemShape)
     ) {
         AsyncImage(
             model = item.thumbnail,
@@ -61,7 +66,7 @@ fun DailySpecialItem(
             modifier = Modifier
                 .fillMaxWidth(0.45f)
                 .fillMaxHeight()
-                .clip(shape)
+                .clip(shape = imageShape)
                 .background(shimmerBrush(isLoading || isImageLoading))
         )
 
