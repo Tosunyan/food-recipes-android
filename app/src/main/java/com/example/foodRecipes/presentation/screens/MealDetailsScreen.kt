@@ -43,6 +43,7 @@ import com.example.foodRecipes.domain.model.RegionModel
 import com.example.foodRecipes.presentation.theme.Orange500
 import com.example.foodRecipes.presentation.theme.Red900
 import com.example.foodRecipes.presentation.theme.components.Label
+import com.example.foodRecipes.presentation.theme.components.LabelData
 import com.example.foodRecipes.presentation.theme.components.TextButton
 import com.example.foodRecipes.presentation.theme.components.listitem.IngredientItem
 import com.example.foodRecipes.presentation.theme.indication.ScaleIndicationNodeFactory
@@ -271,19 +272,28 @@ class MealDetailsScreen(
                         .fillMaxWidth()
                         .padding(top = 24.dp)
                 ) {
-                    listOf(
-                        meal.region to onRegionClick,
-                        meal.category to onCategoryClick
-                    ).forEach { (name, action) ->
-                        Label(
-                            text = name,
-                            textStyle = AppTheme.typography.P4,
-                            textColor = AppTheme.colorScheme.T8,
-                            backgroundColor = AppTheme.colorScheme.BG4,
-                            paddingValues = PaddingValues(horizontal = 20.dp, vertical = 4.dp),
-                            onClick = { action(name) }
+                    val labelDefault = LabelData(
+                        textStyle = AppTheme.typography.P4,
+                        textColor = AppTheme.colorScheme.T8,
+                        backgroundColor = AppTheme.colorScheme.BG4,
+                        paddingValues = PaddingValues(horizontal = 20.dp, vertical = 6.dp),
+                    )
+
+                    Label(
+                        labelData = labelDefault.copy(
+                            text = meal.region,
+                            icon = painterResource(id = R.drawable.ic_region),
+                            onClick = { onRegionClick(meal.region) }
                         )
-                    }
+                    )
+
+                    Label(
+                        labelData = labelDefault.copy(
+                            text = meal.category,
+                            icon = painterResource(id = R.drawable.ic_category),
+                            onClick = { onCategoryClick(meal.category) }
+                        )
+                    )
                 }
             }
         }

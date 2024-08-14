@@ -4,9 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,24 +17,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.foodRecipes.domain.model.IngredientModel
+import com.example.foodRecipes.R
 import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.presentation.theme.Gray100
 import com.example.foodRecipes.presentation.theme.shimmerBrush
+import com.inconceptlabs.designsystem.components.core.Icon
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 
 private const val ItemHeight = 160
-private const val MaxLabelsCount = 6
-private const val MaxLabelLength = 15
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DailySpecialItem(
     item: MealDetailsModel,
@@ -82,23 +81,26 @@ fun DailySpecialItem(
                 maxLines = 2,
             )
 
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 16.dp)
-            ) {
-                buildSet {
-                    add(item.region)
-                    add(item.category)
-                    addAll(item.ingredients.map(IngredientModel::name))
+            Spacer(modifier = Modifier.height(8.dp))
+
+            listOf(
+                item.region to R.drawable.ic_region,
+                item.category to R.drawable.ic_category,
+            ).forEach { (text, iconId) ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 8.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(iconId),
+                        tint = AppTheme.colorScheme.T8,
+                    )
+                    Text(
+                        text = text,
+                        style = AppTheme.typography.P4,
+                    )
                 }
-                    .filter { it.length < MaxLabelLength }
-                    .take(MaxLabelsCount)
-                    .forEach {
-                        Label(text = it)
-                    }
             }
         }
     }
