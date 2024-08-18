@@ -40,7 +40,6 @@ import com.example.foodRecipes.domain.model.IngredientModel
 import com.example.foodRecipes.domain.model.MealDetailsModel
 import com.example.foodRecipes.domain.model.MealModel
 import com.example.foodRecipes.domain.model.RegionModel
-import com.example.foodRecipes.presentation.theme.Orange500
 import com.example.foodRecipes.presentation.theme.Red900
 import com.example.foodRecipes.presentation.theme.components.Label
 import com.example.foodRecipes.presentation.theme.components.LabelData
@@ -306,7 +305,6 @@ class MealDetailsScreen(
             Text(
                 text = stringResource(R.string.meal_details_cooking_process),
                 style = AppTheme.typography.S1,
-                color = Orange500,
                 modifier = Modifier
                     .animateItem()
                     .padding(top = 32.dp)
@@ -332,7 +330,6 @@ class MealDetailsScreen(
             Text(
                 text = stringResource(id = R.string.meal_details_ingredients),
                 style = AppTheme.typography.S1,
-                color = Orange500,
                 modifier = Modifier
                     .animateItem()
                     .padding(
@@ -364,7 +361,6 @@ class MealDetailsScreen(
             Text(
                 text = stringResource(id = R.string.meal_details_external_sources),
                 style = AppTheme.typography.S1,
-                color = Orange500,
                 modifier = Modifier
                     .padding(top = 32.dp)
             )
@@ -385,7 +381,7 @@ class MealDetailsScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(top = 24.dp)
+                        .padding(top = 16.dp)
                         .fillMaxWidth()
                 ) {
                     meal.youtubeUrl?.let {
@@ -402,7 +398,7 @@ class MealDetailsScreen(
                         TextButton(
                             text = stringResource(id = R.string.meal_details_website),
                             icon = painterResource(id = R.drawable.ic_link),
-                            backgroundColor = AppTheme.colorScheme.BG8,
+                            backgroundColor = AppTheme.colorScheme.BG10,
                             modifier = Modifier.weight(1f),
                             onClick = { onSourceClick(it) }
                         )
