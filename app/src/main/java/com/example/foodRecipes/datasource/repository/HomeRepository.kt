@@ -30,7 +30,7 @@ class HomeRepository(
         val apiResponse = makeApiCall(Api.client::getCategories)
 
         return apiResponse.mapOnSuccess {
-            categories
+            items
                 .map(CategoryDto::toCategoryModel)
                 .sortedBy(CategoryModel::name)
         }

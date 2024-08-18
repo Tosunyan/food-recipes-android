@@ -1,6 +1,6 @@
 package com.example.foodRecipes.datasource.remote.api
 
-import com.example.foodRecipes.datasource.remote.data.CategoriesDto
+import com.example.foodRecipes.datasource.remote.data.CategoryDto
 import com.example.foodRecipes.datasource.remote.data.ListDto
 import com.example.foodRecipes.datasource.remote.data.MealDetailsDto
 import com.example.foodRecipes.datasource.remote.data.MealDto
@@ -15,7 +15,7 @@ interface ApiService {
     suspend fun getRandomMeal(): Response<ListDto<MealDetailsDto>>
 
     @GET("categories.php")
-    suspend fun getCategories(): Response<CategoriesDto>
+    suspend fun getCategories(): Response<ListDto<CategoryDto>>
 
     @GET("list.php?a=list")
     suspend fun getAreas(): Response<ListDto<RegionDto>>
@@ -46,10 +46,5 @@ interface ApiService {
     @GET("filter.php")
     suspend fun filterMealsByArea(
         @Query("a") area: String
-    ): Response<ListDto<MealDto>>
-
-    @GET("filter.php")
-    suspend fun filterMealsByIngredient(
-        @Query("i") ingredient: String
     ): Response<ListDto<MealDto>>
 }
