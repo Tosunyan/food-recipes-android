@@ -14,7 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.example.foodRecipes.presentation.theme.components.BottomNavigation
+import com.example.foodRecipes.presentation.theme.components.navigationbar.BottomNavigation
 import com.example.foodRecipes.presentation.viewmodel.BottomNavigationViewModel
 
 class BottomNavigationScreen : Screen {
@@ -41,6 +41,7 @@ class BottomNavigationScreen : Screen {
 
             BottomNavigation(
                 items = navigationItems,
+                isLabeled = true,
                 modifier = Modifier.fillMaxWidth(),
             )
         }

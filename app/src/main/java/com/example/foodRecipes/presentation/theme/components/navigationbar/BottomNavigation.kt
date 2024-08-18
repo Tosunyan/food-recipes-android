@@ -1,6 +1,5 @@
-package com.example.foodRecipes.presentation.theme.components
+package com.example.foodRecipes.presentation.theme.components.navigationbar
 
-import androidx.compose.animation.Animatable
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -11,12 +10,12 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
@@ -53,17 +51,11 @@ import com.inconceptlabs.designsystem.theme.AppTheme
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
-data class BottomNavigationItem(
-    val icon: Painter,
-    val text: String? = null,
-    val isSelected: Boolean = false,
-    val onClick: () -> Unit = {},
-)
-
 @Composable
 fun BottomNavigation(
     items: List<BottomNavigationItem>,
     modifier: Modifier = Modifier,
+    isLabeled: Boolean = false,
 ) {
     if (items.isEmpty()) return
 
@@ -79,6 +71,7 @@ fun BottomNavigation(
     }
 
     LaunchedEffect(hintPosition.value) {
+        if (isLabeled) return@LaunchedEffect
         if (hintPosition.value == null) return@LaunchedEffect
 
         showHint = true
@@ -102,7 +95,8 @@ fun BottomNavigation(
             modifier = modifier,
             items = items,
             itemOffsets = itemOffsets,
-            hintPosition = hintPosition
+            hintPosition = hintPosition,
+            isLabeled = isLabeled,
         )
     }
 }
@@ -113,25 +107,27 @@ private fun NavigationItems(
     items: List<BottomNavigationItem>,
     itemOffsets: Array<Offset>,
     hintPosition: MutableState<Int?>,
+    isLabeled: Boolean,
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .height(56.dp)
+            .defaultMinSize(minHeight = 56.dp)
             .topBorder(
                 color = AppTheme.colorScheme.BG5,
                 strokeWidth = 2.dp,
             )
             .background(AppTheme.colorScheme.BG2)
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 20.dp, vertical = 8.dp)
     ) {
         items.forEachIndexed { index, item ->
             NavigationItem(
                 index = index,
                 item = item,
                 itemOffsets = itemOffsets,
-                hintPosition = hintPosition
+                hintPosition = hintPosition,
+                isLabeled = isLabeled,
             )
         }
     }
@@ -144,29 +140,16 @@ private fun RowScope.NavigationItem(
     item: BottomNavigationItem,
     itemOffsets: Array<Offset>,
     hintPosition: MutableState<Int?>,
+    isLabeled: Boolean,
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
-    val iconTint = remember { Animatable(Color.Unspecified) }
-    val iconTintDefault = AppTheme.colorScheme.T8
-    val iconTintSelected = AppTheme.colorScheme.secondary.dark5
-
-    LaunchedEffect(item.isSelected) {
-        iconTint.animateTo(
-            targetValue = if (item.isSelected) iconTintSelected else iconTintDefault
-        )
-    }
-
-    Box(
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .fillMaxHeight()
             .weight(1f)
-            .onGloballyPositioned {
-                val x = it.positionOnScreen().x + it.size.width / 2
-                itemOffsets[index] = it
-                    .positionOnScreen()
-                    .copy(x = x)
-            }
+            .updateOffsets(index, itemOffsets)
             .combinedClickable(
                 interactionSource = remember(::MutableInteractionSource),
                 indication = LocalIndication.current,
@@ -177,11 +160,24 @@ private fun RowScope.NavigationItem(
                 }
             )
     ) {
+        val itemColor = if (item.isSelected) {
+            AppTheme.colorScheme.secondary.dark5
+        } else {
+            AppTheme.colorScheme.T8
+        }
+
         Icon(
-            painter = item.icon,
-            tint = iconTint.value,
-            modifier = Modifier.align(Alignment.Center)
+            painter = if (item.isSelected) item.selectedIcon else item.icon,
+            tint = itemColor,
         )
+
+        if (isLabeled && !item.text.isNullOrBlank()) {
+            Text(
+                text = item.text,
+                style = AppTheme.typography.B6,
+                color = itemColor,
+            )
+        }
     }
 }
 
@@ -231,7 +227,7 @@ private fun NavigationItemHint(
     }
 }
 
-fun Modifier.topBorder(
+private fun Modifier.topBorder(
     color: Color,
     strokeWidth: Dp = 1.dp,
 ): Modifier {
@@ -246,19 +242,34 @@ fun Modifier.topBorder(
     }
 }
 
+private fun Modifier.updateOffsets(
+    index: Int,
+    itemOffsets: Array<Offset>,
+): Modifier {
+    return onGloballyPositioned {
+        val x = it.positionOnScreen().x + it.size.width / 2
+        itemOffsets[index] = it
+            .positionOnScreen()
+            .copy(x = x)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun ComponentPreview() {
     val items = listOf(
         BottomNavigationItem(
             icon = painterResource(id = R.drawable.ic_home),
+            text = "Home",
             isSelected = true,
         ),
         BottomNavigationItem(
             icon = painterResource(id = R.drawable.ic_search),
+            text = "Search"
         ),
         BottomNavigationItem(
-            icon = painterResource(id = R.drawable.ic_like),
+            icon = painterResource(id = R.drawable.ic_bookmark),
+            text = "Bookmarks"
         )
     )
 
@@ -266,6 +277,7 @@ private fun ComponentPreview() {
         Box(modifier = Modifier.fillMaxSize()) {
             BottomNavigation(
                 items = items,
+                isLabeled = true,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
