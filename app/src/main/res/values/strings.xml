@@ -16,7 +16,6 @@
     <string name="search_hint">Search for meals</string>
 
     <!-- Saved Meals Screen -->
-    <string name="saved_meals_title">Saved Meals</string>
     <string name="saved_meals_empty_list_title">No saved items!</string>
 
     <!-- Details Screen -->

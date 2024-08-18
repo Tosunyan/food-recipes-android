@@ -11,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,7 +32,6 @@ class SavedMealsScreen : Tab {
         get() = TabOptions(
             index = 2u,
             title = stringResource(id = R.string.navigation_item_saved_meals),
-            icon = painterResource(id = R.drawable.ic_like),
         )
 
     @Composable
@@ -66,7 +64,7 @@ class SavedMealsScreen : Tab {
                 )
         ) {
             Text(
-                text = stringResource(id = R.string.saved_meals_title),
+                text = stringResource(id = R.string.navigation_item_saved_meals),
                 style = AppTheme.typography.H4,
             )
 
