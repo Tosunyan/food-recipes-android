@@ -204,7 +204,7 @@ class MealDetailsScreen(
                     modifier = Modifier.weight(1f)
                 )
 
-                val iconResId = if (meal.isSaved) R.drawable.ic_like_filled else R.drawable.ic_like
+                val iconResId = if (meal.isSaved) R.drawable.ic_bookmark_fill else R.drawable.ic_bookmark
 
                 CompositionLocalProvider(
                     LocalContentColor provides Red900

@@ -37,7 +37,7 @@ class BottomNavigationViewModel : ViewModel() {
                     onClick = { _selectedItem.value = SearchScreen() }
                 ),
                 BottomNavigationItem(
-                    icon = context.painterResource(id = R.drawable.ic_like),
+                    icon = context.painterResource(id = R.drawable.ic_bookmark),
                     text = context.getString(R.string.navigation_item_saved_meals),
                     isSelected = _selectedItem.value is SavedMealsScreen,
                     onClick = { _selectedItem.value = SavedMealsScreen() }
