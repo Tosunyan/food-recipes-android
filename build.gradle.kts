@@ -1,10 +1,8 @@
 plugins {
-    id("com.android.application") version "8.5.2" apply false
-
-    val kotlinVersion = "2.0.10"
-    kotlin("android") version kotlinVersion apply false
-    kotlin("plugin.compose") version kotlinVersion
-    kotlin("plugin.serialization") version kotlinVersion
-
-    id("com.google.devtools.ksp") version "2.0.10-1.0.24"
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
