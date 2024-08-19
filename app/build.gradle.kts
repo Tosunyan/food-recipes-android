@@ -6,7 +6,6 @@ plugins {
     kotlin("plugin.compose")
     kotlin("plugin.serialization")
 
-    id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
 }
 
