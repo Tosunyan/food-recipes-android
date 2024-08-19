@@ -4,9 +4,9 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
 
-    id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    id("com.google.devtools.ksp")
 
-    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("plugin.serialization")
 }
 
 android {
