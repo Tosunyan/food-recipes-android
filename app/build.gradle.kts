@@ -1,12 +1,13 @@
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services")
-    id("kotlin-android")
-    id("kotlin-parcelize")
 
-    id("com.google.devtools.ksp")
-
+    kotlin("android")
+    kotlin("plugin.parcelize")
+    kotlin("plugin.compose")
     kotlin("plugin.serialization")
+
+    id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -42,10 +43,6 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
     }
 
     namespace = "com.example.foodRecipes"
