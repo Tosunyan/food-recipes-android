@@ -14,7 +14,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.pizzaHut"
+        applicationId = "com.tosunyan.foodrecipes"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -44,7 +44,7 @@ android {
         compose = true
     }
 
-    namespace = "com.example.foodRecipes"
+    namespace = "com.tosunyan.foodrecipes"
 }
 
 dependencies {
