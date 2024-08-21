@@ -1,10 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -24,7 +20,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -37,41 +36,14 @@ android {
         jvmTarget = "17"
     }
 
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-
     namespace = "com.tosunyan.foodrecipes"
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.viewmodel)
-    implementation(libs.compose.design.system)
-
-    implementation(libs.voyager.navigator)
-    implementation(libs.voyager.tab.navigator)
-    implementation(libs.voyager.transitions)
+    implementation(projects.core.ui)
+    implementation(projects.core.data)
+    implementation(projects.core.model)
+    implementation(projects.core.database)
 
     implementation(libs.appcompat)
-
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
-    implementation(libs.kotlinx.serialization)
-
-    implementation(libs.coil)
-
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
-
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.kotlinx.serialization)
-
-    debugImplementation(libs.compose.ui.tooling)
 }

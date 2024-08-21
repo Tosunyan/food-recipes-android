@@ -16,7 +16,7 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name="com.tosunyan.foodrecipes.presentation.activity.MainActivity"
+            android:name="com.tosunyan.foodrecipes.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"

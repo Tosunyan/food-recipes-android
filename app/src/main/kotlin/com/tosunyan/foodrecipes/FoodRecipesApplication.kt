@@ -1,7 +1,7 @@
 package com.tosunyan.foodrecipes
 
 import android.app.Application
-import com.tosunyan.foodrecipes.datasource.local.database.DatabaseProvider
+import com.tosunyan.foodrecipes.database.DatabaseProvider
 
 class FoodRecipesApplication : Application() {
 
