@@ -45,6 +45,7 @@ class SavedMealsScreen : Tab {
                 val screen = MealDetailsScreen(mealDetailsModel = it)
                 navigator.push(screen)
             },
+            onSaveIconClick = viewModel::onSaveIconClick
         )
     }
 
@@ -52,6 +53,7 @@ class SavedMealsScreen : Tab {
     private fun Content(
         meals: List<MealDetailsModel>,
         onMealClick: (MealDetailsModel) -> Unit,
+        onSaveIconClick: (MealDetailsModel) -> Unit,
     ) {
         Column(
             modifier = Modifier
@@ -83,6 +85,7 @@ class SavedMealsScreen : Tab {
                     meals = meals,
                     contentPadding = PaddingValues(vertical = 24.dp),
                     onItemClick = onMealClick,
+                    onSaveIconClick = onSaveIconClick,
                 )
             }
         }

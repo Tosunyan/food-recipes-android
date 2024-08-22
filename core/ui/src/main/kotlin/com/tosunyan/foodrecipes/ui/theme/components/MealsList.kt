@@ -25,7 +25,8 @@ private val defaultPadding = PaddingValues(
 fun MealDetailsList(
     meals: List<MealDetailsModel>,
     contentPadding: PaddingValues = defaultPadding,
-    onItemClick: (MealDetailsModel) -> Unit = { }
+    onItemClick: (MealDetailsModel) -> Unit = { },
+    onSaveIconClick: (MealDetailsModel) -> Unit = { },
 ) {
     LazyColumn(
         contentPadding = contentPadding,
@@ -38,8 +39,11 @@ fun MealDetailsList(
         ) {
             DailySpecialItem(
                 item = it,
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onItemClick
+                modifier = Modifier
+                    .animateItem()
+                    .fillMaxWidth(),
+                onClick = onItemClick,
+                onSaveIconClick = onSaveIconClick
             )
         }
     }
@@ -51,7 +55,8 @@ fun MealsList(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     contentPadding: PaddingValues = defaultPadding,
-    onItemClick: (MealModel) -> Unit = { }
+    onItemClick: (MealModel) -> Unit = { },
+    onSaveIconClick: (MealModel) -> Unit = { },
 ) {
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -69,6 +74,7 @@ fun MealsList(
                 item = mealModel,
                 isLoading = isLoading,
                 onClick = onItemClick,
+                onSaveIconClick = onSaveIconClick,
             )
         }
     }

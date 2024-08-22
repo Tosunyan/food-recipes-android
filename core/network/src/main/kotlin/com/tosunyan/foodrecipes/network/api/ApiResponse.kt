@@ -25,7 +25,7 @@ fun <T> ApiResponse<T>.isSuccess(): Boolean {
     return this is ApiResponse.Success
 }
 
-fun <T> ApiResponse<T>.onSuccess(action: T.() -> Unit): ApiResponse<T> {
+inline fun <T> ApiResponse<T>.onSuccess(action: T.() -> Unit): ApiResponse<T> {
     if (isSuccess()) {
         this.data.action()
     }

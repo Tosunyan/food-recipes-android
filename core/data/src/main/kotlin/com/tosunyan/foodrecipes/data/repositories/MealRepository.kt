@@ -10,8 +10,12 @@ import com.tosunyan.foodrecipes.database.dao.MealDao
 import com.tosunyan.foodrecipes.database.model.MealWithIngredients
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
+import com.tosunyan.foodrecipes.model.SaveableMeal
 import com.tosunyan.foodrecipes.network.api.Api
 import com.tosunyan.foodrecipes.network.api.ApiResponse
+import com.tosunyan.foodrecipes.network.api.makeApiCall
+import com.tosunyan.foodrecipes.network.api.mapOnSuccess
+import com.tosunyan.foodrecipes.network.api.onSuccess
 import com.tosunyan.foodrecipes.network.data.ListDto
 import com.tosunyan.foodrecipes.network.data.MealDetailsDto
 import com.tosunyan.foodrecipes.network.data.MealDto
@@ -57,18 +61,47 @@ class MealRepository(
         )
     }
 
-    suspend fun saveMeal(mealDetails: MealDetailsModel) {
+    suspend fun saveMeal(meal: SaveableMeal) {
+        when (meal) {
+            is MealDetailsModel -> saveMeal(meal)
+            is MealModel -> saveMeal(meal)
+        }
+    }
+
+    suspend fun removeSavedMeal(meal: SaveableMeal) {
+        when (meal) {
+            is MealDetailsModel -> removeSavedMeal(meal)
+            is MealModel -> removeSavedMeal(meal)
+        }
+    }
+
+    suspend fun isMealSaved(meal: SaveableMeal): Boolean {
+        return withContext(Dispatchers.IO) {
+            database.mealDao.checkMealExists(meal.id)
+        }
+    }
+
+    private suspend fun saveMeal(mealModel: MealModel) {
+        getMealDetailsWithoutSavedStatus(mealModel.id)
+            .onSuccess { saveMeal(this) }
+    }
+
+    private suspend fun saveMeal(mealDetails: MealDetailsModel) {
         insertMealWithIngredients(mealDetails)
     }
 
-    suspend fun removeSavedMeal(mealDetails: MealDetailsModel) {
+    private suspend fun removeSavedMeal(mealModel: MealModel) {
+        getMealDetailsWithoutSavedStatus(mealModel.id)
+            .onSuccess { removeSavedMeal(this) }
+    }
+
+    private suspend fun removeSavedMeal(mealDetails: MealDetailsModel) {
         deleteMealWithIngredients(mealDetails)
     }
 
-    suspend fun isMealSaved(mealDetails: MealDetailsModel): Boolean {
-        return withContext(Dispatchers.IO) {
-            database.mealDao.checkMealExists(mealDetails.id)
-        }
+    private suspend fun getMealDetailsWithoutSavedStatus(id: String): ApiResponse<MealDetailsModel> {
+        return makeApiCall { Api.client.getMealDetails(id) }
+            .mapOnSuccess(ListDto<MealDetailsDto>::toMealDetailsModel)
     }
 
     private suspend fun insertMealWithIngredients(mealDetails: MealDetailsModel) {

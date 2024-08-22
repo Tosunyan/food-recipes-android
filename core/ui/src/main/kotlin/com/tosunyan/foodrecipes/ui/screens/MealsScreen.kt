@@ -49,7 +49,8 @@ class MealsScreen(
             onMealClick = {
                 val screen = MealDetailsScreen(mealModel = it)
                 navigator.push(screen)
-            }
+            },
+            onSaveIconClick = viewModel::onSaveIconClick
         )
     }
 
@@ -60,6 +61,7 @@ class MealsScreen(
         meals: List<MealModel>,
         onBackClick: () -> Unit = {},
         onMealClick: (MealModel) -> Unit = {},
+        onSaveIconClick: (MealModel) -> Unit = {},
     ) {
         Column(
             modifier = Modifier
@@ -74,7 +76,8 @@ class MealsScreen(
             MealsList(
                 meals = meals,
                 isLoading = isLoading,
-                onItemClick = onMealClick
+                onItemClick = onMealClick,
+                onSaveIconClick = onSaveIconClick,
             )
         }
     }

@@ -7,6 +7,7 @@ import com.tosunyan.foodrecipes.data.repositories.MealRepository
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.network.api.onSuccess
+import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class MealDetailsViewModel(
     private val repository: MealRepository = MealRepository(),
+    private val mealSavingHelper: MealSavingHelper = MealSavingHelper(repository)
 ) : ViewModel() {
 
     private val _mealDetails = MutableStateFlow(MealDetailsModel())
@@ -31,16 +33,8 @@ class MealDetailsViewModel(
 
     fun onSaveButtonClick() {
         viewModelScope.launch {
-            if (_mealDetails.value.isSaved) {
-                repository.removeSavedMeal(_mealDetails.value)
-            } else {
-                repository.saveMeal(_mealDetails.value)
-            }
-            _mealDetails.update { it.copy(isSaved = !it.isSaved) }
-
-            val isSaved = repository.isMealSaved(_mealDetails.value)
-            if (_mealDetails.value.isSaved != isSaved) {
-                _mealDetails.update { it.copy(isSaved = !isSaved) }
+            mealSavingHelper.toggleSavedState(_mealDetails.value) { isSaved ->
+                _mealDetails.update { it.copy(isSaved = isSaved) }
             }
         }
     }

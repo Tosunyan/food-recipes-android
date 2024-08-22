@@ -60,12 +60,13 @@ fun Label(
     iconTint: Color = textColor,
     backgroundColor: Color = AppTheme.colorScheme.BG8,
     paddingValues: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+    modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
+        modifier = modifier
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .background(
                 color = backgroundColor,

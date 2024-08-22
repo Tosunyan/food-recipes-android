@@ -48,7 +48,8 @@ class SearchScreen : Tab {
             onMealItemClick = {
                 val screen = MealDetailsScreen(mealDetailsModel = it)
                 navigator.push(screen)
-            }
+            },
+            onSaveIconClick = viewModel::onSaveIconClick,
         )
     }
 
@@ -57,6 +58,7 @@ class SearchScreen : Tab {
         meals: List<MealDetailsModel>,
         onSearchInputChange: (String) -> Unit,
         onMealItemClick: (MealDetailsModel) -> Unit,
+        onSaveIconClick: (MealDetailsModel) -> Unit,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -86,7 +88,8 @@ class SearchScreen : Tab {
             MealDetailsList(
                 meals = meals,
                 contentPadding = PaddingValues(horizontal = 0.dp, vertical = 24.dp),
-                onItemClick = onMealItemClick
+                onItemClick = onMealItemClick,
+                onSaveIconClick = onSaveIconClick,
             )
         }
     }

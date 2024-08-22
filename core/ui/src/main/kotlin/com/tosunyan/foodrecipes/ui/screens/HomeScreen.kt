@@ -65,6 +65,7 @@ class HomeScreen : Tab {
                 val screen = MealDetailsScreen(mealDetailsModel = it)
                 navigator.push(screen)
             },
+            onSaveIconClick = viewModel::onSaveIconClick,
             onCategoryItemClick = {
                 val screen = MealsScreen(category = it)
                 navigator.push(screen)
@@ -82,6 +83,7 @@ class HomeScreen : Tab {
         categories: List<CategoryModel>,
         regions: List<RegionModel>,
         onDailySpecialClick: (MealDetailsModel) -> Unit = {},
+        onSaveIconClick: (MealDetailsModel) -> Unit = {},
         onCategoryItemClick: (CategoryModel) -> Unit = {},
         onRegionItemClick: (RegionModel) -> Unit = {},
     ) {
@@ -99,7 +101,8 @@ class HomeScreen : Tab {
 
             dailySpecialSection(
                 model = dailySpecial,
-                onDailySpecialClick = onDailySpecialClick
+                onDailySpecialClick = onDailySpecialClick,
+                onSaveIconClick = onSaveIconClick,
             )
 
             categoriesSection(
@@ -166,6 +169,7 @@ class HomeScreen : Tab {
     private fun LazyGridScope.dailySpecialSection(
         model: MealDetailsModel? = null,
         onDailySpecialClick: (MealDetailsModel) -> Unit = {},
+        onSaveIconClick: (MealDetailsModel) -> Unit = {}
     ) {
         model ?: return
 
@@ -191,9 +195,9 @@ class HomeScreen : Tab {
             DailySpecialItem(
                 item = model,
                 isLoading = false,
+                modifier = Modifier.animateItem(),
                 onClick = onDailySpecialClick,
-                modifier = Modifier
-                    .animateItem()
+                onSaveIconClick = onSaveIconClick,
             )
         }
     }

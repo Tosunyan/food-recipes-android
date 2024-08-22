@@ -3,17 +3,22 @@ package com.tosunyan.foodrecipes.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tosunyan.foodrecipes.data.repositories.HomeRepository
+import com.tosunyan.foodrecipes.data.repositories.MealRepository
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.network.api.ApiResponse
+import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class HomeViewModel(
-    private val homeRepository: HomeRepository = HomeRepository()
+    private val homeRepository: HomeRepository = HomeRepository(),
+    private val mealRepository: MealRepository = MealRepository(),
+    private val mealSavingHelper: MealSavingHelper = MealSavingHelper(mealRepository)
 ) : ViewModel() {
 
     val randomMeal = MutableStateFlow<MealDetailsModel?>(null)
@@ -24,6 +29,14 @@ class HomeViewModel(
 
     init {
         makeApiCalls()
+    }
+
+    fun onSaveIconClick(meal: MealDetailsModel) {
+        viewModelScope.launch {
+            mealSavingHelper.toggleSavedState(meal) { isSaved ->
+                randomMeal.update { it?.copy(isSaved = isSaved) }
+            }
+        }
     }
 
     private fun makeApiCalls() {

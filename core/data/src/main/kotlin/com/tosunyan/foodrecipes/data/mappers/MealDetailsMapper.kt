@@ -17,7 +17,9 @@ fun ListDto<MealDetailsDto>.toMealDetailsModels(
     return items.map { it.toMealDetailsModel(savedIds) }
 }
 
-fun MealDetailsDto.toMealDetailsModel(savedIds: List<String>): MealDetailsModel {
+fun MealDetailsDto.toMealDetailsModel(
+    savedIds: List<String> = emptyList()
+): MealDetailsModel {
     return MealDetailsModel(
         id = idMeal,
         name = strMeal,
