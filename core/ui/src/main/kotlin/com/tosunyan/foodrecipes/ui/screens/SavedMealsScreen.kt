@@ -22,7 +22,7 @@ import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.theme.components.MealDetailsList
+import com.tosunyan.foodrecipes.ui.theme.components.meals.MealDetailsList
 import com.tosunyan.foodrecipes.ui.viewmodel.SavedMealsViewModel
 
 class SavedMealsScreen : Tab {

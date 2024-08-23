@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.theme.components
+package com.tosunyan.foodrecipes.ui.theme.components.meals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,12 +32,13 @@ import com.inconceptlabs.designsystem.theme.attributes.Size
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.theme.Gray100
+import com.tosunyan.foodrecipes.ui.theme.components.Label
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 
 private const val ItemHeight = 160
 
 @Composable
-fun DailySpecialItem(
+fun MealDetailsItem(
     item: MealDetailsModel,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
