@@ -8,7 +8,7 @@ compose-bom = "2024.06.00"
 compose = "1.7.0-beta05"
 compose-activity = "1.9.0"
 compose-viewmodel = "2.8.3"
-compose-design-system = "1.0.0"
+compose-designsystem = "1.0.1"
 compose-constraintlayout = "1.0.1"
 kotlinx-coroutines = "1.6.1"
 kotlinx-serialization = "1.6.3"
@@ -37,7 +37,7 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
 compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
-compose-design-system = { group = "com.github.inconcept", name = "android-design-system", version.ref = "compose-design-system" }
+compose-designsystem = { group = "com.github.inconcept", name = "android-design-system", version.ref = "compose-designsystem" }
 compose-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "compose-constraintlayout" }
 
 voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }

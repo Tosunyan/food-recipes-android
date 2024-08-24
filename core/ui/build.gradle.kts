@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.activity)
     implementation(libs.compose.viewmodel)
-    implementation(libs.compose.design.system)
+    implementation(libs.compose.designsystem)
     implementation(libs.compose.constraintlayout)
 
     implementation(libs.voyager.navigator)
