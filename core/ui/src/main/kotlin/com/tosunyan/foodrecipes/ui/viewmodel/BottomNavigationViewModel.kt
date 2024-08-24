@@ -7,7 +7,7 @@ import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.screens.HomeScreen
 import com.tosunyan.foodrecipes.ui.screens.SavedMealsScreen
 import com.tosunyan.foodrecipes.ui.screens.SearchScreen
-import com.tosunyan.foodrecipes.ui.theme.components.navigationbar.BottomNavigationItem
+import com.tosunyan.foodrecipes.ui.components.navigationbar.BottomNavigationItem
 import com.tosunyan.foodrecipes.ui.theme.painterResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

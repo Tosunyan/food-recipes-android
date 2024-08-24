@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.theme.components.listitem
+package com.tosunyan.foodrecipes.ui.components.listitem
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

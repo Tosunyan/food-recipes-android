@@ -14,7 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import com.tosunyan.foodrecipes.ui.theme.components.navigationbar.BottomNavigation
+import com.tosunyan.foodrecipes.ui.components.navigationbar.BottomNavigation
 import com.tosunyan.foodrecipes.ui.viewmodel.BottomNavigationViewModel
 
 class BottomNavigationScreen : Screen {

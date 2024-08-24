@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.theme.components.meals
+package com.tosunyan.foodrecipes.ui.components.meals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +31,6 @@ import com.inconceptlabs.designsystem.components.core.Icon
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.inconceptlabs.designsystem.theme.LocalContentColor
-import com.inconceptlabs.designsystem.utils.clickable
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush

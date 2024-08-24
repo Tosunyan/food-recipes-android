@@ -49,10 +49,10 @@ import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.theme.Red900
-import com.tosunyan.foodrecipes.ui.theme.components.Label
-import com.tosunyan.foodrecipes.ui.theme.components.LabelData
-import com.tosunyan.foodrecipes.ui.theme.components.TextButton
-import com.tosunyan.foodrecipes.ui.theme.components.listitem.IngredientItem
+import com.tosunyan.foodrecipes.ui.components.Label
+import com.tosunyan.foodrecipes.ui.components.LabelData
+import com.tosunyan.foodrecipes.ui.components.TextButton
+import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 import com.tosunyan.foodrecipes.ui.viewmodel.MealDetailsViewModel

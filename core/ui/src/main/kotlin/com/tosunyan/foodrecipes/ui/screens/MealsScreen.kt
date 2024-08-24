@@ -17,8 +17,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
-import com.tosunyan.foodrecipes.ui.theme.components.meals.MealsList
-import com.tosunyan.foodrecipes.ui.theme.components.Toolbar
+import com.tosunyan.foodrecipes.ui.components.meals.MealsList
+import com.tosunyan.foodrecipes.ui.components.Toolbar
 import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
 
 class MealsScreen(

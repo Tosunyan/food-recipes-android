@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.theme.components.meals
+package com.tosunyan.foodrecipes.ui.components.meals
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
