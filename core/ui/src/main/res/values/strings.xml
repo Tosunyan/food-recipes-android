@@ -2,6 +2,11 @@
 
     <string name="app_name">Food Recipes</string>
 
+    <!-- General Strings -->
+    <string name="see_more">See more</string>
+    <string name="see_less">See less</string>
+    <string name="ellipsis">…</string>
+
     <!-- Navigation Items -->
     <string name="navigation_item_home">Home</string>
     <string name="navigation_item_search">Search</string>

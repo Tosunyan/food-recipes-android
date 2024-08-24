@@ -3,6 +3,7 @@ package com.tosunyan.foodrecipes.ui.screens
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -54,6 +55,7 @@ import com.tosunyan.foodrecipes.ui.components.LabelData
 import com.tosunyan.foodrecipes.ui.components.TextButton
 import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
 import com.tosunyan.foodrecipes.ui.theme.Red900
+import com.tosunyan.foodrecipes.ui.theme.components.ExpandableText
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 import com.tosunyan.foodrecipes.ui.viewmodel.MealDetailsViewModel
@@ -314,10 +316,22 @@ class MealDetailsScreen(
 
         item(key = meal.instructions) {
             Text(
-                text = meal.instructions,
+                text = meal.instructions.take(140),
                 style = AppTheme.typography.P4,
                 modifier = Modifier
                     .animateItem()
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            )
+            ExpandableText(
+                text = meal.instructions
+                    .replace("\r\n|\r\r|\n\n".toRegex(), "\n")
+                    .trimEnd { it == '\n' || it == '\r' },
+                style = AppTheme.typography.P4,
+                expandStyle = AppTheme.typography.B4,
+                expandColor = AppTheme.colorScheme.secondary.dark5,
+                modifier = Modifier
+                    .animateContentSize()
                     .fillMaxWidth()
                     .padding(top = 8.dp)
             )
