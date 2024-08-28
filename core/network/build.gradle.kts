@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -10,10 +12,26 @@ android {
 
     defaultConfig {
         minSdk = 26
+
+        val properties = gradleLocalProperties(rootDir, providers)
+        buildConfigField(
+            type = "String",
+            name = "MEAL_API_BASE_URL",
+            value = properties.getProperty("MEAL_API_BASE_URL")
+        )
+        buildConfigField(
+            type = "String",
+            name = "MEAL_API_KEY",
+            value = properties.getProperty("MEAL_API_KEY")
+        )
     }
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 

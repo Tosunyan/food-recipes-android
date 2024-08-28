@@ -1,6 +1,7 @@
 package com.tosunyan.foodrecipes.network.api
 
 import com.tosunyan.foodrecipes.common.utils.configuredJson
+import com.tosunyan.foodrecipes.network.BuildConfig
 import com.tosunyan.foodrecipes.network.utils.logApiRequest
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -12,7 +13,8 @@ import retrofit2.create
 
 object Api {
 
-    private const val BASE_URL = "https://www.themealdb.com/api/json/v1/1/"
+    private const val BASE_URL: String =
+        "${BuildConfig.MEAL_API_BASE_URL}/${BuildConfig.MEAL_API_KEY}/"
 
     val client: ApiService by lazy {
         retrofit.create()
