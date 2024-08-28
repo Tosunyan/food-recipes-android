@@ -25,7 +25,9 @@ fun MealDetailsDto.toMealDetailsModel(
         name = strMeal,
         category = strCategory ?: "",
         region = strArea ?: "",
-        instructions = strInstructions,
+        instructions = strInstructions
+            .replace("\r\n|\r\r|\n\n".toRegex(), "\n- ")
+            .trimEnd { it == '\n' || it == '\r' },
         thumbnail = strMealThumb,
         youtubeUrl = strYoutube.takeIf { !it.isNullOrBlank() },
         sourceUrl = strSource.takeIf { !it.isNullOrBlank() },
