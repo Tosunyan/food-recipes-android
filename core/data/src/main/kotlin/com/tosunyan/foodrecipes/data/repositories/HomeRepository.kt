@@ -37,7 +37,7 @@ class HomeRepository(
             return categoriesResponse!!
         }
 
-        return makeApiCall(Api.client::getCategories)
+        return makeApiCall(apiCall = Api.client::getCategories)
             .mapOnSuccess {
                 items
                     .map(CategoryDto::toCategoryModel)
@@ -51,7 +51,7 @@ class HomeRepository(
             return regionsResponse!!
         }
 
-        return makeApiCall(Api.client::getAreas)
+        return makeApiCall(apiCall = Api.client::getAreas)
             .mapOnSuccess { items.toRegionModels() }
             .also { regionsResponse = it }
     }

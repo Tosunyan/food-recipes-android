@@ -1,5 +1,6 @@
 package com.tosunyan.foodrecipes.data.repositories
 
+import com.tosunyan.foodrecipes.common.coroutines.DispatcherProvider
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsList
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsModel
 import com.tosunyan.foodrecipes.data.mappers.toMealModels
@@ -19,7 +20,6 @@ import com.tosunyan.foodrecipes.network.api.onSuccess
 import com.tosunyan.foodrecipes.network.data.ListDto
 import com.tosunyan.foodrecipes.network.data.MealDetailsDto
 import com.tosunyan.foodrecipes.network.data.MealDto
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
@@ -28,11 +28,12 @@ import kotlinx.coroutines.withContext
 
 class MealRepository(
     private val database: MealDatabase = DatabaseProvider.instance,
+    private val dispatcher: DispatcherProvider = DispatcherProvider.default
 ) {
 
     fun getSavedMealsFlow(): Flow<List<MealDetailsModel>> {
         return database.mealDao.getAllMeals()
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatcher.io)
             .map(List<MealWithIngredients>::toMealDetailsList)
             .catch { emit(emptyList()) }
     }
@@ -76,7 +77,7 @@ class MealRepository(
     }
 
     suspend fun isMealSaved(meal: SaveableMeal): Boolean {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher.io) {
             database.mealDao.checkMealExists(meal.id)
         }
     }

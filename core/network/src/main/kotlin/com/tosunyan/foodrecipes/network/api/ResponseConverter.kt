@@ -1,29 +1,32 @@
 package com.tosunyan.foodrecipes.network.api
 
+import com.tosunyan.foodrecipes.common.coroutines.DispatcherProvider
 import com.tosunyan.foodrecipes.network.utils.logApiResponse
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-suspend fun <T> makeApiCall(apiCall: suspend () -> Response<T>) = withContext(Dispatchers.IO) {
-    try {
-        val response = apiCall.invoke()
-        convertResponse(response).also {
-            logApiResponse(response.raw().request.url, it)
+suspend fun <T> makeApiCall(
+    dispatcher: DispatcherProvider = DispatcherProvider.default,
+    apiCall: suspend () -> Response<T>,
+): ApiResponse<T> = withContext(dispatcher.io) {
+        try {
+            val response = apiCall.invoke()
+            convertResponse(response).also {
+                logApiResponse(response.raw().request.url, it)
+            }
+        } catch (e: UnknownHostException) {
+            ApiResponse.Failure("No Internet", -1, "")
+        } catch (e: SocketTimeoutException) {
+            ApiResponse.Failure("Response time is out", -1, "")
+        } catch (e: ConnectException) {
+            ApiResponse.Failure("Server is unavailable", -1, "")
+        } catch (e: Exception) {
+            ApiResponse.Failure(e.message, -1, "")
         }
-    } catch (e: UnknownHostException) {
-        ApiResponse.Failure("No Internet", -1, "")
-    } catch (e: SocketTimeoutException) {
-        ApiResponse.Failure("Response time is out", -1, "")
-    } catch (e: ConnectException) {
-        ApiResponse.Failure("Server is unavailable", -1, "")
-    } catch (e: Exception) {
-        ApiResponse.Failure(e.message, -1, "")
     }
-}
 
 fun <T> convertResponse(response: Response<T>): ApiResponse<T> {
     val statusCode = response.code()

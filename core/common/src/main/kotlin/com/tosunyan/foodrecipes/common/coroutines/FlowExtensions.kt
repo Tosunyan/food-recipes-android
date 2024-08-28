@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.common.utils
+package com.tosunyan.foodrecipes.common.coroutines
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
