@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @Suppress("OPT_IN_USAGE")
-class SearchViewModel(
+internal class SearchViewModel(
     private val repository: SearchRepository = SearchRepository(),
     private val mealRepository: MealRepository = MealRepository(),
     private val mealSavingHelper: MealSavingHelper = MealSavingHelper(mealRepository)
@@ -48,7 +48,7 @@ class SearchViewModel(
 
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
-            mealSavingHelper.toggleSavedState(meal) { isSaved ->
+            mealSavingHelper.onSaveToggleClick(meal) { isSaved ->
                 _meals.update { meals ->
                     meals.replace(meal) { it.copy(isSaved = isSaved) }
                 }

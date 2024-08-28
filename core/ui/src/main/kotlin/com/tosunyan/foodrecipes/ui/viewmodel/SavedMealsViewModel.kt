@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class SavedMealsViewModel(
+internal class SavedMealsViewModel(
     private val repository: MealRepository = MealRepository(),
     private val mealSavingHelper: MealSavingHelper = MealSavingHelper(repository)
 ) : ViewModel() {
@@ -25,7 +25,7 @@ class SavedMealsViewModel(
 
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
-            mealSavingHelper.toggleSavedState(meal) {}
+            mealSavingHelper.onSaveToggleClick(meal) {}
         }
     }
 }

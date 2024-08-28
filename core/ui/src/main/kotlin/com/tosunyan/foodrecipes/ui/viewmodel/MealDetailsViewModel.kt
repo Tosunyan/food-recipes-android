@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MealDetailsViewModel(
+internal class MealDetailsViewModel(
     private val repository: MealRepository = MealRepository(),
     private val mealSavingHelper: MealSavingHelper = MealSavingHelper(repository)
 ) : ViewModel() {
@@ -33,7 +33,7 @@ class MealDetailsViewModel(
 
     fun onSaveButtonClick() {
         viewModelScope.launch {
-            mealSavingHelper.toggleSavedState(_mealDetails.value) { isSaved ->
+            mealSavingHelper.onSaveToggleClick(_mealDetails.value) { isSaved ->
                 _mealDetails.update { it.copy(isSaved = isSaved) }
             }
         }

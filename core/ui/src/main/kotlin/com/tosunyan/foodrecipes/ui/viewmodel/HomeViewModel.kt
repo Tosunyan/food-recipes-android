@@ -1,5 +1,6 @@
 package com.tosunyan.foodrecipes.ui.viewmodel
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tosunyan.foodrecipes.data.repositories.HomeRepository
@@ -8,14 +9,15 @@ import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.network.api.ApiResponse
+import com.tosunyan.foodrecipes.ui.R
+import com.tosunyan.foodrecipes.ui.components.notification.NotificationData
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
-import kotlinx.coroutines.delay
+import com.tosunyan.foodrecipes.ui.helpers.NotificationManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
 
-class HomeViewModel(
+internal class HomeViewModel(
     private val homeRepository: HomeRepository = HomeRepository(),
     private val mealRepository: MealRepository = MealRepository(),
     private val mealSavingHelper: MealSavingHelper = MealSavingHelper(mealRepository)
@@ -25,15 +27,13 @@ class HomeViewModel(
     val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val regions = MutableStateFlow<List<RegionModel>>(emptyList())
 
-    val errorMessage = MutableStateFlow<String?>(null)
-
     init {
         makeApiCalls()
     }
 
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
-            mealSavingHelper.toggleSavedState(meal) { isSaved ->
+            mealSavingHelper.onSaveToggleClick(meal) { isSaved ->
                 randomMeal.update { it?.copy(isSaved = isSaved) }
             }
         }
@@ -49,7 +49,7 @@ class HomeViewModel(
         viewModelScope.launch {
             when (val response = homeRepository.getRandomMeal()) {
                 is ApiResponse.Success -> randomMeal.value = response.data
-                is ApiResponse.Failure -> showErrorMessage("Failed to fetch today's meal")
+                is ApiResponse.Failure -> showErrorNotification(R.string.error_fetching_daily_special)
             }
         }
     }
@@ -58,7 +58,7 @@ class HomeViewModel(
         viewModelScope.launch {
             when (val response = homeRepository.getCategories()) {
                 is ApiResponse.Success -> categories.value = response.data
-                is ApiResponse.Failure -> showErrorMessage("Failed to fetch categories")
+                is ApiResponse.Failure -> showErrorNotification(R.string.error_fetching_categories)
             }
         }
     }
@@ -67,16 +67,15 @@ class HomeViewModel(
         viewModelScope.launch {
             when (val response = homeRepository.getRegions()) {
                 is ApiResponse.Success -> regions.value = response.data
-                is ApiResponse.Failure -> showErrorMessage("Failed to fetch regions")
+                is ApiResponse.Failure -> showErrorNotification(R.string.error_fetching_regions)
             }
         }
     }
 
-    private fun showErrorMessage(message: String) {
+    private fun showErrorNotification(@StringRes messageId: Int) {
         viewModelScope.launch {
-            errorMessage.value = message
-            delay(1.seconds)
-            errorMessage.value = null
+            val notification = NotificationData(titleResId = messageId)
+            NotificationManager.showNotification(notification)
         }
     }
 }

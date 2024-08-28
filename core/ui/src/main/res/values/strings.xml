@@ -2,10 +2,22 @@
 
     <string name="app_name">Food Recipes</string>
 
+    <!-- General Strings -->
+    <string name="undo">Undo</string>
+
     <!-- Navigation Items -->
     <string name="navigation_item_home">Home</string>
     <string name="navigation_item_search">Search</string>
     <string name="navigation_item_saved_meals">Saved Meals</string>
+
+    <!-- Messages -->
+    <string name="message_recipe_saved">Recipe saved to \'Saved Meals\'</string>
+    <string name="message_recipe_removed">Recipe removed from \'Saved Meals\'</string>
+
+    <!-- Error Messages -->
+    <string name="error_fetching_daily_special">Failed to fetch \'Daily Special\'</string>
+    <string name="error_fetching_categories">Failed to fetch \'Categories\'</string>
+    <string name="error_fetching_regions">Failed to fetch \'Regions\'</string>
 
     <!-- Home Screen -->
     <string name="home_daily_special">Daily Special</string>

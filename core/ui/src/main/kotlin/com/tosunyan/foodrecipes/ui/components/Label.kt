@@ -30,10 +30,7 @@ data class LabelData(
     val backgroundColor: Color = Color.Unspecified,
     val paddingValues: PaddingValues = PaddingValues(),
     val onClick: (() -> Unit)? = null,
-) {
-
-
-}
+)
 
 @Composable
 fun Label(labelData: LabelData) {

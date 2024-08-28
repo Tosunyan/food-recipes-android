@@ -1,6 +1,5 @@
 package com.tosunyan.foodrecipes.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,10 +13,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,9 +29,9 @@ import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
 import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
+import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
 import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
 
 class HomeScreen : Tab {
@@ -51,11 +48,6 @@ class HomeScreen : Tab {
     override fun Content() {
         val viewModel = viewModel<HomeViewModel>()
         val navigator = LocalNavigator.current?.parent ?: return
-
-        val errorMessage by viewModel.errorMessage.collectAsState()
-        errorMessage?.let {
-            Toast.makeText(LocalContext.current, it, Toast.LENGTH_SHORT).show()
-        }
 
         Content(
             dailySpecial = viewModel.randomMeal.collectAsState().value,

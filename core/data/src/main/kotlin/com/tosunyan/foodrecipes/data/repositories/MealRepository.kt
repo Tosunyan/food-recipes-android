@@ -61,21 +61,33 @@ class MealRepository(
         )
     }
 
-    suspend fun saveMeal(meal: SaveableMeal) {
+    suspend fun toggleSavedState(meal: SaveableMeal): Boolean {
+        return if (!meal.isSaved) {
+            saveMeal(meal)
+        } else {
+            removeSavedMeal(meal)
+        }
+    }
+
+    private suspend fun saveMeal(meal: SaveableMeal): Boolean {
         when (meal) {
             is MealDetailsModel -> saveMeal(meal)
             is MealModel -> saveMeal(meal)
         }
+
+        return isMealSaved(meal)
     }
 
-    suspend fun removeSavedMeal(meal: SaveableMeal) {
+    suspend fun removeSavedMeal(meal: SaveableMeal): Boolean {
         when (meal) {
             is MealDetailsModel -> removeSavedMeal(meal)
             is MealModel -> removeSavedMeal(meal)
         }
+
+        return !isMealSaved(meal)
     }
 
-    suspend fun isMealSaved(meal: SaveableMeal): Boolean {
+    private suspend fun isMealSaved(meal: SaveableMeal): Boolean {
         return withContext(Dispatchers.IO) {
             database.mealDao.checkMealExists(meal.id)
         }
