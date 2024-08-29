@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.inconceptlabs.designsystem.components.buttons.IconButton
@@ -28,11 +28,12 @@ fun Toolbar(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .shadow(8.dp)
+            .background(AppTheme.colorScheme.BG2)
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp)
             .height(56.dp)
             .fillMaxWidth()
-            .shadow(8.dp)
-            .background(Color.White)
-            .padding(horizontal = 16.dp)
     ) {
         IconButton(
             icon = painterResource(id = R.drawable.ic_back),

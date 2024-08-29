@@ -1,12 +1,10 @@
 package com.tosunyan.foodrecipes.ui.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -16,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,9 +29,9 @@ import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
 import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
+import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
 import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
 
 class HomeScreen : Tab {
@@ -93,9 +90,7 @@ class HomeScreen : Tab {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
-                .background(Color.White)
-                .fillMaxSize()
-                .safeDrawingPadding(),
+                .fillMaxSize(),
         ) {
             titleSection()
 

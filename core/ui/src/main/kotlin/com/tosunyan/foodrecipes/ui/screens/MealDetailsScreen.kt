@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -48,11 +49,11 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.components.Label
 import com.tosunyan.foodrecipes.ui.components.LabelData
 import com.tosunyan.foodrecipes.ui.components.TextButton
 import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
+import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 import com.tosunyan.foodrecipes.ui.viewmodel.MealDetailsViewModel
@@ -108,8 +109,9 @@ class MealDetailsScreen(
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
             modifier = Modifier
-                .background(Color.White)
+                .background(AppTheme.colorScheme.BG1)
                 .fillMaxSize()
+                .systemBarsPadding()
         ) {
             toolbar(
                 meal = meal,

@@ -1,9 +1,11 @@
 package com.tosunyan.foodrecipes.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -14,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.ui.components.navigationbar.BottomNavigation
 import com.tosunyan.foodrecipes.ui.viewmodel.BottomNavigationViewModel
 
@@ -31,7 +34,12 @@ class BottomNavigationScreen : Screen {
             viewModel.initNavigationItems(context)
         }
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppTheme.colorScheme.BG1)
+                .statusBarsPadding()
+        ) {
             Box(modifier = Modifier.weight(1f)) {
                 TabNavigator(tab = selectedItem) {
                     it.current = selectedItem

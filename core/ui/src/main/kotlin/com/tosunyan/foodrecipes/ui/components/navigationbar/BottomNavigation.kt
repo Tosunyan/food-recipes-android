@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -119,6 +120,7 @@ private fun NavigationItems(
                 strokeWidth = 2.dp,
             )
             .background(AppTheme.colorScheme.BG2)
+            .navigationBarsPadding()
             .padding(horizontal = 20.dp, vertical = 8.dp)
     ) {
         items.forEachIndexed { index, item ->

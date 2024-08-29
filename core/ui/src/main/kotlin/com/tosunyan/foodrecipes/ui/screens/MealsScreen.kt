@@ -7,18 +7,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
-import com.tosunyan.foodrecipes.ui.components.meals.MealsList
 import com.tosunyan.foodrecipes.ui.components.Toolbar
+import com.tosunyan.foodrecipes.ui.components.meals.MealsList
 import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
 
 class MealsScreen(
@@ -65,7 +65,7 @@ class MealsScreen(
     ) {
         Column(
             modifier = Modifier
-                .background(Color.White)
+                .background(AppTheme.colorScheme.BG1)
                 .fillMaxSize()
         ) {
             Toolbar(
