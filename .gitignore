@@ -2,8 +2,8 @@
 .idea/*
 
 .gradle
-local.properties
-gradle.properties
+*.properties
+*.aab
 .DS_Store
 build
 app/build
