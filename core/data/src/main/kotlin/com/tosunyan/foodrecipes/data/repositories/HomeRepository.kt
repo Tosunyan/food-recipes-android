@@ -10,6 +10,7 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.network.api.Api
 import com.tosunyan.foodrecipes.network.api.ApiResponse
+import com.tosunyan.foodrecipes.network.api.isSuccess
 import com.tosunyan.foodrecipes.network.api.makeApiCall
 import com.tosunyan.foodrecipes.network.api.mapOnSuccess
 import com.tosunyan.foodrecipes.network.data.CategoryDto
@@ -19,8 +20,11 @@ class HomeRepository(
 ) {
 
     suspend fun getRandomMeal(): ApiResponse<MealDetailsModel?> {
-        if (randomMealResponse != null && randomMealResponse !is ApiResponse.Failure) {
-            return randomMealResponse!!
+        val response = randomMealResponse
+        if (response != null && response.isSuccess()) {
+            return response.mapOnSuccess {
+                this!!.copy(isSaved = database.mealDao.checkMealExists(this.id))
+            }
         }
 
         return getMealsWithSavedStatus(

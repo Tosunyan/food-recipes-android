@@ -33,7 +33,7 @@ inline fun <T> ApiResponse<T>.onSuccess(action: T.() -> Unit): ApiResponse<T> {
     return this
 }
 
-fun <T, R> ApiResponse<T>.mapOnSuccess(action: T.() -> R): ApiResponse<R> {
+inline fun <T, R> ApiResponse<T>.mapOnSuccess(action: T.() -> R): ApiResponse<R> {
     return when (this) {
         is ApiResponse.Success -> ApiResponse.Success(data.action())
         is ApiResponse.Failure -> this
