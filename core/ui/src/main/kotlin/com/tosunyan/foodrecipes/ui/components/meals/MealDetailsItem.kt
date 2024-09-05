@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -23,16 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
-import com.inconceptlabs.designsystem.components.buttons.IconButton
+import com.inconceptlabs.designsystem.components.core.Icon
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.inconceptlabs.designsystem.theme.attributes.CornerType
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
-import com.inconceptlabs.designsystem.theme.attributes.Size
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.theme.Gray100
 import com.tosunyan.foodrecipes.ui.components.Label
+import com.tosunyan.foodrecipes.ui.theme.Gray100
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 
 private const val ItemHeight = 160
@@ -80,22 +79,22 @@ fun MealDetailsItem(
                 .background(shimmerBrush(isLoading || isImageLoading))
         )
 
-        val saveIconResId = if (item.isSaved) {
-            R.drawable.ic_bookmark_fill
+        val (saveIconResId, saveIconTint) = if (item.isSaved) {
+            R.drawable.ic_bookmark_fill to AppTheme.colorScheme.secondary.main
         } else {
-            R.drawable.ic_bookmark
+            R.drawable.ic_bookmark to AppTheme.colorScheme.T8
         }
-        IconButton(
-            icon = painterResource(id = saveIconResId),
-            size = Size.XS,
-            keyColor = KeyColor.SECONDARY,
-            cornerType = CornerType.CIRCULAR,
+        Icon(
+            painter = painterResource(id = saveIconResId),
+            tint = saveIconTint,
             modifier = Modifier
+                .size(36.dp)
+                .padding(8.dp)
                 .constrainAs(saveIcon) {
                     top.linkTo(parent.top, margin = 8.dp)
                     end.linkTo(parent.end, margin = 8.dp)
-                },
-            onClick = { onSaveIconClick(item) }
+                }
+                .clickable { onSaveIconClick(item) },
         )
 
         Text(
