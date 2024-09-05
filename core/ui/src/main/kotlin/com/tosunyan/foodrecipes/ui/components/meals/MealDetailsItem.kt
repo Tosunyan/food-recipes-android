@@ -41,6 +41,7 @@ private const val ItemHeight = 160
 fun MealDetailsItem(
     item: MealDetailsModel,
     modifier: Modifier = Modifier,
+    backgroundColor: Color = Gray100,
     isLoading: Boolean = false,
     onClick: (MealDetailsModel) -> Unit,
     onSaveIconClick: (MealDetailsModel) -> Unit,
@@ -56,7 +57,7 @@ fun MealDetailsItem(
         modifier = modifier
             .height(ItemHeight.dp)
             .clickable { onClick(item) }
-            .background(color = Gray100, shape = itemShape)
+            .background(color = backgroundColor, shape = itemShape)
     ) {
         val (thumbnail, title, saveIcon, region, category) = createRefs()
 

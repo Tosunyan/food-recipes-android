@@ -190,6 +190,7 @@ class HomeScreen : Tab {
             MealDetailsItem(
                 item = model,
                 isLoading = false,
+                backgroundColor = AppTheme.colorScheme.secondary.alpha10,
                 modifier = Modifier.animateItem(),
                 onClick = onDailySpecialClick,
                 onSaveIconClick = onSaveIconClick,
