@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.voyager.transitions)
 
     implementation(libs.coil)
+    implementation(libs.textflow)
 
     debugImplementation(libs.compose.ui.tooling)
 }

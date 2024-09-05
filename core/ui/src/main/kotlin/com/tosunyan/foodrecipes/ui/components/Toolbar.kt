@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.inconceptlabs.designsystem.components.buttons.IconButton
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
@@ -28,6 +29,7 @@ fun Toolbar(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .zIndex(1f)
             .shadow(8.dp)
             .background(AppTheme.colorScheme.BG2)
             .statusBarsPadding()

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ fun MealsList(
     contentPadding: PaddingValues = defaultPadding,
     onItemClick: (MealModel) -> Unit = { },
     onSaveIconClick: (MealModel) -> Unit = { },
+    leadingContent: LazyGridScope.() -> Unit = { },
 ) {
     LazyVerticalGrid(
         contentPadding = contentPadding,
@@ -33,6 +35,8 @@ fun MealsList(
         modifier = modifier
             .fillMaxSize(),
     ) {
+        leadingContent()
+
         items(
             key = MealModel::id,
             items = meals,

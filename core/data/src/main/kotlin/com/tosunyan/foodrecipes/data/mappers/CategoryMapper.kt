@@ -7,6 +7,6 @@ fun CategoryDto.toCategoryModel(): CategoryModel {
     return CategoryModel(
         name = strCategory,
         thumbnail = strCategoryThumb,
-        description = strCategoryDescription
+        description = strCategoryDescription.trim()
     )
 }

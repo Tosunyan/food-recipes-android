@@ -19,63 +19,91 @@ class MealsViewModel(
     private val mealSavingHelper: MealSavingHelper = MealSavingHelper(mealRepository)
 ): ViewModel() {
 
-    private val _title = MutableStateFlow("")
-    val title = _title.asStateFlow()
-
-    private val _meals = MutableStateFlow<List<MealModel>>(emptyList())
-    val meals = _meals.asStateFlow()
-
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
-
-    init {
-        showLoading()
-    }
+    private val _screenState = MutableStateFlow(ScreenState())
+    val screenState = _screenState.asStateFlow()
 
     fun onArgumentsReceive(
         category: CategoryModel?,
         region: RegionModel?,
     ) {
-        _title.value = category?.name ?: region?.name ?: return
+        showLoading()
 
-        category?.let { filterMealsByCategory() }
-        region?.let { filterMealsByArea() }
+        when {
+            category != null -> {
+                getMealsByCategory(category)
+            }
+            region != null -> {
+                getMealsByRegion(region)
+            }
+        }
     }
 
     fun onSaveIconClick(item: MealModel) {
         viewModelScope.launch {
             mealSavingHelper.toggleSavedState(item) { isSaved ->
-                _meals.update { meals ->
-                    meals.replace(item) { it.copy(isSaved = isSaved) }
+                _screenState.update { state ->
+                    state.copy(
+                        meals = state.meals.replace(item) {
+                            it.copy(isSaved = isSaved)
+                        }
+                    )
                 }
             }
         }
     }
 
-    private fun filterMealsByCategory() {
+    private fun getMealsByCategory(category: CategoryModel) {
         viewModelScope.launch {
+            _screenState.update {
+                it.copy(
+                    title = category.name,
+                    description = category.description,
+                    thumbnailUrl = category.thumbnail,
+                )
+            }
+
             mealRepository
-                .filterMealsByCategory(title.value)
-                .onSuccess { _meals.value = this }
-                .also { _isLoading.value = false }
+                .filterMealsByCategory(category.name)
+                .onSuccess { _screenState.update { it.copy(meals = this) } }
+                .also { hideLoading() }
         }
     }
 
-    private fun filterMealsByArea() {
+    private fun getMealsByRegion(region: RegionModel) {
         viewModelScope.launch {
+            _screenState.update { it.copy(title = region.name) }
+
             mealRepository
-                .filterMealsByArea(title.value)
-                .onSuccess { _meals.value = this }
-                .also { _isLoading.value = false }
+                .filterMealsByArea(region.name)
+                .onSuccess { _screenState.update { it.copy(meals = this) } }
+                .also { hideLoading() }
         }
     }
 
     private fun showLoading() {
-        _isLoading.value = true
-        _meals.value = buildList {
-            repeat(8) {
-                add(MealModel(id = "$it"))
-            }
+        _screenState.update { state ->
+            state.copy(
+                isLoading = true,
+                meals = buildList {
+                    repeat(8) {
+                        add(MealModel(id = "$it"))
+                    }
+                }
+            )
         }
     }
+
+    private fun hideLoading() {
+        _screenState.update {
+            it.copy(isLoading = false)
+        }
+    }
+
+    data class ScreenState(
+        val title: String = "",
+        val description: String? = null,
+        val thumbnailUrl: String? = null,
+        val meals: List<MealModel> = emptyList(),
+        val isLoading: Boolean = true,
+    )
 }

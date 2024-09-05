@@ -15,6 +15,7 @@ kotlinx-serialization = "1.6.3"
 okhttp = "4.12.0"
 voyager = "1.1.0-beta02"
 coil = "2.6.0"
+textflow = "1.2.1"
 room = "2.6.1"
 retrofit = "2.11.0"
 
@@ -51,6 +52,7 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+textflow = { group = "io.github.oleksandrbalan", name = "textflow", version.ref = "textflow" }
 
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
