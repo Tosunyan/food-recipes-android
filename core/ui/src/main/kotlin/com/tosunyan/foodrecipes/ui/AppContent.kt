@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.inconceptlabs.designsystem.utils.ProvideThemedContent
-import com.tosunyan.foodrecipes.ui.screens.BottomNavigationScreen
+import com.tosunyan.foodrecipes.ui.bottomnavigation.BottomNavigationScreen
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 
 fun ComponentActivity.setAppContent() {

@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.components.navigationbar
+package com.tosunyan.foodrecipes.ui.bottomnavigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

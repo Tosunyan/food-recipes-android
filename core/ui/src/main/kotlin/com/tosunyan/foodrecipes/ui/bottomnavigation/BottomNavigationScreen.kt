@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.screens
+package com.tosunyan.foodrecipes.ui.bottomnavigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,8 +17,6 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.tosunyan.foodrecipes.ui.components.navigationbar.BottomNavigation
-import com.tosunyan.foodrecipes.ui.viewmodel.BottomNavigationViewModel
 
 class BottomNavigationScreen : Screen {
 
