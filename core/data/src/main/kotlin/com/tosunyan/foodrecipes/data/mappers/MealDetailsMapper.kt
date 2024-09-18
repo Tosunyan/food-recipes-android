@@ -25,7 +25,7 @@ fun MealDetailsDto.toMealDetailsModel(
         name = strMeal,
         category = strCategory ?: "",
         region = strArea ?: "",
-        instructions = strInstructions,
+        instructions = strInstructions.trim(),
         thumbnail = strMealThumb,
         youtubeUrl = strYoutube.takeIf { !it.isNullOrBlank() },
         sourceUrl = strSource.takeIf { !it.isNullOrBlank() },
