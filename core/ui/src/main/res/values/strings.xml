@@ -2,6 +2,9 @@
 
     <string name="app_name">Food Recipes</string>
 
+    <!-- Errors -->
+    <string name="error_activity_not_found">No app was found to perform the action.</string>
+
     <!-- Navigation Items -->
     <string name="navigation_item_home">Home</string>
     <string name="navigation_item_search">Search</string>

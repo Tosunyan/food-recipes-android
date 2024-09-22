@@ -1,8 +1,5 @@
 package com.tosunyan.foodrecipes.ui.screens
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -56,6 +53,7 @@ import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
 import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
+import com.tosunyan.foodrecipes.ui.utils.openLink
 import com.tosunyan.foodrecipes.ui.viewmodel.MealDetailsViewModel
 
 class MealDetailsScreen(
@@ -91,8 +89,8 @@ class MealDetailsScreen(
                 val screen = MealsScreen(region = RegionModel(it))
                 navigator.push(screen)
             },
-            onYoutubeClick = { onLinkClick(context, it) },
-            onSourceClick = { onLinkClick(context, it) },
+            onYoutubeClick = context::openLink,
+            onSourceClick = context::openLink,
         )
     }
 
@@ -407,12 +405,5 @@ class MealDetailsScreen(
                 }
             }
         }
-    }
-
-    // TODO Move implementation details to utility file `IntentUtils`
-    private fun onLinkClick(context: Context, uriString: String) {
-        val uri = Uri.parse(uriString)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        context.startActivity(intent)
     }
 }
