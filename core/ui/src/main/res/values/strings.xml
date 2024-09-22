@@ -19,6 +19,7 @@
     <string name="saved_meals_empty_list_title">No saved items!</string>
 
     <!-- Details Screen -->
+    <string name="meal_details_title">Recipe Details</string>
     <string name="meal_details_cooking_process">Cooking process</string>
     <string name="meal_details_ingredients">Ingredients</string>
     <string name="meal_details_external_sources">External sources</string>

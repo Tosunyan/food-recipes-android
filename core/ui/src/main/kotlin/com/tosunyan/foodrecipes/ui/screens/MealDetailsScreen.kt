@@ -199,7 +199,7 @@ class MealDetailsScreen(
                 )
 
                 Text(
-                    text = "Meal Details",
+                    text = stringResource(R.string.meal_details_title),
                     style = AppTheme.typography.S1,
                     modifier = Modifier.weight(1f)
                 )
