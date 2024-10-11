@@ -115,34 +115,34 @@ class HomeScreen : Tab {
     @Preview(showBackground = true)
     @Composable
     private fun ContentPreview() {
-        Content(
-            dailySpecial = MealDetailsModel(name = "Pizza de Italiano"),
-            categories = listOf(
-                CategoryModel("Beef", "", ""),
-                CategoryModel("Chicken", "", ""),
-                CategoryModel("Pork", "", ""),
-                CategoryModel("Pork", "", ""),
-                CategoryModel("Pork", "", ""),
-                CategoryModel("Pork", "", ""),
-                CategoryModel("Pork", "", ""),
-                CategoryModel("Pork", "", ""),
-                CategoryModel("Goose", "", ""),
-                CategoryModel("Rabbit", "", ""),
-                CategoryModel("Cat", "", ""),
-            ),
-            regions = listOf(
-                RegionModel("China"),
-                RegionModel("China"),
-                RegionModel("China"),
-                RegionModel("India"),
-                RegionModel("Russia"),
-                RegionModel("Indonesia"),
-                RegionModel("Indonesia"),
-                RegionModel("Indonesia"),
-                RegionModel("Indonesia"),
-                RegionModel("Indonesia"),
+        AppTheme {
+            Content(
+                dailySpecial = MealDetailsModel(
+                    name = "Pepperoni very delicious",
+                    category = "Pizza",
+                    region = "Italy",
+                    isSaved = true,
+                ),
+                categories = listOf(
+                    CategoryModel("Beef", "", ""),
+                    CategoryModel("Chicken", "", ""),
+                    CategoryModel("Pork", "", ""),
+                    CategoryModel("Turkey", "", ""),
+                    CategoryModel("Pizza", "", ""),
+                    CategoryModel("Pasta", "", ""),
+                    CategoryModel("Vegetarian", "", ""),
+                    CategoryModel("Desert", "", ""),
+                ),
+                regions = listOf(
+                    RegionModel("Chinese"),
+                    RegionModel("American"),
+                    RegionModel("Armenian"),
+                    RegionModel("Georgian"),
+                    RegionModel("Russian"),
+                    RegionModel("Indonesian"),
+                )
             )
-        )
+        }
     }
 
     private fun LazyGridScope.titleSection() {
