@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.designsystem)
     implementation(libs.compose.constraintlayout)
+    implementation(libs.compose.material3)
 
     implementation(libs.voyager.navigator)
     implementation(libs.voyager.tab.navigator)

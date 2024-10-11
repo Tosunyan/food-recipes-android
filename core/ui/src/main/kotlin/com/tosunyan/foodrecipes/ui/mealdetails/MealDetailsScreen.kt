@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.screens
+package com.tosunyan.foodrecipes.ui.mealdetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
@@ -40,21 +40,17 @@ import com.inconceptlabs.designsystem.theme.LocalContentColor
 import com.inconceptlabs.designsystem.theme.attributes.CornerType
 import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.theme.attributes.Size
-import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.IngredientModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
-import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.Label
 import com.tosunyan.foodrecipes.ui.components.LabelData
 import com.tosunyan.foodrecipes.ui.components.TextButton
 import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
+import com.tosunyan.foodrecipes.ui.shareoptions.SharingOptionsBottomSheet
 import com.tosunyan.foodrecipes.ui.theme.Red900
-import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
-import com.tosunyan.foodrecipes.ui.utils.openLink
-import com.tosunyan.foodrecipes.ui.viewmodel.MealDetailsViewModel
 
 class MealDetailsScreen(
     private val mealModel: MealModel? = null,
@@ -62,7 +58,11 @@ class MealDetailsScreen(
 ) : Screen {
 
     override val key: ScreenKey
-        get() = this::class.simpleName!!
+        get() = when {
+            mealModel != null -> mealModel.id
+            mealDetailsModel != null -> mealDetailsModel.id
+            else -> this::class.simpleName!!
+        }
 
     @Suppress("unused", "PrivatePreviews")
     constructor(): this(null, null)
@@ -73,37 +73,22 @@ class MealDetailsScreen(
         val navigator = LocalNavigator.currentOrThrow
         val context = LocalContext.current
 
+        LaunchedEffect(Unit) {
+            viewModel.setNavigator(navigator)
+            viewModel.setContext(context)
+        }
+
         LaunchedEffect(mealModel, mealDetailsModel) {
             viewModel.onArgumentsReceive(mealModel, mealDetailsModel)
         }
 
         Content(
-            meal = viewModel.mealDetails.collectAsState().value,
-            onBackButtonClick = navigator::pop,
-            onSaveButtonClick = viewModel::onSaveButtonClick,
-            onCategoryClick = {
-                val screen = MealsScreen(category = CategoryModel(it, "", ""))
-                navigator.push(screen)
-            },
-            onRegionClick = {
-                val screen = MealsScreen(region = RegionModel(it))
-                navigator.push(screen)
-            },
-            onYoutubeClick = context::openLink,
-            onSourceClick = context::openLink,
+            screenState = viewModel.screenState.collectAsStateWithLifecycle().value
         )
     }
 
     @Composable
-    private fun Content(
-        meal: MealDetailsModel,
-        onBackButtonClick: () -> Unit,
-        onSaveButtonClick: () -> Unit,
-        onCategoryClick: (String) -> Unit,
-        onRegionClick: (String) -> Unit,
-        onYoutubeClick: (String) -> Unit,
-        onSourceClick: (String) -> Unit,
-    ) {
+    private fun Content(screenState: MealDetailsScreenState) = with(screenState) {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
             modifier = Modifier
@@ -114,6 +99,7 @@ class MealDetailsScreen(
             toolbar(
                 meal = meal,
                 onBackButtonClick = onBackButtonClick,
+                onShareButtonClick = onShareButtonClick,
                 onSaveButtonClick = onSaveButtonClick,
             )
 
@@ -145,35 +131,38 @@ class MealDetailsScreen(
                 onSourceClick = onSourceClick
             )
         }
+
+        if (isSharingOptionsDialogVisible) {
+            SharingOptionsBottomSheet(
+                mealDetails = meal,
+                onDismiss = onSharingOptionsDialogDismiss,
+            )
+        }
     }
 
     @Preview(showBackground = true)
     @Composable
     private fun ContentPreview() {
-        AppTheme(indication = ScaleIndicationNodeFactory) {
+        AppTheme {
             Content(
-                meal = MealDetailsModel(
-                    id = "1234",
-                    name = "La Omelet de Paris",
-                    category = "Breakfast",
-                    region = "France",
-                    instructions = "Some long, very very long instructions " +
+                screenState = MealDetailsScreenState(
+                    meal = MealDetailsModel(
+                        id = "1234",
+                        name = "La Omelet de Paris",
+                        category = "Breakfast",
+                        region = "France",
+                        instructions = "Some long, very very long instructions " +
                             "on how to cook a particular meal",
-                    thumbnail = "https://leitesculinaria.com/wp-content/uploads/2024/03/ham-and-cheese-omelet-1200.jpg",
-                    youtubeUrl = "https://youtube.com",
-                    sourceUrl = "https://google.com",
-                    ingredients = listOf(
-                        IngredientModel("", "Egg", "2"),
-                        IngredientModel("", "Bacon", "20g"),
-                        IngredientModel("", "Pepper", "5g")
+                        thumbnail = "https://leitesculinaria.com/wp-content/uploads/2024/03/ham-and-cheese-omelet-1200.jpg",
+                        youtubeUrl = "https://youtube.com",
+                        sourceUrl = "https://google.com",
+                        ingredients = listOf(
+                            IngredientModel("", "Egg", "2"),
+                            IngredientModel("", "Bacon", "20g"),
+                            IngredientModel("", "Pepper", "5g")
+                        ),
                     ),
-                ),
-                onBackButtonClick = {},
-                onSaveButtonClick = {},
-                onCategoryClick = {},
-                onRegionClick = {},
-                onYoutubeClick = {},
-                onSourceClick = {},
+                )
             )
         }
     }
@@ -181,6 +170,7 @@ class MealDetailsScreen(
     private fun LazyListScope.toolbar(
         meal: MealDetailsModel,
         onBackButtonClick: () -> Unit,
+        onShareButtonClick: () -> Unit,
         onSaveButtonClick: () -> Unit,
     ) {
         item(key = "Toolbar") {
@@ -200,6 +190,14 @@ class MealDetailsScreen(
                     text = stringResource(R.string.meal_details_title),
                     style = AppTheme.typography.S1,
                     modifier = Modifier.weight(1f)
+                )
+
+                IconButton(
+                    icon = painterResource(id = R.drawable.ic_share),
+                    size = Size.S,
+                    cornerType = CornerType.CIRCULAR,
+                    keyColor = KeyColor.SECONDARY,
+                    onClick = onShareButtonClick,
                 )
 
                 val iconResId = if (meal.isSaved) R.drawable.ic_bookmark_fill else R.drawable.ic_bookmark

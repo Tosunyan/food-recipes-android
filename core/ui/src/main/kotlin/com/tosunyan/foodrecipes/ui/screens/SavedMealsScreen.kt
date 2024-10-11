@@ -21,6 +21,7 @@ import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
+import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.SavedMealsViewModel
 
 class SavedMealsScreen : Tab {

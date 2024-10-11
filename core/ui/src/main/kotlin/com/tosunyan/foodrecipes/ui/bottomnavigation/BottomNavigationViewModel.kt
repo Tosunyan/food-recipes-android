@@ -8,43 +8,58 @@ import com.tosunyan.foodrecipes.ui.screens.HomeScreen
 import com.tosunyan.foodrecipes.ui.screens.SavedMealsScreen
 import com.tosunyan.foodrecipes.ui.screens.SearchScreen
 import com.tosunyan.foodrecipes.ui.theme.painterResource
+import com.tosunyan.foodrecipes.ui.utils.areAppLinksVerified
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class BottomNavigationViewModel : ViewModel() {
 
-    private val _selectedItem = MutableStateFlow<Tab>(HomeScreen())
-    val selectedItem = _selectedItem.asStateFlow()
+    private val defaultScreenState = NavigationScreenState(selectedItem = HomeScreen())
+    private val _screenState = MutableStateFlow(defaultScreenState)
+    val screenState = _screenState.asStateFlow()
 
-    private val _navigationItems = MutableStateFlow<List<BottomNavigationItem>>(emptyList())
-    val navigationItems = _navigationItems.asStateFlow()
+    fun onLifecycleStart(context: Context) {
+        verifyAppLinkNotification(context)
+    }
 
     fun initNavigationItems(context: Context) {
-        _navigationItems.update {
-            listOf(
+        _screenState.update {
+            it.copy(navigationItems = listOf(
                 BottomNavigationItem(
                     icon = context.painterResource(id = R.drawable.ic_home),
                     selectedIcon = context.painterResource(id = R.drawable.ic_home_fill),
                     text = context.getString(R.string.navigation_item_home),
-                    isSelected = _selectedItem.value is HomeScreen,
-                    onClick = { _selectedItem.value = HomeScreen() }
+                    isSelected = it.selectedItem is HomeScreen,
+                    onClick = { updateSelectedItem(HomeScreen()) }
                 ),
                 BottomNavigationItem(
                     icon = context.painterResource(id = R.drawable.ic_search),
                     selectedIcon = context.painterResource(id = R.drawable.ic_search_fill),
                     text = context.getString(R.string.navigation_item_search),
-                    isSelected = _selectedItem.value is SearchScreen,
-                    onClick = { _selectedItem.value = SearchScreen() }
+                    isSelected = it.selectedItem is SearchScreen,
+                    onClick = { updateSelectedItem(SearchScreen()) }
                 ),
                 BottomNavigationItem(
                     icon = context.painterResource(id = R.drawable.ic_bookmark),
                     selectedIcon = context.painterResource(id = R.drawable.ic_bookmark_fill),
                     text = context.getString(R.string.navigation_item_saved_meals),
-                    isSelected = _selectedItem.value is SavedMealsScreen,
-                    onClick = { _selectedItem.value = SavedMealsScreen() }
+                    isSelected = it.selectedItem is SavedMealsScreen,
+                    onClick = { updateSelectedItem(SavedMealsScreen()) }
                 )
-            )
+            ))
+        }
+    }
+
+    private fun updateSelectedItem(item: Tab) {
+        _screenState.update {
+            it.copy(selectedItem = item)
+        }
+    }
+
+    private fun verifyAppLinkNotification(context: Context) {
+        _screenState.update {
+            it.copy(appLinksVerified = context.areAppLinksVerified())
         }
     }
 }

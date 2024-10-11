@@ -30,6 +30,7 @@ import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.components.Toolbar
 import com.tosunyan.foodrecipes.ui.components.meals.MealsList
+import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
 import eu.wewox.textflow.TextFlow
 import eu.wewox.textflow.TextFlowObstacleAlignment

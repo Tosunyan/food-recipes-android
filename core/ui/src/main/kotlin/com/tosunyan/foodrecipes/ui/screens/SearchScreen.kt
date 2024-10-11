@@ -27,6 +27,7 @@ import com.inconceptlabs.designsystem.utils.clearFocusOnGesture
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
+import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.SearchViewModel
 
 class SearchScreen : Tab {

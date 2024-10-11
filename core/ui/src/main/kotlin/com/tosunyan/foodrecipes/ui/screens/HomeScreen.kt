@@ -32,6 +32,7 @@ import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
+import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
 
 class HomeScreen : Tab {

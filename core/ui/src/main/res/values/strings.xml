@@ -2,8 +2,16 @@
 
     <string name="app_name">Food Recipes</string>
 
+    <!-- General Strings -->
+    <string name="verify">Verify</string>
+
     <!-- Errors -->
     <string name="error_activity_not_found">No app was found to perform the action.</string>
+    <string name="error_invalid_url">Unsupported URL. Please check for errors.</string>
+
+    <!-- Warnings -->
+    <string name="warning_app_links_not_verified">App Links are not verified</string>
+    <string name="warning_verify_app_links">Please verify App Links to open links in the app</string>
 
     <!-- Navigation Items -->
     <string name="navigation_item_home">Home</string>
@@ -29,5 +37,13 @@
     <string name="meal_details_external_sources_description">Curious for more? Check out these links:</string>
     <string name="meal_details_youtube">YouTube</string>
     <string name="meal_details_website">Website</string>
+
+    <!-- Sharing Options -->
+    <string name="sharing_options_title">Share Recipe via…</string>
+    <string name="sharing_option_link_title">Recipe Link*</string>
+    <string name="sharing_option_link_description">To open recipe details in Food Recipes</string>
+    <string name="sharing_option_link_note">* When sharing via Recipe Link, the receiver should have Food Recipes installed, and App Links verified.</string>
+    <string name="sharing_option_text_title">Plain Text</string>
+    <string name="sharing_option_text_description">To view full recipe content as text</string>
 
 </resources>

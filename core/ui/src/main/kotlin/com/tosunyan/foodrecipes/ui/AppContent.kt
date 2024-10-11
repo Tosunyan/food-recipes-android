@@ -9,6 +9,7 @@ import cafe.adriel.voyager.transitions.SlideTransition
 import com.inconceptlabs.designsystem.utils.ProvideThemedContent
 import com.tosunyan.foodrecipes.ui.bottomnavigation.BottomNavigationScreen
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
+import com.tosunyan.foodrecipes.ui.utils.IntentHandler
 
 fun ComponentActivity.setAppContent() {
     setupEdgeToEdge()
@@ -20,6 +21,8 @@ fun ComponentActivity.setAppContent() {
             screen = BottomNavigationScreen()
         ) {
             SlideTransition(navigator = it)
+
+            IntentHandler()
         }
     }
 }
