@@ -1,23 +1,24 @@
 package com.tosunyan.foodrecipes.ui.screens
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.inconceptlabs.designsystem.components.core.Text
+import com.inconceptlabs.designsystem.components.emptyitem.EmptyItem
 import com.inconceptlabs.designsystem.theme.AppTheme
+import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
@@ -50,9 +51,9 @@ class SavedMealsScreen : Tab {
 
     @Composable
     private fun Content(
-        meals: List<MealDetailsModel>,
-        onMealClick: (MealDetailsModel) -> Unit,
-        onSaveIconClick: (MealDetailsModel) -> Unit,
+        meals: List<MealDetailsModel> = emptyList(),
+        onMealClick: (MealDetailsModel) -> Unit = { },
+        onSaveIconClick: (MealDetailsModel) -> Unit = { },
     ) {
         Column(
             modifier = Modifier
@@ -69,15 +70,13 @@ class SavedMealsScreen : Tab {
             )
 
             if (meals.isEmpty()) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(
-                        text = stringResource(id = R.string.saved_meals_empty_list_title),
-                        style = AppTheme.typography.S1,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
-                }
+                EmptyItem(
+                    icon = painterResource(R.drawable.ic_bookmark),
+                    title = stringResource(R.string.saved_meals_empty_list_title),
+                    description = stringResource(R.string.saved_meals_empty_list_description),
+                    keyColor = KeyColor.SECONDARY,
+                    modifier = Modifier.padding(top = 24.dp),
+                )
             } else {
                 MealDetailsList(
                     meals = meals,
@@ -86,6 +85,47 @@ class SavedMealsScreen : Tab {
                     onSaveIconClick = onSaveIconClick,
                 )
             }
+        }
+    }
+
+    @Preview(
+        showBackground = true,
+        heightDp = 340,
+    )
+    @Composable
+    private fun EmptyResultPreview() {
+        AppTheme {
+            Content(
+                meals = emptyList()
+            )
+        }
+    }
+
+    @Preview(
+        showBackground = true,
+        heightDp = 480,
+    )
+    @Composable
+    private fun DefaultScreenPreview() {
+        AppTheme {
+            Content(
+                meals = listOf(
+                    MealDetailsModel(
+                        id = "0",
+                        isSaved = true,
+                        name = "Pepperoni",
+                        category = "Pizza",
+                        region = "Italy",
+                    ),
+                    MealDetailsModel(
+                        id = "1",
+                        isSaved = true,
+                        name = "Spaghetti",
+                        category = "Pasta",
+                        region = "Italy",
+                    ),
+                )
+            )
         }
     }
 }

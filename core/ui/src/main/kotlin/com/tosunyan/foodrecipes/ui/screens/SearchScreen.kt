@@ -15,14 +15,18 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.inconceptlabs.designsystem.components.core.Text
+import com.inconceptlabs.designsystem.components.emptyitem.EmptyItem
+import com.inconceptlabs.designsystem.components.emptyitem.EmptyItemData
 import com.inconceptlabs.designsystem.components.input.InputForm
 import com.inconceptlabs.designsystem.theme.AppTheme
+import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.utils.clearFocusOnGesture
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
@@ -47,6 +51,7 @@ class SearchScreen : Tab {
 
         Content(
             meals = viewModel.meals.collectAsState().value,
+            emptyItemData = viewModel.emptyItemData.collectAsState().value,
             onSearchInputChange = viewModel::onSearchInputChange,
             onMealItemClick = {
                 val screen = MealDetailsScreen(mealDetailsModel = it)
@@ -58,10 +63,11 @@ class SearchScreen : Tab {
 
     @Composable
     private fun Content(
-        meals: List<MealDetailsModel>,
-        onSearchInputChange: (String) -> Unit,
-        onMealItemClick: (MealDetailsModel) -> Unit,
-        onSaveIconClick: (MealDetailsModel) -> Unit,
+        meals: List<MealDetailsModel> = emptyList(),
+        emptyItemData: EmptyItemData? = null,
+        onSearchInputChange: (String) -> Unit = { },
+        onMealItemClick: (MealDetailsModel) -> Unit = { },
+        onSaveIconClick: (MealDetailsModel) -> Unit = { },
     ) {
         val focusRequester = remember(::FocusRequester)
 
@@ -91,14 +97,57 @@ class SearchScreen : Tab {
                     .focusRequester(focusRequester)
                     .fillMaxWidth()
                     .padding(top = 8.dp),
-                onInputChange = onSearchInputChange
+                onInputChange = onSearchInputChange,
             )
 
-            MealDetailsList(
-                meals = meals,
-                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 24.dp),
-                onItemClick = onMealItemClick,
-                onSaveIconClick = onSaveIconClick,
+            if (emptyItemData != null) {
+                EmptyItem(
+                    data = emptyItemData,
+                    modifier = Modifier.padding(top = 24.dp),
+                )
+            } else {
+                MealDetailsList(
+                    meals = meals,
+                    contentPadding = PaddingValues(horizontal = 0.dp, vertical = 24.dp),
+                    onItemClick = onMealItemClick,
+                    onSaveIconClick = onSaveIconClick,
+                )
+            }
+        }
+    }
+
+    @Preview(
+        showBackground = true,
+        heightDp = 380,
+    )
+    @Composable
+    private fun InitialPreview() {
+        AppTheme {
+            Content(
+                emptyItemData = EmptyItemData(
+                    iconId = R.drawable.ic_search,
+                    titleId = R.string.search_get_started_title,
+                    descriptionId = R.string.search_get_started_description,
+                    keyColor = KeyColor.SECONDARY,
+                ),
+            )
+        }
+    }
+
+    @Preview(
+        showBackground = true,
+        heightDp = 380,
+    )
+    @Composable
+    private fun EmptyResultPreview() {
+        AppTheme {
+            Content(
+                emptyItemData = EmptyItemData(
+                    iconId = R.drawable.ic_file_error,
+                    titleId = R.string.search_no_results_title,
+                    descriptionId = R.string.search_no_results_description,
+                    keyColor = KeyColor.SECONDARY,
+                ),
             )
         }
     }

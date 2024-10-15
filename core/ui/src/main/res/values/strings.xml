@@ -24,10 +24,15 @@
     <string name="home_cuisines">Cuisines</string>
 
     <!-- Search Screen -->
-    <string name="search_hint">Search for meals</string>
+    <string name="search_hint">Search for recipes</string>
+    <string name="search_get_started_title">Ready to Cook Something New?</string>
+    <string name="search_get_started_description">Search for a recipe name to get started</string>
+    <string name="search_no_results_title">No recipe found</string>
+    <string name="search_no_results_description">Please try with a different recipe name</string>
 
     <!-- Saved Meals Screen -->
-    <string name="saved_meals_empty_list_title">No saved items!</string>
+    <string name="saved_meals_empty_list_title">No saved meals yet</string>
+    <string name="saved_meals_empty_list_description">Save your favorite meals to access them quickly here</string>
 
     <!-- Details Screen -->
     <string name="meal_details_title">Recipe Details</string>
