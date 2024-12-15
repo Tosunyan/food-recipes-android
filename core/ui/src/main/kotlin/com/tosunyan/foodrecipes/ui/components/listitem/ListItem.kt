@@ -24,9 +24,9 @@ import androidx.constraintlayout.compose.Dimension
 import com.inconceptlabs.designsystem.components.core.Icon
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.inconceptlabs.designsystem.theme.NoIndication
 import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.theme.colors.paletteColors
+import com.inconceptlabs.designsystem.theme.indication.NoIndication
 import com.tosunyan.foodrecipes.ui.R
 
 @Composable
