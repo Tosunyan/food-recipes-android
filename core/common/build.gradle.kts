@@ -21,6 +21,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.di)
+
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization)
 }

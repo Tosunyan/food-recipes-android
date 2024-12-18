@@ -20,8 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MealDetailsViewModel(
-    private val repository: MealRepository = MealRepository(),
-    private val mealSavingHelper: MealSavingHelper = MealSavingHelper(repository),
+    private val repository: MealRepository,
+    private val mealSavingHelper: MealSavingHelper,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(MealDetailsScreenState())

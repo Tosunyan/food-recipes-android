@@ -3,7 +3,6 @@ package com.tosunyan.foodrecipes.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tosunyan.foodrecipes.data.repositories.HomeRepository
-import com.tosunyan.foodrecipes.data.repositories.MealRepository
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
@@ -16,9 +15,8 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class HomeViewModel(
-    private val homeRepository: HomeRepository = HomeRepository(),
-    private val mealRepository: MealRepository = MealRepository(),
-    private val mealSavingHelper: MealSavingHelper = MealSavingHelper(mealRepository)
+    private val homeRepository: HomeRepository,
+    private val mealSavingHelper: MealSavingHelper,
 ) : ViewModel() {
 
     val randomMeal = MutableStateFlow<MealDetailsModel?>(null)

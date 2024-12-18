@@ -24,6 +24,7 @@ android {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.di)
     implementation(projects.core.data)
     implementation(projects.core.model)
     // TODO Remove when ApiResponse is replaced with layer agnostic model

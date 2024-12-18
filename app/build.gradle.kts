@@ -73,6 +73,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.di)
     implementation(projects.core.ui)
     implementation(projects.core.data)
     implementation(projects.core.model)

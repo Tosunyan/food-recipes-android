@@ -6,7 +6,6 @@ import com.inconceptlabs.designsystem.components.emptyitem.EmptyItemData
 import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.tosunyan.foodrecipes.common.coroutines.WhileSubscribedOrRetained
 import com.tosunyan.foodrecipes.common.utils.replace
-import com.tosunyan.foodrecipes.data.repositories.MealRepository
 import com.tosunyan.foodrecipes.data.repositories.SearchRepository
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.network.api.onSuccess
@@ -26,9 +25,8 @@ import kotlinx.coroutines.launch
 
 @Suppress("OPT_IN_USAGE")
 class SearchViewModel(
-    private val repository: SearchRepository = SearchRepository(),
-    private val mealRepository: MealRepository = MealRepository(),
-    private val mealSavingHelper: MealSavingHelper = MealSavingHelper(mealRepository)
+    private val repository: SearchRepository,
+    private val mealSavingHelper: MealSavingHelper,
 ) : ViewModel() {
 
     private val _meals = MutableStateFlow<List<MealDetailsModel>>(emptyList())

@@ -1,7 +1,6 @@
 package com.tosunyan.foodrecipes.data.repositories
 
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsModels
-import com.tosunyan.foodrecipes.database.DatabaseProvider
 import com.tosunyan.foodrecipes.database.MealDatabase
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.network.api.Api
@@ -10,7 +9,7 @@ import com.tosunyan.foodrecipes.network.data.ListDto
 import com.tosunyan.foodrecipes.network.data.MealDetailsDto
 
 class SearchRepository(
-    private val database: MealDatabase = DatabaseProvider.instance,
+    private val database: MealDatabase,
 ) {
 
     suspend fun searchMeals(searchQuery: String): ApiResponse<List<MealDetailsModel>> {

@@ -4,7 +4,6 @@ import com.tosunyan.foodrecipes.common.coroutines.DispatcherProvider
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsList
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsModel
 import com.tosunyan.foodrecipes.data.mappers.toMealModels
-import com.tosunyan.foodrecipes.database.DatabaseProvider
 import com.tosunyan.foodrecipes.database.MealDatabase
 import com.tosunyan.foodrecipes.database.dao.IngredientDao
 import com.tosunyan.foodrecipes.database.dao.MealDao
@@ -27,8 +26,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class MealRepository(
-    private val database: MealDatabase = DatabaseProvider.instance,
-    private val dispatcher: DispatcherProvider = DispatcherProvider.default
+    private val database: MealDatabase,
+    private val dispatcher: DispatcherProvider,
 ) {
 
     fun getSavedMealsFlow(): Flow<List<MealDetailsModel>> {

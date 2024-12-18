@@ -18,6 +18,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.di)
+
     api(libs.room.runtime)
     api(libs.room.ktx)
     ksp(libs.room.compiler)

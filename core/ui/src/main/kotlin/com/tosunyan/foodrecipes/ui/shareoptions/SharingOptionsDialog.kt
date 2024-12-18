@@ -20,11 +20,13 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.listitem.ListItem
 import com.tosunyan.foodrecipes.ui.helpers.MealSharingHelper
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SharingOptionsBottomSheet(
     mealDetails: MealDetailsModel,
+    mealSharingHelper: MealSharingHelper = koinInject(),
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -53,7 +55,7 @@ fun SharingOptionsBottomSheet(
                 modifier = Modifier.padding(top = 16.dp),
                 onClick = {
                     onDismiss()
-                    MealSharingHelper.shareMeal(mealDetails, SharingOption.Link, context)
+                    mealSharingHelper.shareMeal(mealDetails, SharingOption.Link, context)
                 }
             )
 
@@ -64,7 +66,7 @@ fun SharingOptionsBottomSheet(
                 keyColor = KeyColor.SECONDARY,
                 onClick = {
                     onDismiss()
-                    MealSharingHelper.shareMeal(mealDetails, SharingOption.Text, context)
+                    mealSharingHelper.shareMeal(mealDetails, SharingOption.Text, context)
                 }
             )
 

@@ -51,6 +51,7 @@ import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
 import com.tosunyan.foodrecipes.ui.shareoptions.SharingOptionsBottomSheet
 import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
+import org.koin.compose.viewmodel.koinViewModel
 
 class MealDetailsScreen(
     private val mealModel: MealModel? = null,
@@ -69,7 +70,7 @@ class MealDetailsScreen(
 
     @Composable
     override fun Content() {
-        val viewModel = viewModel<MealDetailsViewModel>()
+        val viewModel = koinViewModel<MealDetailsViewModel>()
         val navigator = LocalNavigator.currentOrThrow
         val context = LocalContext.current
 

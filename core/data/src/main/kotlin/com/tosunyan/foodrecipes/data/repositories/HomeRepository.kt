@@ -3,7 +3,6 @@ package com.tosunyan.foodrecipes.data.repositories
 import com.tosunyan.foodrecipes.data.mappers.toCategoryModel
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsModel
 import com.tosunyan.foodrecipes.data.mappers.toRegionModels
-import com.tosunyan.foodrecipes.database.DatabaseProvider
 import com.tosunyan.foodrecipes.database.MealDatabase
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
@@ -16,7 +15,7 @@ import com.tosunyan.foodrecipes.network.api.mapOnSuccess
 import com.tosunyan.foodrecipes.network.data.CategoryDto
 
 class HomeRepository(
-    private val database: MealDatabase = DatabaseProvider.instance,
+    private val database: MealDatabase,
 ) {
 
     suspend fun getRandomMeal(): ApiResponse<MealDetailsModel?> {

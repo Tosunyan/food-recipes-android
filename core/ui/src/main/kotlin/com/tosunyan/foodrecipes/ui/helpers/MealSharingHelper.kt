@@ -8,9 +8,7 @@ import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.shareoptions.SharingOption
 import com.tosunyan.foodrecipes.ui.utils.launchIntentChooser
 
-object MealSharingHelper {
-
-    private const val BASE_URL = "https://foodrecipes.com/meal/"
+class MealSharingHelper {
 
     fun shareMeal(
         meal: MealDetailsModel,
@@ -44,5 +42,10 @@ ${meal.instructions}
 ${context.getString(R.string.meal_details_ingredients)}
 ${meal.ingredients.joinToString("\n") { "- ${it.quantity} ${it.name}" }}
                 """.trimIndent()
+    }
+
+    companion object {
+
+        private const val BASE_URL = "https://foodrecipes.com/meal/"
     }
 }

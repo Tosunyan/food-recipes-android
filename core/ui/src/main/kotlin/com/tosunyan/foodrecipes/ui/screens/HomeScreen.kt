@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
@@ -34,6 +33,7 @@ import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
 import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 class HomeScreen : Tab {
 
@@ -47,7 +47,7 @@ class HomeScreen : Tab {
 
     @Composable
     override fun Content() {
-        val viewModel = viewModel<HomeViewModel>()
+        val viewModel: HomeViewModel = koinViewModel()
         val navigator = LocalNavigator.current?.parent ?: return
 
         val errorMessage by viewModel.errorMessage.collectAsState()

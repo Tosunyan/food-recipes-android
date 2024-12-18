@@ -10,6 +10,7 @@ import com.inconceptlabs.designsystem.utils.ProvideThemedContent
 import com.tosunyan.foodrecipes.ui.bottomnavigation.BottomNavigationScreen
 import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
 import com.tosunyan.foodrecipes.ui.utils.IntentHandler
+import org.koin.compose.KoinContext
 
 fun ComponentActivity.setAppContent() {
     setupEdgeToEdge()
@@ -17,12 +18,14 @@ fun ComponentActivity.setAppContent() {
     ProvideThemedContent(
         indication = ScaleIndicationNodeFactory
     ) {
-        Navigator(
-            screen = BottomNavigationScreen()
-        ) {
-            SlideTransition(navigator = it)
+        KoinContext {
+            Navigator(
+                screen = BottomNavigationScreen()
+            ) {
+                SlideTransition(navigator = it)
 
-            IntentHandler()
+                IntentHandler()
+            }
         }
     }
 }

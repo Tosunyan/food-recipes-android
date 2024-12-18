@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SavedMealsViewModel(
-    private val repository: MealRepository = MealRepository(),
-    private val mealSavingHelper: MealSavingHelper = MealSavingHelper(repository)
+    repository: MealRepository,
+    private val mealSavingHelper: MealSavingHelper,
 ) : ViewModel() {
 
     val savedMeals: StateFlow<List<MealDetailsModel>> =

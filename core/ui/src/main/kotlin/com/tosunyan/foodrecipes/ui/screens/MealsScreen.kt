@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -34,6 +33,7 @@ import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
 import eu.wewox.textflow.TextFlow
 import eu.wewox.textflow.TextFlowObstacleAlignment
+import org.koin.compose.viewmodel.koinViewModel
 
 class MealsScreen(
     private val category: CategoryModel? = null,
@@ -48,7 +48,7 @@ class MealsScreen(
 
     @Composable
     override fun Content() {
-        val viewModel = viewModel<MealsViewModel>()
+        val viewModel = koinViewModel<MealsViewModel>()
         val navigator = LocalNavigator.currentOrThrow
 
         LaunchedEffect(category, region) {
