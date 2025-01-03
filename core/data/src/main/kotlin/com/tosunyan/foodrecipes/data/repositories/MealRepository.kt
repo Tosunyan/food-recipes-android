@@ -12,10 +12,7 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.SaveableMeal
 import com.tosunyan.foodrecipes.network.api.Api
-import com.tosunyan.foodrecipes.network.api.ApiResponse
 import com.tosunyan.foodrecipes.network.api.makeApiCall
-import com.tosunyan.foodrecipes.network.api.mapOnSuccess
-import com.tosunyan.foodrecipes.network.api.onSuccess
 import com.tosunyan.foodrecipes.network.data.ListDto
 import com.tosunyan.foodrecipes.network.data.MealDetailsDto
 import com.tosunyan.foodrecipes.network.data.MealDto
@@ -37,7 +34,7 @@ class MealRepository(
             .catch { emit(emptyList()) }
     }
 
-    suspend fun filterMealsByCategory(category: String): ApiResponse<List<MealModel>> {
+    suspend fun filterMealsByCategory(category: String): Result<List<MealModel>> {
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
             apiCall = { Api.client.filterMealsByCategory(category) },
@@ -45,7 +42,7 @@ class MealRepository(
         )
     }
 
-    suspend fun filterMealsByArea(area: String): ApiResponse<List<MealModel>> {
+    suspend fun filterMealsByArea(area: String): Result<List<MealModel>> {
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
             apiCall = { Api.client.filterMealsByArea(area) },
@@ -53,7 +50,7 @@ class MealRepository(
         )
     }
 
-    suspend fun getMealDetails(id: String): ApiResponse<MealDetailsModel> {
+    suspend fun getMealDetails(id: String): Result<MealDetailsModel> {
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
             apiCall = { Api.client.getMealDetails(id) },
@@ -83,7 +80,7 @@ class MealRepository(
 
     private suspend fun saveMeal(mealModel: MealModel) {
         getMealDetailsWithoutSavedStatus(mealModel.id)
-            .onSuccess { saveMeal(this) }
+            .onSuccess { saveMeal(it) }
     }
 
     private suspend fun saveMeal(mealDetails: MealDetailsModel) {
@@ -92,16 +89,16 @@ class MealRepository(
 
     private suspend fun removeSavedMeal(mealModel: MealModel) {
         getMealDetailsWithoutSavedStatus(mealModel.id)
-            .onSuccess { removeSavedMeal(this) }
+            .onSuccess { removeSavedMeal(it) }
     }
 
     private suspend fun removeSavedMeal(mealDetails: MealDetailsModel) {
         deleteMealWithIngredients(mealDetails)
     }
 
-    private suspend fun getMealDetailsWithoutSavedStatus(id: String): ApiResponse<MealDetailsModel> {
+    private suspend fun getMealDetailsWithoutSavedStatus(id: String): Result<MealDetailsModel> {
         return makeApiCall { Api.client.getMealDetails(id) }
-            .mapOnSuccess(ListDto<MealDetailsDto>::toMealDetailsModel)
+            .map(ListDto<MealDetailsDto>::toMealDetailsModel)
     }
 
     private suspend fun insertMealWithIngredients(mealDetails: MealDetailsModel) {

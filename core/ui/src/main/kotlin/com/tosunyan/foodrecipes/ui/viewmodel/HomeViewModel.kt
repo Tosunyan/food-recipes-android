@@ -6,7 +6,6 @@ import com.tosunyan.foodrecipes.data.repositories.HomeRepository
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
-import com.tosunyan.foodrecipes.network.api.ApiResponse
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,28 +44,25 @@ class HomeViewModel(
 
     private fun getRandomMeal() {
         viewModelScope.launch {
-            when (val response = homeRepository.getRandomMeal()) {
-                is ApiResponse.Success -> randomMeal.value = response.data
-                is ApiResponse.Failure -> showErrorMessage("Failed to fetch today's meal")
-            }
+            homeRepository.getRandomMeal()
+                .onSuccess { randomMeal.value = it }
+                .onFailure { showErrorMessage("Failed to fetch today's meal") }
         }
     }
 
     private fun getCategories() {
         viewModelScope.launch {
-            when (val response = homeRepository.getCategories()) {
-                is ApiResponse.Success -> categories.value = response.data
-                is ApiResponse.Failure -> showErrorMessage("Failed to fetch categories")
-            }
+            homeRepository.getCategories()
+                .onSuccess { categories.value = it }
+                .onFailure { showErrorMessage("Failed to fetch categories") }
         }
     }
 
     private fun getRegions() {
         viewModelScope.launch {
-            when (val response = homeRepository.getRegions()) {
-                is ApiResponse.Success -> regions.value = response.data
-                is ApiResponse.Failure -> showErrorMessage("Failed to fetch regions")
-            }
+            homeRepository.getRegions()
+                .onSuccess { regions.value = it }
+                .onFailure { showErrorMessage("Failed to fetch regions") }
         }
     }
 

@@ -8,7 +8,6 @@ import com.tosunyan.foodrecipes.common.coroutines.WhileSubscribedOrRetained
 import com.tosunyan.foodrecipes.common.utils.replace
 import com.tosunyan.foodrecipes.data.repositories.SearchRepository
 import com.tosunyan.foodrecipes.model.MealDetailsModel
-import com.tosunyan.foodrecipes.network.api.onSuccess
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,7 +76,7 @@ class SearchViewModel(
         viewModelScope.launch {
             repository
                 .searchMeals(text)
-                .onSuccess { _meals.value = this }
+                .onSuccess { _meals.value = it }
         }
     }
 

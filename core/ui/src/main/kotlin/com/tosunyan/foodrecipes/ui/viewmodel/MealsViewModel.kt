@@ -7,7 +7,6 @@ import com.tosunyan.foodrecipes.data.repositories.MealRepository
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
-import com.tosunyan.foodrecipes.network.api.getOrNull
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

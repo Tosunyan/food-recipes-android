@@ -4,7 +4,6 @@ import com.tosunyan.foodrecipes.data.mappers.toMealDetailsModels
 import com.tosunyan.foodrecipes.database.MealDatabase
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.network.api.Api
-import com.tosunyan.foodrecipes.network.api.ApiResponse
 import com.tosunyan.foodrecipes.network.data.ListDto
 import com.tosunyan.foodrecipes.network.data.MealDetailsDto
 
@@ -12,7 +11,7 @@ class SearchRepository(
     private val database: MealDatabase,
 ) {
 
-    suspend fun searchMeals(searchQuery: String): ApiResponse<List<MealDetailsModel>> {
+    suspend fun searchMeals(searchQuery: String): Result<List<MealDetailsModel>> {
         val apiCall = if (searchQuery.length == 1) {
             searchByFirstLetter(searchQuery.first())
         } else {

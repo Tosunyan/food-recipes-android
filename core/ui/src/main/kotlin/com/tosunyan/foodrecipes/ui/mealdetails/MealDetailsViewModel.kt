@@ -10,7 +10,6 @@ import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
-import com.tosunyan.foodrecipes.network.api.onSuccess
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import com.tosunyan.foodrecipes.ui.screens.MealsScreen
 import com.tosunyan.foodrecipes.ui.utils.openLink
@@ -108,9 +107,11 @@ class MealDetailsViewModel(
 
     private fun getMealDetailsFromApi(id: String) {
         viewModelScope.launch {
-            repository
-                .getMealDetails(id)
-                .onSuccess { _screenState.update { it.copy(meal = this) } }
+            repository.getMealDetails(id).onSuccess {
+                _screenState.update { state ->
+                    state.copy(meal = it)
+                }
+            }
         }
     }
 }

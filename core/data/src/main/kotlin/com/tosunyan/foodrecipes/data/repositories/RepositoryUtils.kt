@@ -9,9 +9,7 @@ import com.tosunyan.foodrecipes.database.dao.MealDao
 import com.tosunyan.foodrecipes.database.model.IngredientEntity
 import com.tosunyan.foodrecipes.database.model.MealEntity
 import com.tosunyan.foodrecipes.model.MealDetailsModel
-import com.tosunyan.foodrecipes.network.api.ApiResponse
 import com.tosunyan.foodrecipes.network.api.makeApiCall
-import com.tosunyan.foodrecipes.network.api.mapOnSuccess
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,7 +20,7 @@ suspend fun <T, R> getMealsWithSavedStatus(
     mealDao: MealDao,
     apiCall: suspend () -> Response<T>,
     mapper: T.(mealIds: List<String>) -> R
-): ApiResponse<R> {
+): Result<R> {
     return withContext(dispatcher.io) {
         val apiResponseDeferred = async { makeApiCall(dispatcher, apiCall) }
         val savedIdsDeferred = async { mealDao.getMealIds() }
@@ -30,7 +28,7 @@ suspend fun <T, R> getMealsWithSavedStatus(
         val apiResponse = apiResponseDeferred.await()
         val savedIds = savedIdsDeferred.await()
 
-        apiResponse.mapOnSuccess { mapper(savedIds) }
+        apiResponse.map { it.mapper(savedIds) }
     }
 }
 
