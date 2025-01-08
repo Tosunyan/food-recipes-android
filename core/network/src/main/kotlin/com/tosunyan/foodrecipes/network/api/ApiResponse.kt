@@ -39,3 +39,7 @@ inline fun <T, R> ApiResponse<T>.mapOnSuccess(action: T.() -> R): ApiResponse<R>
         is ApiResponse.Failure -> this
     }
 }
+
+fun <T> ApiResponse<T>.getOrNull(): T? {
+    return if (isSuccess()) this.data else null
+}
