@@ -13,12 +13,11 @@ import com.tosunyan.foodrecipes.network.api.makeApiCall
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 
 suspend fun <T, R> getMealsWithSavedStatus(
     dispatcher: DispatcherProvider = DispatcherProvider.default,
     mealDao: MealDao,
-    apiCall: suspend () -> Response<T>,
+    apiCall: suspend () -> T,
     mapper: T.(mealIds: List<String>) -> R
 ): Result<R> {
     return withContext(dispatcher.io) {
