@@ -7,13 +7,18 @@ import com.tosunyan.foodrecipes.database.MealDatabase
 import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
-import com.tosunyan.foodrecipes.network.api.Api
+import com.tosunyan.foodrecipes.network.api.ApiService
 import com.tosunyan.foodrecipes.network.api.makeApiCall
 import com.tosunyan.foodrecipes.network.data.CategoryDto
 
 class HomeRepository(
+    private val apiService: ApiService,
     private val database: MealDatabase,
 ) {
+
+    init {
+        println("${this::class.simpleName}.apiService: ${apiService::class.simpleName}")
+    }
 
     suspend fun getRandomMeal(): Result<MealDetailsModel?> {
         val response = randomMealResponse
@@ -25,7 +30,7 @@ class HomeRepository(
 
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
-            apiCall = Api.client::getRandomMeal,
+            apiCall = apiService::getRandomMeal,
             mapper = { items.firstOrNull()?.toMealDetailsModel(it) }
         ).also {
             randomMealResponse = it
@@ -37,7 +42,7 @@ class HomeRepository(
             if (it.isSuccess) return it
         }
 
-        return makeApiCall(apiCall = Api.client::getCategories)
+        return makeApiCall(apiCall = apiService::getCategories)
             .map {
                 it.items
                     .map(CategoryDto::toCategoryModel)
@@ -51,7 +56,7 @@ class HomeRepository(
             if (it.isSuccess) return it
         }
 
-        return makeApiCall(apiCall = Api.client::getAreas)
+        return makeApiCall(apiCall = apiService::getAreas)
             .map { it.items.toRegionModels() }
             .also { regionsResponse = it }
     }

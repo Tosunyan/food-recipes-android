@@ -11,7 +11,7 @@ import com.tosunyan.foodrecipes.database.model.MealWithIngredients
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.SaveableMeal
-import com.tosunyan.foodrecipes.network.api.Api
+import com.tosunyan.foodrecipes.network.api.ApiService
 import com.tosunyan.foodrecipes.network.api.makeApiCall
 import com.tosunyan.foodrecipes.network.data.ListDto
 import com.tosunyan.foodrecipes.network.data.MealDetailsDto
@@ -23,9 +23,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class MealRepository(
+    private val apiService: ApiService,
     private val database: MealDatabase,
     private val dispatcher: DispatcherProvider,
 ) {
+
+    init {
+        println("${this::class.simpleName}.apiService: ${apiService::class.simpleName}")
+    }
 
     fun getSavedMealsFlow(): Flow<List<MealDetailsModel>> {
         return database.mealDao.getAllMeals()
@@ -37,7 +42,7 @@ class MealRepository(
     suspend fun filterMealsByCategory(category: String): Result<List<MealModel>> {
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
-            apiCall = { Api.client.filterMealsByCategory(category) },
+            apiCall = { apiService.filterMealsByCategory(category) },
             mapper = ListDto<MealDto>::toMealModels
         )
     }
@@ -45,7 +50,7 @@ class MealRepository(
     suspend fun filterMealsByArea(area: String): Result<List<MealModel>> {
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
-            apiCall = { Api.client.filterMealsByArea(area) },
+            apiCall = { apiService.filterMealsByArea(area) },
             mapper = ListDto<MealDto>::toMealModels
         )
     }
@@ -53,7 +58,7 @@ class MealRepository(
     suspend fun getMealDetails(id: String): Result<MealDetailsModel> {
         return getMealsWithSavedStatus(
             mealDao = database.mealDao,
-            apiCall = { Api.client.getMealDetails(id) },
+            apiCall = { apiService.getMealDetails(id) },
             mapper = ListDto<MealDetailsDto>::toMealDetailsModel
         )
     }
@@ -97,7 +102,7 @@ class MealRepository(
     }
 
     private suspend fun getMealDetailsWithoutSavedStatus(id: String): Result<MealDetailsModel> {
-        return makeApiCall { Api.client.getMealDetails(id) }
+        return makeApiCall { apiService.getMealDetails(id) }
             .map(ListDto<MealDetailsDto>::toMealDetailsModel)
     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import com.tosunyan.foodrecipes.common.coroutines.CommonModule
 import com.tosunyan.foodrecipes.data.repositories.RepositoryModule
 import com.tosunyan.foodrecipes.database.DatabaseModule
+import com.tosunyan.foodrecipes.network.NetworkModule
 import com.tosunyan.foodrecipes.ui.UIModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,6 +26,7 @@ class FoodRecipesApplication : Application() {
             modules(
                 CommonModule,
                 DatabaseModule,
+                NetworkModule,
                 RepositoryModule,
                 UIModule,
             )
