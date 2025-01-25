@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65310747693",
+    "project_id": "food-recipes-adc44",
+    "storage_bucket": "food-recipes-adc44.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65310747693:android:d8e2c38bb54054869f9ca4",
+        "android_client_info": {
+          "package_name": "com.tosunyan.foodrecipes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_jLIL1NlM1MTXZzuZ88HDuXSJAU8M8ik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
