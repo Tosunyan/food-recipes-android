@@ -10,7 +10,11 @@ plugins {
 }
 
 android {
-    var properties = gradleLocalProperties(rootDir, providers)
+    var properties: Properties = gradleLocalProperties(rootDir, providers)
+
+    fun getProperty(key: String): String {
+        return System.getenv(key) ?: properties.getProperty(key)
+    }
 
     compileSdk = 34
 
@@ -27,9 +31,9 @@ android {
     signingConfigs {
         getByName("debug") {
             storeFile = file("$rootDir/debug.keystore")
-            storePassword = properties.getProperty("STORE_PASSWORD")
-            keyAlias = properties.getProperty("KEY_ALIAS")
-            keyPassword = properties.getProperty("STORE_PASSWORD")
+            storePassword = getProperty("STORE_PASSWORD")
+            keyAlias = getProperty("KEY_ALIAS")
+            keyPassword = getProperty("STORE_PASSWORD")
         }
 
         create("release") {
@@ -38,9 +42,9 @@ android {
             }
 
             storeFile = file("$rootDir/release.keystore")
-            storePassword = properties.getProperty("STORE_PASSWORD")
-            keyAlias = properties.getProperty("KEY_ALIAS")
-            keyPassword = properties.getProperty("STORE_PASSWORD")
+            storePassword = getProperty("STORE_PASSWORD")
+            keyAlias = getProperty("KEY_ALIAS")
+            keyPassword = getProperty("STORE_PASSWORD")
         }
     }
 

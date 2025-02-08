@@ -14,15 +14,20 @@ android {
         minSdk = 26
 
         val properties = gradleLocalProperties(rootDir, providers)
+
+        fun getProperty(key: String): String {
+            return System.getenv(key) ?: properties.getProperty(key)
+        }
+
         buildConfigField(
             type = "String",
             name = "MEAL_API_BASE_URL",
-            value = properties.getProperty("MEAL_API_BASE_URL")
+            value = getProperty("MEAL_API_BASE_URL")
         )
         buildConfigField(
             type = "String",
             name = "MEAL_API_KEY",
-            value = properties.getProperty("MEAL_API_KEY")
+            value = getProperty("MEAL_API_KEY")
         )
     }
 

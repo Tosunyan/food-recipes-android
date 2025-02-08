@@ -19,6 +19,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Development
 
     steps:
       - uses: actions/checkout@v4
@@ -38,8 +39,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Build with Gradle
-        run: ./gradlew build
       - name: Run Tests
         run: ./gradlew test
       - name: Build Debug APK
