@@ -39,6 +39,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Generate local properties
+        run: |
+          touch local.properties
+          touch prod.properties
 #      - name: Run Tests
 #        run: ./gradlew test
       - name: Build Debug APK
