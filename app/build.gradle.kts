@@ -13,7 +13,7 @@ android {
     var properties: Properties = gradleLocalProperties(rootDir, providers)
 
     fun getProperty(key: String): String {
-        return System.getenv(key) ?: properties.getProperty(key)
+        return System.getenv(key) ?: properties.getProperty(key) ?: ""
     }
 
     compileSdk = 34
