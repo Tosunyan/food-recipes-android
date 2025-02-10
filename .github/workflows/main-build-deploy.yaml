@@ -15,8 +15,8 @@ concurrency:
 
 env:
   APK_PATH: "app/build/outputs/apk/debug/app-debug.apk"
-  MEAL_API_BASE_URL: ${{ vars.MEAL_API_BASE_URL }}
-  MEAL_API_KEY: ${{ vars.MEAL_API_KEY }}
+  MEAL_API_BASE_URL: ${{ secrets.MEAL_API_BASE_URL }}
+  MEAL_API_KEY: ${{ secrets.MEAL_API_KEY }}
 
 jobs:
   build:
