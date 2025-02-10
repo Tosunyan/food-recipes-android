@@ -33,7 +33,7 @@ android {
             storeFile = file("$rootDir/debug.keystore")
             storePassword = getProperty("STORE_PASSWORD")
             keyAlias = getProperty("KEY_ALIAS")
-            keyPassword = getProperty("STORE_PASSWORD")
+            keyPassword = getProperty("KEY_PASSWORD")
         }
 
         create("release") {
@@ -44,7 +44,7 @@ android {
             storeFile = file("$rootDir/release.keystore")
             storePassword = getProperty("STORE_PASSWORD")
             keyAlias = getProperty("KEY_ALIAS")
-            keyPassword = getProperty("STORE_PASSWORD")
+            keyPassword = getProperty("KEY_PASSWORD")
         }
     }
 
