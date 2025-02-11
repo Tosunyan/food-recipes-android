@@ -51,7 +51,11 @@ jobs:
 #      - name: Run Tests
 #        run: ./gradlew test
       - name: Build Debug APK
-        run: ./gradlew app:assembleDebug
+        run: |
+          echo "Key alias: `$KEY_ALIAS`"
+          echo "Key alias: `${{ secrets.KEY_ALIAS }}`"
+          echo "Key password: `$KEY_PASSWORD`"
+          ./gradlew app:assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
