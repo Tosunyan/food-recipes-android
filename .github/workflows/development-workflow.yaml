@@ -1,0 +1,31 @@
+name: Development Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - github-actions # TODO Temporary
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+
+  APK_PATH: ${{ vars.APK_PATH }}
+  MEAL_API_BASE_URL: ${{ vars.MEAL_API_BASE_URL }}
+  MEAL_API_KEY: ${{ secrets.MEAL_API_KEY }}
+
+jobs:
+  test-build-deploy:
+    name: Test, Build, Deploy
+    uses: ./.github/workflows/test-build-deploy.yaml
+    with:
+      environment: "Production"
+      deploy: ${{ github.event_name == "push" }}
