@@ -22,21 +22,9 @@ env:
   MEAL_API_KEY: ${{ secrets.MEAL_API_KEY }}
 
 jobs:
-  test:
-    name: Test
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Run tests
-        run: ./gradlew test
-
-  build:
-    if: inputs.deploy
-    name: Build
-    runs-on: ubuntu-latest
-    environment: $ENVIRONMENT
-    needs: test
-
     steps:
       - uses: actions/checkout@v4
 
@@ -64,14 +52,22 @@ jobs:
           touch local.properties
           touch prod.properties
 
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run tests
+        run: ./gradlew test
+
+  build:
+    if: inputs.deploy
+    name: Build
+    runs-on: ubuntu-latest
+    environment: $ENVIRONMENT
+    needs: test
+    steps:
       - name: Build Debug APK
         run: ./gradlew app:assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
-          path: $APK_PATH
 
   deploy:
     if: inputs.deploy
@@ -79,6 +75,12 @@ jobs:
     runs-on: ubuntu/latest
     needs: build
     steps:
+      - name: Deploy to Github artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: $APK_PATH
+
       - name: Deploy to Firebase App Distribution
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
