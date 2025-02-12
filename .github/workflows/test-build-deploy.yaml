@@ -74,7 +74,7 @@ jobs:
           path: $APK_PATH
 
   deploy:
-    if: shouldDeploy
+    if: deploy
     name: Deploy
     runs-on: ubuntu/latest
     needs: build
