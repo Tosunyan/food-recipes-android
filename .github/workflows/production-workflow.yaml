@@ -27,4 +27,4 @@ jobs:
     uses: ./.github/workflows/test-build-deploy.yaml
     with:
       environment: "Production"
-      deploy: ${{ github.event_name == "push" }}
+      deploy: ${{ github.event_name == 'push' }}
