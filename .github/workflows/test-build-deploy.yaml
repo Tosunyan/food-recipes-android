@@ -54,6 +54,7 @@ jobs:
 
   test:
     name: Test
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Run tests
