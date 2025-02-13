@@ -19,7 +19,7 @@ env:
   STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
 
   APK_PATH: ${{ vars.APK_PATH }}
-  MEAL_API_BASE_URL: ${{ vars.MEAL_API_BASE_URL }}
+  MEAL_API_BASE_URL: ${{ vars.MEAL_API_URL }}
   MEAL_API_KEY: ${{ secrets.MEAL_API_KEY }}
 
 jobs:
