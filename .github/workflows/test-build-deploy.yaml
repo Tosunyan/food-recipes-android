@@ -92,6 +92,7 @@ jobs:
       - name: Set executable permission for Gradle
         run: chmod +x gradlew
 
+      # TODO Make dynamic
       - name: Build Debug APK
         run: ./gradlew app:assembleDebug
 
