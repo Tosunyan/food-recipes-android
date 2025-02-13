@@ -27,5 +27,5 @@ jobs:
     uses: ./.github/workflows/test-build-deploy.yaml
     secrets: inherit
     with:
-      environment: "Production"
+      environment: Production
       deploy: ${{ github.event_name == 'push' }}
