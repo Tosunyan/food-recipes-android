@@ -94,6 +94,9 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew app:assembleDebug
 
+      - name: List APK Directory
+        run: ls -al app/build/outputs/apk/debug
+
       - name: Deploy to Github artifacts
         uses: actions/upload-artifact@v4
         with:
