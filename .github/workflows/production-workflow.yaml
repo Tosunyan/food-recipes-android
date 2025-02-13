@@ -13,8 +13,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ENVIRONMENT: Production
-
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
   STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
@@ -29,4 +27,5 @@ jobs:
     uses: ./.github/workflows/test-build-deploy.yaml
     secrets: inherit
     with:
+      environment: Production
       deploy: ${{ github.event_name == 'push' }}
