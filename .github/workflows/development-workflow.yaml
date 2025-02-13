@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ENVIRONMENT: ${{ Development }}
+  ENVIRONMENT: Development
 
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
