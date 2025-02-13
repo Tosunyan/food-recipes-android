@@ -3,15 +3,12 @@ name: Deploy development build
 on:
   workflow_call:
     inputs:
-      environment:
-        required: true
-        type: string
       deploy:
         required: true
         type: boolean
 
 env:
-  ENVIRONMENT: ${{ inputs.environment }}
+  ENVIRONMENT: ${{ vars.environment }}
 
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
