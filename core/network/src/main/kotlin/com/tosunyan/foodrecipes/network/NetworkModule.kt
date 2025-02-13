@@ -23,7 +23,7 @@ import kotlin.random.Random
 
 val NetworkModule = module {
 
-    single<BaseUrl> { BaseUrl("${BuildConfig.MEAL_API_BASE_URL}/${BuildConfig.MEAL_API_KEY}/") }
+    single<BaseUrl> { BaseUrl("${BuildConfig.MEAL_API_URL}/${BuildConfig.MEAL_API_KEY}/") }
     single<ConverterFactoryProvider> { KotlinXConverterFactory }
     single<Converter.Factory> { get<ConverterFactoryProvider>().value }
     single<OkHttpClient> { new(::OkHttpClientProvider).value }

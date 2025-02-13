@@ -32,7 +32,7 @@ To set up this project on your local machine, follow these steps:
     STORE_PASSWORD=iM3hQqO1s1wUtDqr
 
     MEAL_API_KEY="1"
-    MEAL_API_BASE_URL="https://www.themealdb.com/api/json/v1"
+    MEAL_API_URL="https://www.themealdb.com/api/json/v1"
     ```
 3. Create `prod.properties` file in the root directory, with [required properties](https://docs.google.com/spreadsheets/d/1MuSYiBYV134sgj6BprrIJxMGM5QlVHRFwMjyO-bLQik/edit?usp=drive_link):
 4. Sync and run the project

@@ -21,8 +21,8 @@ android {
 
         buildConfigField(
             type = "String",
-            name = "MEAL_API_BASE_URL",
-            value = getProperty("MEAL_API_BASE_URL")
+            name = "MEAL_API_URL",
+            value = getProperty("MEAL_API_URL")
         )
         buildConfigField(
             type = "String",
