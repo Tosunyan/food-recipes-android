@@ -11,8 +11,6 @@ on:
         type: boolean
 
 env:
-  ENVIRONMENT: ${{ inputs.environment }}
-
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
   STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
