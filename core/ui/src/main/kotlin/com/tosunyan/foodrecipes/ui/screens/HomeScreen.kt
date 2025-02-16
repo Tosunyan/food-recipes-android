@@ -30,7 +30,7 @@ import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
-import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsItem
+import com.tosunyan.foodrecipes.ui.components.meals.DailySpecialItem
 import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -188,10 +188,9 @@ class HomeScreen : Tab {
             contentType = ContentType.DailySpecial,
             span = { GridItemSpan(SPAN_COUNT) }
         ) {
-            MealDetailsItem(
+            DailySpecialItem(
                 item = model,
                 isLoading = false,
-                backgroundColor = AppTheme.colorScheme.secondary.alpha10,
                 modifier = Modifier.animateItem(),
                 onClick = onDailySpecialClick,
                 onSaveIconClick = onSaveIconClick,

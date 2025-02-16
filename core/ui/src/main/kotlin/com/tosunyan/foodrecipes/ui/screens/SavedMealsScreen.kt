@@ -80,7 +80,11 @@ class SavedMealsScreen : Tab {
             } else {
                 MealDetailsList(
                     meals = meals,
-                    contentPadding = PaddingValues(vertical = 24.dp),
+                    modifier = Modifier.padding(top = 8.dp),
+                    contentPadding = PaddingValues(
+                        top = 16.dp,
+                        bottom = 84.dp
+                    ),
                     onItemClick = onMealClick,
                     onSaveIconClick = onSaveIconClick,
                 )

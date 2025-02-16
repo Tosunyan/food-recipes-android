@@ -108,7 +108,12 @@ class SearchScreen : Tab {
             } else {
                 MealDetailsList(
                     meals = meals,
-                    contentPadding = PaddingValues(horizontal = 0.dp, vertical = 24.dp),
+                    contentPadding = PaddingValues(
+                        start = 0.dp,
+                        end = 0.dp,
+                        top = 16.dp,
+                        bottom = 84.dp,
+                    ),
                     onItemClick = onMealItemClick,
                     onSaveIconClick = onSaveIconClick,
                 )

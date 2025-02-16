@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,25 +32,31 @@ import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.Label
+import com.tosunyan.foodrecipes.ui.theme.Gray100
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 
-
 @Composable
-fun MealDetailsItem(
+fun DailySpecialItem(
     item: MealDetailsModel,
     modifier: Modifier = Modifier,
-    height: Dp = 120.dp,
+    height: Dp = 140.dp,
+    backgroundColor: Color = Gray100,
     isLoading: Boolean = false,
     onClick: (MealDetailsModel) -> Unit,
     onSaveIconClick: (MealDetailsModel) -> Unit,
 ) {
     var isImageLoading by remember { mutableStateOf(true) }
-    val imageShape = RoundedCornerShape(12.dp)
+    val itemShape = RoundedCornerShape(8.dp)
+    val imageShape = itemShape.copy(
+        topEnd = CornerSize(0.dp),
+        bottomEnd = CornerSize(0.dp),
+    )
 
     ConstraintLayout(
         modifier = modifier
             .height(height)
             .clickable { onClick(item) }
+            .background(color = backgroundColor, shape = itemShape)
     ) {
         val (thumbnail, title, saveIcon, region, category) = createRefs()
 
@@ -84,8 +91,8 @@ fun MealDetailsItem(
                 .size(36.dp)
                 .padding(8.dp)
                 .constrainAs(saveIcon) {
-                    top.linkTo(parent.top, margin = (-4).dp)
-                    end.linkTo(parent.end)
+                    top.linkTo(parent.top, margin = 4.dp)
+                    end.linkTo(parent.end, margin = 8.dp)
                 }
                 .clickable { onSaveIconClick(item) },
         )
