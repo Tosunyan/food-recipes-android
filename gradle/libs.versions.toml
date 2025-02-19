@@ -1,6 +1,6 @@
 [versions]
 androidGradlePlugin = "8.5.2"
-kotlin = "2.0.10"
+kotlin = "2.1.10"
 ksp = "2.0.10-1.0.24"
 google-services = "4.4.2"
 firebase-crashlytics = "3.0.2"
