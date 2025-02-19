@@ -1,16 +1,20 @@
 package com.tosunyan.foodrecipes.ui.components.meals
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tosunyan.foodrecipes.model.MealModel
+import com.tosunyan.foodrecipes.ui.components.ScrollToTopButton
 
 val defaultPadding = PaddingValues(
     vertical = 24.dp,
@@ -27,26 +31,36 @@ fun MealsList(
     onSaveIconClick: (MealModel) -> Unit = { },
     leadingContent: LazyGridScope.() -> Unit = { },
 ) {
-    LazyVerticalGrid(
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        columns = GridCells.Fixed(2),
-        modifier = modifier
-            .fillMaxSize(),
-    ) {
-        leadingContent()
+    val lazyListState = rememberLazyGridState()
 
-        items(
-            key = MealModel::id,
-            items = meals,
-        ) { mealModel ->
-            MealItem(
-                item = mealModel,
-                isLoading = isLoading,
-                onClick = onItemClick,
-                onSaveIconClick = onSaveIconClick,
-            )
+    Box {
+        LazyVerticalGrid(
+            state = lazyListState,
+            contentPadding = contentPadding,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            columns = GridCells.Fixed(2),
+            modifier = modifier
+                .fillMaxSize(),
+        ) {
+            leadingContent()
+
+            items(
+                key = MealModel::id,
+                items = meals,
+            ) { mealModel ->
+                MealItem(
+                    item = mealModel,
+                    isLoading = isLoading,
+                    onClick = onItemClick,
+                    onSaveIconClick = onSaveIconClick,
+                )
+            }
         }
+
+        ScrollToTopButton(
+            scrollableState = lazyListState,
+            modifier = Modifier.align(Alignment.BottomCenter),
+        )
     }
 }

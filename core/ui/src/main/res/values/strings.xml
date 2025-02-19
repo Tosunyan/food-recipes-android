@@ -4,6 +4,7 @@
 
     <!-- General Strings -->
     <string name="verify">Verify</string>
+    <string name="top">Top</string>
 
     <!-- Errors -->
     <string name="error_activity_not_found">No app was found to perform the action.</string>
