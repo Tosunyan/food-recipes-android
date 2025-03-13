@@ -133,17 +133,19 @@ class MealsScreen(
     @Preview(showBackground = true)
     @Composable
     private fun ContentPreview() {
-        Content(
-            state = MealsViewModel.ScreenState(
-                isLoading = false,
-                title = "Vegetables",
-                meals = listOf(
-                    MealModel(id = "", name = "Potato"),
-                    MealModel(id = "", name = "Mushroom"),
-                    MealModel(id = "", name = "Tomato"),
-                    MealModel(id = "", name = "Cucumber"),
-                )
-            ),
-        )
+        AppTheme {
+            Content(
+                state = MealsViewModel.ScreenState(
+                    isLoading = false,
+                    title = "Vegetables",
+                    meals = listOf(
+                        MealModel(id = "1", name = "Potato"),
+                        MealModel(id = "2", name = "Mushroom"),
+                        MealModel(id = "3", name = "Tomato"),
+                        MealModel(id = "4", name = "Cucumber"),
+                    )
+                ),
+            )
+        }
     }
 }
