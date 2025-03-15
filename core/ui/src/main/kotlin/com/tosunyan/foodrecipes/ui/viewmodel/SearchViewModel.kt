@@ -31,10 +31,11 @@ class SearchViewModel(
     private val _meals = MutableStateFlow<List<MealDetailsModel>>(emptyList())
     val meals = _meals.asStateFlow()
 
-    private val searchInput = MutableStateFlow("")
+    private val _searchInput = MutableStateFlow("")
+    val searchInput = _searchInput.asStateFlow()
 
     val emptyItemData: StateFlow<EmptyItemData?> =
-        combine(_meals, searchInput) { items, input ->
+        combine(_meals, _searchInput) { items, input ->
             when {
                 input.isBlank() -> blankSearchEmptyItemData
                 items.isEmpty() -> noResultsEmptyItemData
@@ -47,7 +48,7 @@ class SearchViewModel(
         )
 
     init {
-        searchInput
+        _searchInput
             .debounce(SEARCH_DEBOUNCE)
             .filter(String::isNotBlank)
             .onEach(::searchForMeals)
@@ -59,7 +60,7 @@ class SearchViewModel(
             _meals.value = emptyList()
         }
 
-        searchInput.value = text
+        _searchInput.value = text
     }
 
     fun onSaveIconClick(meal: MealDetailsModel) {

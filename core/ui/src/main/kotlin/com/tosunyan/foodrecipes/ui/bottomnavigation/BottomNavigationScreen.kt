@@ -26,10 +26,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import com.inconceptlabs.designsystem.components.notification.Notification
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.components.notification.Notification
 import com.tosunyan.foodrecipes.ui.utils.launchAppLinksSettings
 
 class BottomNavigationScreen : Screen {
@@ -90,7 +90,7 @@ class BottomNavigationScreen : Screen {
             Notification(
                 startIcon = painterResource(id = R.drawable.ic_warning_fill),
                 title = stringResource(R.string.warning_app_links_not_verified),
-                subtitle = stringResource(R.string.warning_verify_app_links),
+                description = stringResource(R.string.warning_verify_app_links),
                 keyColor = KeyColor.ERROR,
                 buttonText = stringResource(R.string.verify),
                 onButtonClick = context::launchAppLinksSettings,

@@ -33,7 +33,6 @@ import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.Label
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 
-
 @Composable
 fun MealDetailsItem(
     item: MealDetailsModel,

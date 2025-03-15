@@ -51,6 +51,7 @@ class SearchScreen : Tab {
         val navigator = LocalNavigator.current?.parent ?: return
 
         Content(
+            input = viewModel.searchInput.collectAsState().value,
             meals = viewModel.meals.collectAsState().value,
             emptyItemData = viewModel.emptyItemData.collectAsState().value,
             onSearchInputChange = viewModel::onSearchInputChange,
@@ -64,6 +65,7 @@ class SearchScreen : Tab {
 
     @Composable
     private fun Content(
+        input: String = "",
         meals: List<MealDetailsModel> = emptyList(),
         emptyItemData: EmptyItemData? = null,
         onSearchInputChange: (String) -> Unit = { },
@@ -93,6 +95,7 @@ class SearchScreen : Tab {
             )
 
             InputForm(
+                input = input,
                 hint = stringResource(id = R.string.search_hint),
                 modifier = Modifier
                     .focusRequester(focusRequester)
