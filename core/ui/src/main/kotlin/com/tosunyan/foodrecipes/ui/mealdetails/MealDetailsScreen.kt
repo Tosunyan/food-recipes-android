@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -49,6 +48,7 @@ import com.tosunyan.foodrecipes.ui.components.LabelData
 import com.tosunyan.foodrecipes.ui.components.TextButton
 import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
 import com.tosunyan.foodrecipes.ui.shareoptions.SharingOptionsBottomSheet
+import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 import org.koin.compose.viewmodel.koinViewModel
@@ -144,7 +144,7 @@ class MealDetailsScreen(
     @Preview(showBackground = true)
     @Composable
     private fun ContentPreview() {
-        AppTheme {
+        FoodRecipesTheme {
             Content(
                 screenState = MealDetailsScreenState(
                     meal = MealDetailsModel(

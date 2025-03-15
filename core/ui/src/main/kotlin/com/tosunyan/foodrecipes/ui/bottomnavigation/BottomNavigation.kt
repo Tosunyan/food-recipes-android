@@ -48,7 +48,7 @@ import com.inconceptlabs.designsystem.components.core.Icon
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
+import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
@@ -275,15 +275,11 @@ private fun ComponentPreview() {
         )
     )
 
-    AppTheme(indication = ScaleIndicationNodeFactory) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            BottomNavigation(
-                items = items,
-                isLabeled = true,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-            )
-        }
+    FoodRecipesTheme {
+        BottomNavigation(
+            items = items,
+            isLabeled = true,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

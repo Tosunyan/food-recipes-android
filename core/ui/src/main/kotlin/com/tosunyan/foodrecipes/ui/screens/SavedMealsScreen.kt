@@ -22,6 +22,7 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
 import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import com.tosunyan.foodrecipes.ui.viewmodel.SavedMealsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -98,7 +99,7 @@ class SavedMealsScreen : Tab {
     )
     @Composable
     private fun EmptyResultPreview() {
-        AppTheme {
+        FoodRecipesTheme {
             Content(
                 meals = emptyList()
             )
@@ -111,7 +112,7 @@ class SavedMealsScreen : Tab {
     )
     @Composable
     private fun DefaultScreenPreview() {
-        AppTheme {
+        FoodRecipesTheme {
             Content(
                 meals = listOf(
                     MealDetailsModel(

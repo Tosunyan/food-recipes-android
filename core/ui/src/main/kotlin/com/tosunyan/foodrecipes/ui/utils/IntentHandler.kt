@@ -7,16 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.util.Consumer
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
 
 @Composable
-fun ComponentActivity.IntentHandler() {
-    val navigator = LocalNavigator.current ?: return
-
+fun ComponentActivity.IntentHandler(navigator: Navigator) {
     LaunchedEffect(intent) {
         onNewIntent(navigator)
     }

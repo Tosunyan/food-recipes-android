@@ -6,25 +6,22 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import com.inconceptlabs.designsystem.utils.ProvideThemedContent
 import com.tosunyan.foodrecipes.ui.bottomnavigation.BottomNavigationScreen
-import com.tosunyan.foodrecipes.ui.theme.indication.ScaleIndicationNodeFactory
+import com.tosunyan.foodrecipes.ui.theme.setThemedContent
 import com.tosunyan.foodrecipes.ui.utils.IntentHandler
 import org.koin.compose.KoinContext
 
 fun ComponentActivity.setAppContent() {
     setupEdgeToEdge()
 
-    ProvideThemedContent(
-        indication = ScaleIndicationNodeFactory
-    ) {
+    setThemedContent {
         KoinContext {
             Navigator(
                 screen = BottomNavigationScreen()
             ) {
                 SlideTransition(navigator = it)
 
-                IntentHandler()
+                IntentHandler(navigator = it)
             }
         }
     }

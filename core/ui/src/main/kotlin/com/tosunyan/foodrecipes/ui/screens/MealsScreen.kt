@@ -30,6 +30,7 @@ import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.components.Toolbar
 import com.tosunyan.foodrecipes.ui.components.meals.MealsList
 import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
 import eu.wewox.textflow.TextFlow
 import eu.wewox.textflow.TextFlowObstacleAlignment
@@ -133,7 +134,7 @@ class MealsScreen(
     @Preview(showBackground = true)
     @Composable
     private fun ContentPreview() {
-        AppTheme {
+        FoodRecipesTheme {
             Content(
                 state = MealsViewModel.ScreenState(
                     isLoading = false,

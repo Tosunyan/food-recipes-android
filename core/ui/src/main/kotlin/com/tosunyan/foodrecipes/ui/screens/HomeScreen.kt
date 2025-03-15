@@ -32,6 +32,7 @@ import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
 import com.tosunyan.foodrecipes.ui.components.meals.DailySpecialItem
 import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -116,7 +117,7 @@ class HomeScreen : Tab {
     @Preview(showBackground = true)
     @Composable
     private fun ContentPreview() {
-        AppTheme {
+        FoodRecipesTheme {
             Content(
                 dailySpecial = MealDetailsModel(
                     name = "Pepperoni very delicious",
