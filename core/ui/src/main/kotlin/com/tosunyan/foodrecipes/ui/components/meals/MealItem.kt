@@ -1,5 +1,6 @@
 package com.tosunyan.foodrecipes.ui.components.meals
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,8 +34,11 @@ import com.inconceptlabs.designsystem.theme.AppTheme
 import com.inconceptlabs.designsystem.theme.LocalContentColor
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.ui.R
+import com.tosunyan.foodrecipes.ui.theme.LocalAnimatedContentScope
+import com.tosunyan.foodrecipes.ui.theme.LocalSharedTransitionScope
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun MealItem(
     item: MealModel,
@@ -68,6 +72,14 @@ fun MealItem(
                 .height(180.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(shimmerBrush(isLoading || isImageLoading))
+                .run {
+                    with(LocalSharedTransitionScope.current) {
+                        sharedElement(
+                            state = rememberSharedContentState("MealItem.thumbnail"),
+                            animatedVisibilityScope = LocalAnimatedContentScope.current,
+                        )
+                    }
+                }
         )
 
         CompositionLocalProvider(

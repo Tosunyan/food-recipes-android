@@ -1,5 +1,6 @@
 package com.tosunyan.foodrecipes.ui.mealdetails
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -48,6 +49,8 @@ import com.tosunyan.foodrecipes.ui.components.TextButton
 import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
 import com.tosunyan.foodrecipes.ui.shareoptions.SharingOptionsBottomSheet
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
+import com.tosunyan.foodrecipes.ui.theme.LocalAnimatedContentScope
+import com.tosunyan.foodrecipes.ui.theme.LocalSharedTransitionScope
 import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
 import org.koin.compose.viewmodel.koinViewModel
@@ -214,6 +217,7 @@ class MealDetailsScreen(
         }
     }
 
+    @OptIn(ExperimentalSharedTransitionApi::class)
     private fun LazyListScope.mealThumbnail(meal: MealDetailsModel) {
         if (meal.thumbnail.isBlank()) return
 
@@ -233,6 +237,14 @@ class MealDetailsScreen(
                     .height(320.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(shimmerBrush(isImageLoading))
+                    .run {
+                        with(LocalSharedTransitionScope.current) {
+                            sharedElement(
+                                state = rememberSharedContentState("MealItem.thumbnail"),
+                                animatedVisibilityScope = LocalAnimatedContentScope.current,
+                            )
+                        }
+                    }
             )
         }
     }
