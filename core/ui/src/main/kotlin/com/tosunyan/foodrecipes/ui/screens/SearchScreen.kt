@@ -55,6 +55,7 @@ class SearchScreen : Tab {
             meals = viewModel.meals.collectAsState().value,
             emptyItemData = viewModel.emptyItemData.collectAsState().value,
             onSearchInputChange = viewModel::onSearchInputChange,
+            onSearchCloseClick = viewModel::onSearchCloseClick,
             onMealItemClick = {
                 val screen = MealDetailsScreen(mealDetailsModel = it)
                 navigator.push(screen)
@@ -69,6 +70,7 @@ class SearchScreen : Tab {
         meals: List<MealDetailsModel> = emptyList(),
         emptyItemData: EmptyItemData? = null,
         onSearchInputChange: (String) -> Unit = { },
+        onSearchCloseClick: () -> Unit = { },
         onMealItemClick: (MealDetailsModel) -> Unit = { },
         onSaveIconClick: (MealDetailsModel) -> Unit = { },
     ) {
@@ -97,11 +99,16 @@ class SearchScreen : Tab {
             InputForm(
                 input = input,
                 hint = stringResource(id = R.string.search_hint),
+                keyColor = KeyColor.SECONDARY,
+                startIcon = painterResource(R.drawable.ic_search),
+                endIcon = painterResource(R.drawable.ic_close)
+                    .takeIf { input.isNotEmpty() },
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .fillMaxWidth()
                     .padding(top = 8.dp),
                 onInputChange = onSearchInputChange,
+                onEndIconClick = onSearchCloseClick,
             )
 
             if (emptyItemData != null) {

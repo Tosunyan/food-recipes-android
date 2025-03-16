@@ -63,6 +63,10 @@ class SearchViewModel(
         _searchInput.value = text
     }
 
+    fun onSearchCloseClick() {
+        onSearchInputChange()
+    }
+
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
             mealSavingHelper.toggleSavedState(meal) { isSaved ->
