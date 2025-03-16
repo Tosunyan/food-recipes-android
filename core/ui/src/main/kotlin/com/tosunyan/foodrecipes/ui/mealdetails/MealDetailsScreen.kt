@@ -37,7 +37,6 @@ import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.inconceptlabs.designsystem.theme.LocalContentColor
 import com.inconceptlabs.designsystem.theme.attributes.CornerType
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.theme.attributes.Size
 import com.tosunyan.foodrecipes.model.IngredientModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
@@ -183,7 +182,6 @@ class MealDetailsScreen(
                     icon = painterResource(id = R.drawable.ic_back),
                     size = Size.S,
                     cornerType = CornerType.CIRCULAR,
-                    keyColor = KeyColor.SECONDARY,
                     onClick = onBackButtonClick
                 )
 
@@ -197,7 +195,6 @@ class MealDetailsScreen(
                     icon = painterResource(id = R.drawable.ic_share),
                     size = Size.S,
                     cornerType = CornerType.CIRCULAR,
-                    keyColor = KeyColor.SECONDARY,
                     onClick = onShareButtonClick,
                 )
 
@@ -210,7 +207,6 @@ class MealDetailsScreen(
                         icon = painterResource(id = iconResId),
                         size = Size.S,
                         cornerType = CornerType.CIRCULAR,
-                        keyColor = KeyColor.SECONDARY,
                         onClick = onSaveButtonClick
                     )
                 }

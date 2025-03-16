@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.listitem.ListItem
@@ -51,7 +50,6 @@ fun SharingOptionsBottomSheet(
                 title = stringResource(R.string.sharing_option_link_title),
                 subtitle = stringResource(R.string.sharing_option_link_description),
                 startIcon = painterResource(R.drawable.ic_link),
-                keyColor = KeyColor.SECONDARY,
                 modifier = Modifier.padding(top = 16.dp),
                 onClick = {
                     onDismiss()
@@ -63,7 +61,6 @@ fun SharingOptionsBottomSheet(
                 title = stringResource(R.string.sharing_option_text_title),
                 subtitle = stringResource(R.string.sharing_option_text_description),
                 startIcon = painterResource(R.drawable.ic_text),
-                keyColor = KeyColor.SECONDARY,
                 onClick = {
                     onDismiss()
                     mealSharingHelper.shareMeal(mealDetails, SharingOption.Text, context)

@@ -17,7 +17,6 @@ import com.inconceptlabs.designsystem.components.buttons.IconButton
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.inconceptlabs.designsystem.theme.attributes.CornerType
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.theme.attributes.Size
 import com.tosunyan.foodrecipes.ui.R
 
@@ -41,7 +40,6 @@ fun Toolbar(
             icon = painterResource(id = R.drawable.ic_back),
             size = Size.S,
             cornerType = CornerType.CIRCULAR,
-            keyColor = KeyColor.SECONDARY,
             onClick = onBackClick
         )
 

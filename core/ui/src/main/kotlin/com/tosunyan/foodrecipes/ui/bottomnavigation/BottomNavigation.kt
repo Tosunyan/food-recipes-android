@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -163,7 +162,7 @@ private fun RowScope.NavigationItem(
             )
     ) {
         val itemColor = if (item.isSelected) {
-            AppTheme.colorScheme.secondary.dark5
+            AppTheme.colorScheme.primary.dark5
         } else {
             AppTheme.colorScheme.T8
         }

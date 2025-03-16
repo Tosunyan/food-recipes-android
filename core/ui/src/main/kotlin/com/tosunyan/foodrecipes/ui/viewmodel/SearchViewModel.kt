@@ -3,7 +3,6 @@ package com.tosunyan.foodrecipes.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inconceptlabs.designsystem.components.emptyitem.EmptyItemData
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.tosunyan.foodrecipes.common.coroutines.WhileSubscribedOrRetained
 import com.tosunyan.foodrecipes.common.utils.replace
 import com.tosunyan.foodrecipes.data.repositories.SearchRepository
@@ -93,14 +92,12 @@ class SearchViewModel(
             iconId = R.drawable.ic_search,
             titleId = R.string.search_get_started_title,
             descriptionId = R.string.search_get_started_description,
-            keyColor = KeyColor.SECONDARY,
         )
 
         private val noResultsEmptyItemData = EmptyItemData(
             iconId = R.drawable.ic_file_error,
             titleId = R.string.search_no_results_title,
             descriptionId = R.string.search_no_results_description,
-            keyColor = KeyColor.SECONDARY,
         )
     }
 }

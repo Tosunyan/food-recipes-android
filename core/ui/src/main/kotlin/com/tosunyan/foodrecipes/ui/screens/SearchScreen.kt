@@ -25,7 +25,6 @@ import com.inconceptlabs.designsystem.components.emptyitem.EmptyItem
 import com.inconceptlabs.designsystem.components.emptyitem.EmptyItemData
 import com.inconceptlabs.designsystem.components.input.InputForm
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.utils.clearFocusOnGesture
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
@@ -99,7 +98,6 @@ class SearchScreen : Tab {
             InputForm(
                 input = input,
                 hint = stringResource(id = R.string.search_hint),
-                keyColor = KeyColor.SECONDARY,
                 startIcon = painterResource(R.drawable.ic_search),
                 endIcon = painterResource(R.drawable.ic_close)
                     .takeIf { input.isNotEmpty() },
@@ -144,7 +142,6 @@ class SearchScreen : Tab {
                     iconId = R.drawable.ic_search,
                     titleId = R.string.search_get_started_title,
                     descriptionId = R.string.search_get_started_description,
-                    keyColor = KeyColor.SECONDARY,
                 ),
             )
         }
@@ -162,7 +159,6 @@ class SearchScreen : Tab {
                     iconId = R.drawable.ic_file_error,
                     titleId = R.string.search_no_results_title,
                     descriptionId = R.string.search_no_results_description,
-                    keyColor = KeyColor.SECONDARY,
                 ),
             )
         }

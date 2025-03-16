@@ -17,7 +17,6 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.components.emptyitem.EmptyItem
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
@@ -75,7 +74,6 @@ class SavedMealsScreen : Tab {
                     icon = painterResource(R.drawable.ic_bookmark),
                     title = stringResource(R.string.saved_meals_empty_list_title),
                     description = stringResource(R.string.saved_meals_empty_list_description),
-                    keyColor = KeyColor.SECONDARY,
                     modifier = Modifier.padding(top = 24.dp),
                 )
             } else {

@@ -72,7 +72,7 @@ fun MealDetailsItem(
         )
 
         val (saveIconResId, saveIconTint) = if (item.isSaved) {
-            R.drawable.ic_bookmark_fill to AppTheme.colorScheme.secondary.main
+            R.drawable.ic_bookmark_fill to AppTheme.colorScheme.primary.main
         } else {
             R.drawable.ic_bookmark to AppTheme.colorScheme.T8
         }
