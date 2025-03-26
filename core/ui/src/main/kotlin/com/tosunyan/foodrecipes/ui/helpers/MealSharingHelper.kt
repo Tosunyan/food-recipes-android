@@ -5,7 +5,7 @@ import android.content.Intent
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.SaveableMeal
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.shareoptions.SharingOption
+import com.tosunyan.foodrecipes.ui.screens.shareoptions.SharingOption
 import com.tosunyan.foodrecipes.ui.utils.launchIntentChooser
 
 class MealSharingHelper {

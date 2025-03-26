@@ -1,12 +1,12 @@
-package com.tosunyan.foodrecipes.ui.bottomnavigation
+package com.tosunyan.foodrecipes.ui.screens.bottomnavigation
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.screens.HomeScreen
-import com.tosunyan.foodrecipes.ui.screens.SavedMealsScreen
-import com.tosunyan.foodrecipes.ui.screens.SearchScreen
+import com.tosunyan.foodrecipes.ui.screens.home.HomeScreen
+import com.tosunyan.foodrecipes.ui.screens.savedmeals.SavedMealsScreen
+import com.tosunyan.foodrecipes.ui.screens.search.SearchScreen
 import com.tosunyan.foodrecipes.ui.theme.painterResource
 import com.tosunyan.foodrecipes.ui.utils.areAppLinksVerified
 import kotlinx.coroutines.flow.MutableStateFlow

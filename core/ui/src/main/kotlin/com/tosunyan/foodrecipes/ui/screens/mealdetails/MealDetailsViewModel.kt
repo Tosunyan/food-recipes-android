@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.mealdetails
+package com.tosunyan.foodrecipes.ui.screens.mealdetails
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
-import com.tosunyan.foodrecipes.ui.screens.MealsScreen
+import com.tosunyan.foodrecipes.ui.screens.meals.MealsScreen
 import com.tosunyan.foodrecipes.ui.utils.openLink
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

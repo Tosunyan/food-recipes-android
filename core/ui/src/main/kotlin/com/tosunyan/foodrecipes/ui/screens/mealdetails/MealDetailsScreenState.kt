@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.mealdetails
+package com.tosunyan.foodrecipes.ui.screens.mealdetails
 
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 

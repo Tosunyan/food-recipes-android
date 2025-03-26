@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.screens
+package com.tosunyan.foodrecipes.ui.screens.savedmeals
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,9 +20,8 @@ import com.inconceptlabs.designsystem.theme.AppTheme
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
-import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
-import com.tosunyan.foodrecipes.ui.viewmodel.SavedMealsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class SavedMealsScreen : Tab {

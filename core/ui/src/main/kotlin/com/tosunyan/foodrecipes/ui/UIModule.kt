@@ -2,11 +2,11 @@ package com.tosunyan.foodrecipes.ui
 
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import com.tosunyan.foodrecipes.ui.helpers.MealSharingHelper
-import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsViewModel
-import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
-import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
-import com.tosunyan.foodrecipes.ui.viewmodel.SavedMealsViewModel
-import com.tosunyan.foodrecipes.ui.viewmodel.SearchViewModel
+import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsViewModel
+import com.tosunyan.foodrecipes.ui.screens.home.HomeViewModel
+import com.tosunyan.foodrecipes.ui.screens.meals.MealsViewModel
+import com.tosunyan.foodrecipes.ui.screens.savedmeals.SavedMealsViewModel
+import com.tosunyan.foodrecipes.ui.screens.search.SearchViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module

@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.bottomnavigation
+package com.tosunyan.foodrecipes.ui.screens.bottomnavigation
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility

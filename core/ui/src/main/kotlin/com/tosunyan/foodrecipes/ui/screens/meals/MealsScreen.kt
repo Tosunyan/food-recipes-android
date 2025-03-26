@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.screens
+package com.tosunyan.foodrecipes.ui.screens.meals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -29,9 +29,8 @@ import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.ui.components.Toolbar
 import com.tosunyan.foodrecipes.ui.components.meals.MealsList
-import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
-import com.tosunyan.foodrecipes.ui.viewmodel.MealsViewModel
 import eu.wewox.textflow.TextFlow
 import eu.wewox.textflow.TextFlowObstacleAlignment
 import org.koin.compose.viewmodel.koinViewModel

@@ -10,7 +10,7 @@ import androidx.core.util.Consumer
 import cafe.adriel.voyager.navigator.Navigator
 import com.tosunyan.foodrecipes.model.MealModel
 import com.tosunyan.foodrecipes.ui.R
-import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
 
 @Composable
 fun ComponentActivity.IntentHandler(navigator: Navigator) {

@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.shareoptions
+package com.tosunyan.foodrecipes.ui.screens.shareoptions
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.navigationBarsPadding

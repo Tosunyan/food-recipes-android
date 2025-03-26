@@ -6,7 +6,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import com.tosunyan.foodrecipes.ui.bottomnavigation.BottomNavigationScreen
+import com.tosunyan.foodrecipes.ui.screens.bottomnavigation.BottomNavigationScreen
 import com.tosunyan.foodrecipes.ui.theme.setThemedContent
 import com.tosunyan.foodrecipes.ui.utils.IntentHandler
 import org.koin.compose.KoinContext

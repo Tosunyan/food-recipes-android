@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.screens
+package com.tosunyan.foodrecipes.ui.screens.home
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -31,9 +31,9 @@ import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
 import com.tosunyan.foodrecipes.ui.components.meals.DailySpecialItem
-import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.screens.meals.MealsScreen
+import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
-import com.tosunyan.foodrecipes.ui.viewmodel.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class HomeScreen : Tab {

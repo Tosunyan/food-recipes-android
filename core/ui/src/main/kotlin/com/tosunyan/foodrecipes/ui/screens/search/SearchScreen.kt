@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.screens
+package com.tosunyan.foodrecipes.ui.screens.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,9 +29,8 @@ import com.inconceptlabs.designsystem.utils.clearFocusOnGesture
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
-import com.tosunyan.foodrecipes.ui.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
-import com.tosunyan.foodrecipes.ui.viewmodel.SearchViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class SearchScreen : Tab {

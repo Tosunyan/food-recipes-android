@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.viewmodel
+package com.tosunyan.foodrecipes.ui.screens.savedmeals
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

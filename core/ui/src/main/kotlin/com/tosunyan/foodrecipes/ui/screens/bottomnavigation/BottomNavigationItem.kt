@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.bottomnavigation
+package com.tosunyan.foodrecipes.ui.screens.bottomnavigation
 
 import androidx.compose.ui.graphics.painter.Painter
 

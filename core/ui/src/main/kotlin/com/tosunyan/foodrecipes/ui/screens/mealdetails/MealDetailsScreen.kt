@@ -1,4 +1,4 @@
-package com.tosunyan.foodrecipes.ui.mealdetails
+package com.tosunyan.foodrecipes.ui.screens.mealdetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,7 +46,7 @@ import com.tosunyan.foodrecipes.ui.components.Label
 import com.tosunyan.foodrecipes.ui.components.LabelData
 import com.tosunyan.foodrecipes.ui.components.TextButton
 import com.tosunyan.foodrecipes.ui.components.listitem.IngredientItem
-import com.tosunyan.foodrecipes.ui.shareoptions.SharingOptionsBottomSheet
+import com.tosunyan.foodrecipes.ui.screens.shareoptions.SharingOptionsBottomSheet
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
