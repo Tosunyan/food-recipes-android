@@ -32,7 +32,6 @@ dependencies {
     implementation(projects.core.di)
     implementation(projects.core.data)
     implementation(projects.core.model)
-    implementation(projects.core.database)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.foundation)

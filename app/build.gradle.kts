@@ -77,16 +77,8 @@ android {
 
 dependencies {
 
-    // TODO
-    //  Investigate better way of dependency management
-    //  We only need the UI here, others are added for Koin
-    implementation(projects.core.common)
     implementation(projects.core.di)
     implementation(projects.core.ui)
-    implementation(projects.core.data)
-    implementation(projects.core.model)
-    implementation(projects.core.database)
-    implementation(projects.core.network)
 
     implementation(libs.appcompat)
 
