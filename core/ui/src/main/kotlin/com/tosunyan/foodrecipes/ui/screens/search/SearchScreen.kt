@@ -1,5 +1,7 @@
 package com.tosunyan.foodrecipes.ui.screens.search
 
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,8 +13,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.node.CompositionLocalConsumerModifierNode
+import androidx.compose.ui.node.DelegatingNode
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.ObserverModifierNode
+import androidx.compose.ui.node.currentValueOf
+import androidx.compose.ui.node.observeReads
+import androidx.compose.ui.platform.InspectorInfo
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +37,6 @@ import com.inconceptlabs.designsystem.components.emptyitem.EmptyItem
 import com.inconceptlabs.designsystem.components.emptyitem.EmptyItemData
 import com.inconceptlabs.designsystem.components.input.InputForm
 import com.inconceptlabs.designsystem.theme.AppTheme
-import com.inconceptlabs.designsystem.utils.clearFocusOnGesture
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.meals.MealDetailsList
@@ -160,6 +171,64 @@ class SearchScreen : Tab {
                     descriptionId = R.string.search_no_results_description,
                 ),
             )
+        }
+    }
+}
+
+fun Modifier.clearFocusOnGesture(): Modifier {
+    return this then ClearFocusElement()
+}
+
+private class ClearFocusElement : ModifierNodeElement<ClearFocusNode>() {
+
+    override fun create(): ClearFocusNode {
+        return ClearFocusNode()
+    }
+
+    override fun update(node: ClearFocusNode) = Unit
+
+    override fun equals(other: Any?): Boolean {
+        return other is ClearFocusElement
+    }
+
+    override fun hashCode(): Int {
+        return ClearFocusElement::class.hashCode()
+    }
+
+    override fun InspectorInfo.inspectableProperties() {
+        name = "ClearFocusOnGesture"
+    }
+}
+
+private class ClearFocusNode : DelegatingNode(),
+    CompositionLocalConsumerModifierNode,
+    ObserverModifierNode {
+
+    private var focusManager: FocusManager? = null
+
+    override fun onAttach() {
+        onObservedReadsChanged()
+    }
+
+    override fun onDetach() {
+        focusManager = null
+    }
+
+    override fun onObservedReadsChanged() {
+        observeReads {
+            focusManager = currentValueOf(LocalFocusManager)
+
+            Modifier
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures { _, _ ->
+                        focusManager?.clearFocus()
+                    }
+                }
+                .pointerInput(Unit) {
+                    detectTapGestures {
+                        focusManager?.clearFocus()
+                    }
+                }
         }
     }
 }

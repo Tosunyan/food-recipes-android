@@ -1,6 +1,7 @@
 package com.tosunyan.foodrecipes.ui.screens.mealdetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
 import com.inconceptlabs.designsystem.components.buttons.IconButton
+import com.inconceptlabs.designsystem.components.buttons.token.LocalButtonTokens
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
 import com.inconceptlabs.designsystem.theme.LocalContentColor
@@ -50,6 +52,7 @@ import com.tosunyan.foodrecipes.ui.screens.shareoptions.SharingOptionsBottomShee
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import com.tosunyan.foodrecipes.ui.theme.Red900
 import com.tosunyan.foodrecipes.ui.theme.shimmerBrush
+import com.tosunyan.foodrecipes.ui.theme.tokens.WebsiteButtonTokens
 import org.koin.compose.viewmodel.koinViewModel
 
 class MealDetailsScreen(
@@ -369,7 +372,8 @@ class MealDetailsScreen(
 
         item(key = meal.youtubeUrl + meal.sourceUrl) {
             CompositionLocalProvider(
-                LocalContentColor provides Color.White
+                LocalContentColor provides Color.White,
+                LocalButtonTokens provides WebsiteButtonTokens,
             ) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -389,12 +393,16 @@ class MealDetailsScreen(
                     }
 
                     meal.sourceUrl?.let {
-                        TextButton(
+                        com.inconceptlabs.designsystem.components.buttons.TextButton(
                             text = stringResource(id = R.string.meal_details_website),
-                            icon = painterResource(id = R.drawable.ic_link),
-                            backgroundColor = AppTheme.colorScheme.BG10,
-                            modifier = Modifier.weight(1f),
-                            onClick = { onSourceClick(it) }
+                            startIcon = painterResource(id = R.drawable.ic_link),
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable(
+                                    enabled = true,
+                                ) {}
+                            ,
+                            onClick = { /*onSourceClick(it)*/ }
                         )
                     }
                 }
