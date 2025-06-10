@@ -2,6 +2,8 @@ package com.tosunyan.foodrecipes.ui
 
 import com.tosunyan.foodrecipes.common.coroutines.CommonModule
 import com.tosunyan.foodrecipes.data.repositories.RepositoryModule
+import com.tosunyan.foodrecipes.ui.deeplink.DeepLinkConsumer
+import com.tosunyan.foodrecipes.ui.deeplink.DeepLinkProducer
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import com.tosunyan.foodrecipes.ui.helpers.MealSharingHelper
 import com.tosunyan.foodrecipes.ui.screens.home.HomeViewModel
@@ -27,4 +29,11 @@ val UIModule = module {
         CommonModule,
         RepositoryModule,
     )
+
+    includes(DeepLinkModule)
+}
+
+val DeepLinkModule = module {
+    singleOf(::DeepLinkProducer)
+    singleOf(::DeepLinkConsumer)
 }
