@@ -1,6 +1,5 @@
 package com.tosunyan.foodrecipes.ui.screens.home
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,9 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,8 +28,8 @@ import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.components.listitem.CategoryItem
 import com.tosunyan.foodrecipes.ui.components.listitem.RegionItem
 import com.tosunyan.foodrecipes.ui.components.meals.DailySpecialItem
-import com.tosunyan.foodrecipes.ui.screens.meals.MealsScreen
 import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
+import com.tosunyan.foodrecipes.ui.screens.meals.MealsScreen
 import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -50,11 +47,6 @@ class HomeScreen : Tab {
     override fun Content() {
         val viewModel: HomeViewModel = koinViewModel()
         val navigator = LocalNavigator.current?.parent ?: return
-
-        val errorMessage by viewModel.errorMessage.collectAsState()
-        errorMessage?.let {
-            Toast.makeText(LocalContext.current, it, Toast.LENGTH_SHORT).show()
-        }
 
         Content(
             dailySpecial = viewModel.randomMeal.collectAsState().value,

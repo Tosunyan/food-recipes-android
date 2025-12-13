@@ -2,13 +2,15 @@ package com.tosunyan.foodrecipes.ui.screens.savedmeals
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tosunyan.foodrecipes.common.coroutines.WhileSubscribedOrRetained
 import com.tosunyan.foodrecipes.data.repositories.MealRepository
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class SavedMealsViewModel(
     repository: MealRepository,
@@ -19,7 +21,7 @@ class SavedMealsViewModel(
         repository.getSavedMealsFlow()
             .stateIn(
                 scope = viewModelScope,
-                started = WhileSubscribedOrRetained,
+                started = SharingStarted.WhileSubscribed(5.seconds),
                 initialValue = emptyList()
             )
 

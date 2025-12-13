@@ -3,21 +3,21 @@ package com.tosunyan.foodrecipes.common.coroutines
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
+@Suppress("PropertyName")
 interface DispatcherProvider {
 
-    val main: CoroutineDispatcher
-    val io: CoroutineDispatcher
-    val default: CoroutineDispatcher
-
-    companion object {
-
-        val default: DispatcherProvider = DefaultDispatcherProvider
-    }
+    val Main: CoroutineDispatcher
+    val IO: CoroutineDispatcher
+    val Default: CoroutineDispatcher
 }
 
-private object DefaultDispatcherProvider: DispatcherProvider {
+private object DispatcherProviderInstance: DispatcherProvider {
 
-    override val main = Dispatchers.Main
-    override val io = Dispatchers.IO
-    override val default = Dispatchers.Default
+    override val Main = Dispatchers.Main
+    override val IO = Dispatchers.IO
+    override val Default = Dispatchers.Default
+}
+
+fun DispatcherProvider(): DispatcherProvider {
+    return DispatcherProviderInstance
 }

@@ -3,14 +3,15 @@ package com.tosunyan.foodrecipes.ui.screens.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inconceptlabs.designsystem.components.emptyitem.EmptyItemData
-import com.tosunyan.foodrecipes.common.coroutines.WhileSubscribedOrRetained
 import com.tosunyan.foodrecipes.common.utils.replace
 import com.tosunyan.foodrecipes.data.repositories.SearchRepository
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.helpers.MealSavingHelper
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 @Suppress("OPT_IN_USAGE")
 class SearchViewModel(
@@ -42,7 +44,7 @@ class SearchViewModel(
             }
         }.stateIn(
             scope = viewModelScope,
-            started = WhileSubscribedOrRetained,
+            started = SharingStarted.WhileSubscribed(5.seconds),
             initialValue = blankSearchEmptyItemData
         )
 
@@ -78,9 +80,7 @@ class SearchViewModel(
 
     private fun searchForMeals(text: String) {
         viewModelScope.launch {
-            repository
-                .searchMeals(text)
-                .onSuccess { _meals.value = it }
+            _meals.update { repository.searchMeals(text) }
         }
     }
 

@@ -28,12 +28,8 @@ class MealsViewModel(
         showLoading()
 
         when {
-            category != null -> {
-                getMealsByCategory(category)
-            }
-            region != null -> {
-                getMealsByRegion(region)
-            }
+            category != null -> getMealsByCategory(category)
+            region != null -> getMealsByRegion(region)
         }
     }
 
@@ -61,13 +57,10 @@ class MealsViewModel(
                 )
             }
 
-            mealRepository
-                .filterMealsByCategory(category.name)
-                .getOrNull()
-                .let { meals ->
-                    _screenState.update { it.copy(meals = meals.orEmpty()) }
-                }
-                .also { hideLoading() }
+            val meals = mealRepository.filterMealsByCategory(category.name)
+            _screenState.update { it.copy(meals = meals) }
+
+            hideLoading()
         }
     }
 
@@ -75,13 +68,10 @@ class MealsViewModel(
         viewModelScope.launch {
             _screenState.update { it.copy(title = region.name) }
 
-            mealRepository
-                .filterMealsByArea(region.name)
-                .getOrNull()
-                .let { meals ->
-                    _screenState.update { it.copy(meals = meals.orEmpty()) }
-                }
-                .also { hideLoading() }
+            val meals = mealRepository.filterMealsByArea(region.name)
+            _screenState.update { it.copy(meals = meals) }
+
+            hideLoading()
         }
     }
 

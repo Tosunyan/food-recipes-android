@@ -107,11 +107,8 @@ class MealDetailsViewModel(
 
     private fun getMealDetailsFromApi(id: String) {
         viewModelScope.launch {
-            repository.getMealDetails(id).onSuccess {
-                _screenState.update { state ->
-                    state.copy(meal = it)
-                }
-            }
+            val result = repository.getMealDetails(id) ?: return@launch
+            _screenState.update { it.copy(meal = result) }
         }
     }
 }

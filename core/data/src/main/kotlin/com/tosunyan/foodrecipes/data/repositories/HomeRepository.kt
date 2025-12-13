@@ -1,5 +1,8 @@
 package com.tosunyan.foodrecipes.data.repositories
 
+import com.tosunyan.foodrecipes.common.coroutines.DispatcherProvider
+import com.tosunyan.foodrecipes.common.coroutines.DispatcherScope
+import com.tosunyan.foodrecipes.common.coroutines.withIOResultOrDefault
 import com.tosunyan.foodrecipes.data.mappers.toCategoryModel
 import com.tosunyan.foodrecipes.data.mappers.toMealDetailsModel
 import com.tosunyan.foodrecipes.data.mappers.toRegionModels
@@ -8,65 +11,60 @@ import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.network.api.ApiService
-import com.tosunyan.foodrecipes.network.api.makeApiCall
 import com.tosunyan.foodrecipes.network.data.CategoryDto
 
 class HomeRepository(
+    override val dispatcherProvider: DispatcherProvider,
     private val apiService: ApiService,
     private val database: MealDatabase,
-) {
+): DispatcherScope {
 
     init {
         println("${this::class.simpleName}.apiService: ${apiService::class.simpleName}")
     }
 
-    suspend fun getRandomMeal(): Result<MealDetailsModel?> {
-        val response = randomMealResponse
-        if (response != null && response.isSuccess) {
-            return response.map {
-                it?.copy(isSaved = database.mealDao.checkMealExists(it.id))
-            }
+    suspend fun getRandomMeal(): MealDetailsModel? {
+        randomMealResponse?.let {
+            return it.copy(isSaved = database.mealDao.checkMealExists(it.id))
         }
 
-        return getMealsWithSavedStatus(
+        randomMealResponse = getMealsWithSavedStatus(
             mealDao = database.mealDao,
             apiCall = apiService::getRandomMeal,
             mapper = { items.firstOrNull()?.toMealDetailsModel(it) }
-        ).also {
-            randomMealResponse = it
-        }
+        )
+
+        return randomMealResponse
     }
 
-    suspend fun getCategories(): Result<List<CategoryModel>> {
-        categoriesResponse?.let {
-            if (it.isSuccess) return it
+    suspend fun getCategories(): List<CategoryModel> {
+        categoriesResponse.takeIf { it.isNotEmpty() }?.let { return it }
+
+        categoriesResponse = withIOResultOrDefault(defaultValue = emptyList()) {
+            apiService.getCategories().items
+                .map(CategoryDto::toCategoryModel)
+                .sortedBy(CategoryModel::name)
         }
 
-        return makeApiCall(apiCall = apiService::getCategories)
-            .map {
-                it.items
-                    .map(CategoryDto::toCategoryModel)
-                    .sortedBy(CategoryModel::name)
-            }
-            .also { categoriesResponse = it }
+        return categoriesResponse
     }
 
-    suspend fun getRegions(): Result<List<RegionModel>> {
-        regionsResponse?.let {
-            if (it.isSuccess) return it
+    suspend fun getRegions(): List<RegionModel> {
+        regionsResponse.takeIf { it.isNotEmpty() }?.let { return it }
+
+        regionsResponse = withIOResultOrDefault(defaultValue = emptyList()) {
+            apiService.getAreas().items.toRegionModels()
         }
 
-        return makeApiCall(apiCall = apiService::getAreas)
-            .map { it.items.toRegionModels() }
-            .also { regionsResponse = it }
+        return regionsResponse
     }
 
     companion object {
 
         // Temporary solution for caching the data
         // TODO Use database or other cleaner option
-        private var randomMealResponse: Result<MealDetailsModel?>? = null
-        private var categoriesResponse: Result<List<CategoryModel>>? = null
-        private var regionsResponse: Result<List<RegionModel>>? = null
+        private var randomMealResponse: MealDetailsModel? = null
+        private var categoriesResponse: List<CategoryModel> = emptyList()
+        private var regionsResponse: List<RegionModel> = emptyList()
     }
 }
