@@ -7,11 +7,13 @@ val DatabaseModule = module {
     single<MealDatabase> {
         Room
             .databaseBuilder(
-                get(),
-                MealDatabase::class.java,
-                MealDatabase.NAME
+                context = get(),
+                klass = MealDatabase::class.java,
+                name = MealDatabase.NAME
             )
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(
+                dropAllTables = true
+            )
             .build()
     }
 }
