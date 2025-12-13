@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.tosunyan.foodrecipes.database"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26

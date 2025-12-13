@@ -12,12 +12,12 @@ plugins {
 android {
     var properties = gradleLocalProperties(rootDir, providers)
 
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.tosunyan.foodrecipes"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.3"
 
