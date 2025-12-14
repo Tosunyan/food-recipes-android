@@ -3,65 +3,63 @@ package com.tosunyan.foodrecipes.ui.utils
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.core.util.Consumer
-import cafe.adriel.voyager.navigator.Navigator
 import com.tosunyan.foodrecipes.model.MealModel
-import com.tosunyan.foodrecipes.ui.R
 import com.tosunyan.foodrecipes.ui.screens.mealdetails.MealDetailsScreen
 
 @Composable
-fun ComponentActivity.IntentHandler(navigator: Navigator) {
+fun IntentHandler(backStack: BackStack) {
+    val activity = LocalActivity.current as? ComponentActivity ?: return
+    val intent = activity.intent
+
+    val listener = IntentConsumer(backStack)
+
     LaunchedEffect(intent) {
-        onNewIntent(navigator)
+        listener.accept(intent)
     }
 
     DisposableEffect(intent) {
-        val listener = Consumer<Intent> {
-            intent = it
-
-            onNewIntent(navigator)
-        }
-
-        addOnNewIntentListener(listener)
-        onDispose { removeOnNewIntentListener(listener) }
+        activity.addOnNewIntentListener(listener)
+        onDispose { activity.removeOnNewIntentListener(listener) }
     }
 }
 
-private fun ComponentActivity.onNewIntent(navigator: Navigator) {
-    val intentData = intent.data
-    if (intent.action != Intent.ACTION_VIEW || intentData == null) return
+class IntentConsumer(private val backStack: BackStack) : Consumer<Intent> {
 
-    runCatching {
-        when {
-            "meal" in intentData.pathSegments -> {
-                navigateToMealDetails(navigator, intentData)
+    override fun accept(value: Intent) {
+        val intentData = value.data
+        if (value.action != Intent.ACTION_VIEW || intentData == null) return
+
+        runCatching {
+            when {
+                "meal" in intentData.pathSegments -> {
+                    navigateToMealDetails(backStack, intentData)
+                }
+                else -> {
+                    error("Invalid URL")
+                }
             }
-            else -> {
-                error("Invalid URL")
+        }.onFailure {
+            if (it is IllegalStateException) {
+//                showToast(R.string.error_invalid_url, true)
             }
-        }
-    }.onFailure {
-        if (it is IllegalStateException) {
-            showToast(R.string.error_invalid_url, true)
         }
     }
 }
 
-private fun navigateToMealDetails(
-    navigator: Navigator,
-    intentData: Uri,
-) {
+private fun navigateToMealDetails(backStack: BackStack, intentData: Uri) {
     val mealId = intentData.lastPathSegment ?: error("Invalid URL")
     if (mealId.toIntOrNull() == null) error("Invalid URL")
 
     val mealModel = MealModel(id = mealId)
     val screen = MealDetailsScreen(mealModel = mealModel)
 
-    val isDetailsOpened = navigator.lastItem.key == mealId
+    val isDetailsOpened = backStack.lastOrNull == screen
     if (!isDetailsOpened) {
-        navigator.push(screen)
+        backStack.push(screen)
     }
 }

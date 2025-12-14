@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 
 class BottomNavigationViewModel : ViewModel() {
 
-    private val defaultScreenState = NavigationScreenState(selectedItem = HomeScreen())
+    private val defaultScreenState = NavigationScreenState(selectedItem = HomeScreen)
     private val _screenState = MutableStateFlow(defaultScreenState)
     val screenState = _screenState.asStateFlow()
 

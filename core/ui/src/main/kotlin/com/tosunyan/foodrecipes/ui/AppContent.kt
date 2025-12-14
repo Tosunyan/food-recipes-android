@@ -4,26 +4,30 @@ import android.graphics.Color
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.transitions.SlideTransition
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
 import com.tosunyan.foodrecipes.ui.screens.bottomnavigation.BottomNavigationScreen
 import com.tosunyan.foodrecipes.ui.theme.setThemedContent
 import com.tosunyan.foodrecipes.ui.utils.IntentHandler
-import org.koin.compose.KoinContext
+import com.tosunyan.foodrecipes.ui.utils.rememberBackStack
 
 fun ComponentActivity.setAppContent() {
     setupEdgeToEdge()
 
     setThemedContent {
-        KoinContext {
-            Navigator(
-                screen = BottomNavigationScreen()
-            ) {
-                SlideTransition(navigator = it)
+        val backStack = rememberBackStack()
 
-                IntentHandler(navigator = it)
+        IntentHandler(backStack = backStack)
+
+        NavDisplay(
+            backStack = backStack.value,
+            onBack = backStack.value::removeLastOrNull,
+            entryProvider = entryProvider {
+                entry<BottomNavigationScreen> {
+                    BottomNavigationScreen()
+                }
             }
-        }
+        )
     }
 }
 
