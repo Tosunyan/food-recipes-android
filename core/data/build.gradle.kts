@@ -27,4 +27,7 @@ dependencies {
     implementation(projects.core.model)
     implementation(projects.core.network)
     implementation(projects.core.database)
+
+    testImplementation(libs.test.kotlin)
+    testImplementation(testFixtures(projects.core.common))
 }

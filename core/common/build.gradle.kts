@@ -23,6 +23,10 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    testFixtures {
+        enable = true
+    }
 }
 
 dependencies {
@@ -30,4 +34,11 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.core.ktx)
+
+    testImplementation(libs.test.kotlin)
+    testImplementation(testFixtures(projects.core.common))
+    testFixturesApi(libs.test.kotlin)
+    testFixturesApi(libs.test.coroutines)
+    testFixturesApi(libs.test.mockk)
 }

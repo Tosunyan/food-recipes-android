@@ -24,13 +24,15 @@ retrofit = "3.0.0"
 ktorClient = "3.3.3"
 koin-bom = "4.1.1"
 firebaseBom = "34.7.0"
+mockk = "1.14.4"
+coreKtx = "1.18.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "2.3.10" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -86,3 +88,8 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+
+test-kotlin = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test" , version.ref = "kotlinx-coroutines" }
+test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

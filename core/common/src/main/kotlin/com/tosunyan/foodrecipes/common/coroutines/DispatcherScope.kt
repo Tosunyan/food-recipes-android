@@ -24,11 +24,9 @@ interface DispatcherScope {
 suspend inline fun <T> DispatcherScope.withIOScope(
     crossinline block: suspend CoroutineScope.() -> T
 ): Result<T> {
-    return withContext(dispatcherProvider.IO) {
-        this@withIOScope
-            .runCatching { block() }
-            .onFailure { it.printStackTraceAndRethrow() }
-    }
+    return runCatching {
+        withContext(dispatcherProvider.IO) { block() }
+    }.onFailure(Throwable::printStackTraceAndRethrow)
 }
 
 /**

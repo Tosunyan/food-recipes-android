@@ -19,6 +19,10 @@ class HomeRepository(
     private val database: MealDatabase,
 ): DispatcherScope {
 
+    private var randomMealResponse: MealDetailsModel? = null
+    private var categoriesResponse: List<CategoryModel> = emptyList()
+    private var regionsResponse: List<RegionModel> = emptyList()
+
     init {
         println("${this::class.simpleName}.apiService: ${apiService::class.simpleName}")
     }
@@ -38,7 +42,7 @@ class HomeRepository(
     }
 
     suspend fun getCategories(): List<CategoryModel> {
-        categoriesResponse.takeIf { it.isNotEmpty() }?.let { return it }
+        if (categoriesResponse.isNotEmpty()) return categoriesResponse
 
         categoriesResponse = withIOResultOrDefault(defaultValue = emptyList()) {
             apiService.getCategories().items
@@ -50,21 +54,12 @@ class HomeRepository(
     }
 
     suspend fun getRegions(): List<RegionModel> {
-        regionsResponse.takeIf { it.isNotEmpty() }?.let { return it }
+        if (regionsResponse.isNotEmpty()) return regionsResponse
 
         regionsResponse = withIOResultOrDefault(defaultValue = emptyList()) {
             apiService.getAreas().items.toRegionModels()
         }
 
         return regionsResponse
-    }
-
-    companion object {
-
-        // Temporary solution for caching the data
-        // TODO Use database or other cleaner option
-        private var randomMealResponse: MealDetailsModel? = null
-        private var categoriesResponse: List<CategoryModel> = emptyList()
-        private var regionsResponse: List<RegionModel> = emptyList()
     }
 }

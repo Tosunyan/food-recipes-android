@@ -14,6 +14,14 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+/**
+ * Fetches meals from an API and marks them as saved based on database records.
+ *
+ * @param mealDao The DAO to access meal data in the database.
+ * @param apiCall A suspend function that fetches meals from the API.
+ * @param mapper A mapping function that converts the API response to the desired type, using saved meal IDs.
+ * @return The mapped result or null if the operation fails.
+ */
 suspend fun <T, R> DispatcherScope.getMealsWithSavedStatus(
     mealDao: MealDao,
     apiCall: suspend () -> T,
