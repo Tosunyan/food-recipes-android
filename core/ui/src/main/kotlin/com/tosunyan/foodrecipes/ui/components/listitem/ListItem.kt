@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.Visibility
 import com.inconceptlabs.designsystem.components.core.Icon
 import com.inconceptlabs.designsystem.components.core.Text
 import com.inconceptlabs.designsystem.theme.AppTheme
@@ -28,6 +29,7 @@ import com.inconceptlabs.designsystem.theme.attributes.KeyColor
 import com.inconceptlabs.designsystem.theme.colors.paletteColors
 import com.inconceptlabs.designsystem.theme.indication.NoIndication
 import com.tosunyan.foodrecipes.ui.R
+import com.tosunyan.foodrecipes.ui.theme.FoodRecipesTheme
 
 @Composable
 fun ListItem(
@@ -105,22 +107,25 @@ fun ListItem(
                 }
         )
 
-        if (!subtitle.isNullOrBlank()) {
-            Text(
-                text = subtitle,
-                style = AppTheme.typography.P5,
-                color = AppTheme.colorScheme.T6,
-                modifier = Modifier
-                    .constrainAs(subtitleRef) {
-                        start.linkTo(titleRef.start)
-                        end.linkTo(titleRef.end)
-                        top.linkTo(titleRef.bottom, margin = 2.dp)
-                        bottom.linkTo(parent.bottom)
+        Text(
+            text = subtitle.orEmpty(),
+            style = AppTheme.typography.P5,
+            color = AppTheme.colorScheme.T6,
+            modifier = Modifier
+                .constrainAs(subtitleRef) {
+                    start.linkTo(titleRef.start)
+                    end.linkTo(titleRef.end)
+                    top.linkTo(titleRef.bottom, margin = 2.dp)
+                    bottom.linkTo(parent.bottom)
 
-                        width = Dimension.fillToConstraints
+                    width = Dimension.fillToConstraints
+                    visibility = if (subtitle.isNullOrBlank()) {
+                        Visibility.Gone
+                    } else {
+                        Visibility.Visible
                     }
-            )
-        }
+                }
+        )
 
         if (endIcon != null) {
             Icon(
@@ -140,7 +145,7 @@ fun ListItem(
 @Preview(showBackground = true)
 @Composable
 private fun ComponentPreview() {
-    AppTheme {
+    FoodRecipesTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier

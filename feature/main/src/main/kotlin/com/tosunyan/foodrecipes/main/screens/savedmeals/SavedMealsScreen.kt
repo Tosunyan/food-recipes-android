@@ -54,6 +54,34 @@ class SavedMealsScreen : Tab {
         onMealClick: (MealDetailsModel) -> Unit = { },
         onSaveIconClick: (MealDetailsModel) -> Unit = { },
     ) {
+        var buttonOffset by remember { mutableStateOf(Offset.Zero) }
+        var showPopup by remember { mutableStateOf(false) }
+
+        if (showPopup) {
+            Popup(
+                alignment = Alignment.TopStart,
+                offset = buttonOffset.round(),
+                properties = PopupProperties(focusable = true),
+                onDismissRequest = { showPopup = false }
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .shadow(8.dp, shape = RoundedCornerShape(8.dp))
+                        .background(
+                            color = AppTheme.colorScheme.BG2,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(16.dp)
+                        .width(200.dp)
+
+                ) {
+                    ListItem(title = "Name", startIcon = painterResource(R.drawable.ic_arrow_down))
+                    ListItem(title = "Category")
+                }
+            }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,6 +95,36 @@ class SavedMealsScreen : Tab {
                 text = stringResource(id = R.string.navigation_item_saved_meals),
                 style = AppTheme.typography.H4,
             )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .padding(top = 24.dp),
+            ) {
+                TextTabItem(
+                    text = "Sort by",
+                    icon = painterResource(R.drawable.ic_arrow_down),
+                    size = TabItemSize.XS,
+                    initialState = TabItemState.Pressed,
+                    modifier = Modifier
+                        .onGloballyPositioned {
+                            buttonOffset = it.positionOnScreen()
+                        },
+                    onClick = { showPopup = true },
+                )
+
+                TextButton(
+                    text = "Filter by",
+                    endIcon = painterResource(R.drawable.ic_arrow_down),
+                    type = ButtonType.SECONDARY,
+                    size = Size.XS,
+
+                    modifier = Modifier,
+                    onClick = {
+
+                    },
+                )
+            }
 
             if (meals.isEmpty()) {
                 EmptyItem(
