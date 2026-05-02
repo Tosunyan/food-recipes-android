@@ -4,7 +4,9 @@ import android.app.Application
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.initialize
-import com.tosunyan.foodrecipes.ui.UIModule
+import com.tosunyan.foodrecipes.common.coroutines.CommonModule
+import com.tosunyan.foodrecipes.data.repositories.RepositoryModule
+import com.tosunyan.foodrecipes.main.MainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -30,7 +32,11 @@ class FoodRecipesApplication : Application() {
             androidLogger()
             androidContext(this@FoodRecipesApplication)
 
-            modules(UIModule)
+            modules(
+                CommonModule,
+                MainModule,
+                RepositoryModule,
+            )
         }
     }
 }

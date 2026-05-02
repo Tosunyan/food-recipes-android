@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
@@ -72,6 +73,10 @@ android {
         jvmTarget = "21"
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     namespace = "com.tosunyan.foodrecipes"
 }
 
@@ -79,6 +84,9 @@ dependencies {
 
     implementation(projects.core.di)
     implementation(projects.core.ui)
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.feature.main)
 
     implementation(libs.appcompat)
 
