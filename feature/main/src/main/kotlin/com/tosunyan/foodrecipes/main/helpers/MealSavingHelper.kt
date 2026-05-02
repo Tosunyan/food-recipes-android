@@ -7,7 +7,10 @@ class MealSavingHelper(
     private val mealRepository: MealRepository,
 ) {
 
-    suspend fun <T: SaveableMeal> toggleSavedState(meal: T, onUpdate: (Boolean) -> Unit) {
+    suspend fun <T: SaveableMeal> toggleSavedState(
+        meal: T,
+        onUpdate: (Boolean) -> Unit = { }
+    ) {
         onUpdate(!meal.isSaved)
 
         if (!meal.isSaved) {

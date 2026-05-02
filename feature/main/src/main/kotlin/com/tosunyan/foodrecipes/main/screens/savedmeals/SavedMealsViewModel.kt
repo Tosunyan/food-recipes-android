@@ -27,7 +27,7 @@ class SavedMealsViewModel(
 
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
-            mealSavingHelper.toggleSavedState(meal) {}
+            mealSavingHelper.toggleSavedState(meal)
         }
     }
 }

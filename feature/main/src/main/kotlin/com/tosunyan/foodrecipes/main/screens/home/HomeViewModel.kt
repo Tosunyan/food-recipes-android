@@ -3,12 +3,11 @@ package com.tosunyan.foodrecipes.main.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tosunyan.foodrecipes.data.repositories.HomeRepository
-import com.tosunyan.foodrecipes.model.CategoryModel
-import com.tosunyan.foodrecipes.model.MealDetailsModel
-import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.main.helpers.MealSavingHelper
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
+import com.tosunyan.foodrecipes.model.MealDetailsModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -16,43 +15,30 @@ class HomeViewModel(
     private val mealSavingHelper: MealSavingHelper,
 ) : ViewModel() {
 
-    val dailySpecial = MutableStateFlow<MealDetailsModel?>(null)
-    val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
-    val regions = MutableStateFlow<List<RegionModel>>(emptyList())
+    val dailySpecial = homeRepository.observeDailySpecial()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null
+        )
 
-    init {
-        makeApiCalls()
-    }
+    val categories = flow { emit(homeRepository.getCategories()) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList()
+        )
+
+    val regions = flow { emit(homeRepository.getRegions()) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList()
+        )
 
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
-            mealSavingHelper.toggleSavedState(meal) { isSaved ->
-                dailySpecial.update { it?.copy(isSaved = isSaved) }
-            }
-        }
-    }
-
-    private fun makeApiCalls() {
-        getDailySpecial()
-        getCategories()
-        getRegions()
-    }
-
-    private fun getDailySpecial() {
-        viewModelScope.launch {
-            dailySpecial.update { homeRepository.getDailySpecial() }
-        }
-    }
-
-    private fun getCategories() {
-        viewModelScope.launch {
-            categories.update { homeRepository.getCategories() }
-        }
-    }
-
-    private fun getRegions() {
-        viewModelScope.launch {
-            regions.update { homeRepository.getRegions() }
+            mealSavingHelper.toggleSavedState(meal)
         }
     }
 }

@@ -12,6 +12,8 @@ import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.network.api.ApiService
 import com.tosunyan.foodrecipes.network.data.CategoryDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class HomeRepository(
     override val dispatcherProvider: DispatcherProvider,
@@ -23,18 +25,8 @@ class HomeRepository(
         println("${this::class.simpleName}.apiService: ${apiService::class.simpleName}")
     }
 
-    suspend fun getDailySpecial(): MealDetailsModel? {
-        dailySpecialResponse?.let {
-            return it.copy(isSaved = database.mealDao.checkMealExists(it.id))
-        }
-
-        dailySpecialResponse = getMealsWithSavedStatus(
-            mealDao = database.mealDao,
-            apiCall = apiService::getDailySpecial,
-            mapper = { items.firstOrNull()?.toMealDetailsModel(it) }
-        )
-
-        return dailySpecialResponse
+    fun observeDailySpecial(): Flow<MealDetailsModel?> {
+        return database.mealDao.getAllMeals().map { getDailySpecial() }
     }
 
     suspend fun getCategories(): List<CategoryModel> {
@@ -57,6 +49,20 @@ class HomeRepository(
         }
 
         return regionsResponse
+    }
+
+    private suspend fun getDailySpecial(): MealDetailsModel? {
+        dailySpecialResponse?.let {
+            return it.copy(isSaved = database.mealDao.checkMealExists(it.id))
+        }
+
+        dailySpecialResponse = getMealsWithSavedStatus(
+            mealDao = database.mealDao,
+            apiCall = apiService::getDailySpecial,
+            mapper = { items.firstOrNull()?.toMealDetailsModel(it) }
+        )
+
+        return dailySpecialResponse
     }
 
     companion object {
