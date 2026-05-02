@@ -15,7 +15,7 @@ class KtorClient(
     private val client: HttpClient,
 ) : ApiService {
 
-    override suspend fun getRandomMeal(): ListDto<MealDetailsDto> {
+    override suspend fun getDailySpecial(): ListDto<MealDetailsDto> {
         return client.get("random.php").body()
     }
 

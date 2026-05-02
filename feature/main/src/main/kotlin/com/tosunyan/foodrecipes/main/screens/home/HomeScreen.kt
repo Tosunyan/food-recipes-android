@@ -49,7 +49,7 @@ class HomeScreen : Tab {
         val navigator = LocalNavigator.current?.parent ?: return
 
         Content(
-            dailySpecial = viewModel.randomMeal.collectAsState().value,
+            dailySpecial = viewModel.dailySpecial.collectAsState().value,
             categories = viewModel.categories.collectAsState().value,
             regions = viewModel.regions.collectAsState().value,
             onDailySpecialClick = {

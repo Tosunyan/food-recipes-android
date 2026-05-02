@@ -23,18 +23,18 @@ class HomeRepository(
         println("${this::class.simpleName}.apiService: ${apiService::class.simpleName}")
     }
 
-    suspend fun getRandomMeal(): MealDetailsModel? {
-        randomMealResponse?.let {
+    suspend fun getDailySpecial(): MealDetailsModel? {
+        dailySpecialResponse?.let {
             return it.copy(isSaved = database.mealDao.checkMealExists(it.id))
         }
 
-        randomMealResponse = getMealsWithSavedStatus(
+        dailySpecialResponse = getMealsWithSavedStatus(
             mealDao = database.mealDao,
-            apiCall = apiService::getRandomMeal,
+            apiCall = apiService::getDailySpecial,
             mapper = { items.firstOrNull()?.toMealDetailsModel(it) }
         )
 
-        return randomMealResponse
+        return dailySpecialResponse
     }
 
     suspend fun getCategories(): List<CategoryModel> {
@@ -63,7 +63,7 @@ class HomeRepository(
 
         // Temporary solution for caching the data
         // TODO Use database or other cleaner option
-        private var randomMealResponse: MealDetailsModel? = null
+        private var dailySpecialResponse: MealDetailsModel? = null
         private var categoriesResponse: List<CategoryModel> = emptyList()
         private var regionsResponse: List<RegionModel> = emptyList()
     }

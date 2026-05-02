@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("random.php")
-    suspend fun getRandomMeal(): ListDto<MealDetailsDto>
+    suspend fun getDailySpecial(): ListDto<MealDetailsDto>
 
     @GET("categories.php")
     suspend fun getCategories(): ListDto<CategoryDto>

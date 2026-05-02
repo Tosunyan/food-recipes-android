@@ -16,7 +16,7 @@ class HomeViewModel(
     private val mealSavingHelper: MealSavingHelper,
 ) : ViewModel() {
 
-    val randomMeal = MutableStateFlow<MealDetailsModel?>(null)
+    val dailySpecial = MutableStateFlow<MealDetailsModel?>(null)
     val categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val regions = MutableStateFlow<List<RegionModel>>(emptyList())
 
@@ -27,20 +27,20 @@ class HomeViewModel(
     fun onSaveIconClick(meal: MealDetailsModel) {
         viewModelScope.launch {
             mealSavingHelper.toggleSavedState(meal) { isSaved ->
-                randomMeal.update { it?.copy(isSaved = isSaved) }
+                dailySpecial.update { it?.copy(isSaved = isSaved) }
             }
         }
     }
 
     private fun makeApiCalls() {
-        getRandomMeal()
+        getDailySpecial()
         getCategories()
         getRegions()
     }
 
-    private fun getRandomMeal() {
+    private fun getDailySpecial() {
         viewModelScope.launch {
-            randomMeal.update { homeRepository.getRandomMeal() }
+            dailySpecial.update { homeRepository.getDailySpecial() }
         }
     }
 
