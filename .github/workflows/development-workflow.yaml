@@ -1,0 +1,23 @@
+name: Development Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - github-actions # TODO Temporary
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-build-deploy:
+    name: Test, Build, Deploy
+    uses: ./.github/workflows/test-build-deploy.yaml
+    secrets: inherit
+    with:
+      environment: Development
+      deploy: ${{ github.event_name == 'push' }}

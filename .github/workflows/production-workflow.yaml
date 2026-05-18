@@ -1,0 +1,22 @@
+name: Production Workflow
+
+on:
+  push:
+    branches:
+      - production
+  pull_request:
+    branches:
+      - production
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-build-deploy:
+    name: Test, Build, Deploy
+    uses: ./.github/workflows/test-build-deploy.yaml
+    secrets: inherit
+    with:
+      environment: Production
+      deploy: ${{ github.event_name == 'push' }}
