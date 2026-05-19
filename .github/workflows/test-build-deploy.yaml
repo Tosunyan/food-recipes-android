@@ -83,11 +83,15 @@ jobs:
           name: app-debug
           path: artifacts
 
+      - name: Write service account key
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" | base64 -d > ${{ github.workspace }}/service-account-key.json
+
       - name: Deploy to Firebase App Distribution
         env:
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/service-account-key.json
         run: |
           npm install -g firebase-tools
           firebase --version
