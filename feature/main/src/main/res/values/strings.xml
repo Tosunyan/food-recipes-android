@@ -15,6 +15,7 @@
     <string name="navigation_item_home">Home</string>
     <string name="navigation_item_search">Search</string>
     <string name="navigation_item_saved_meals">Saved Meals</string>
+    <string name="navigation_item_profile">Profile</string>
 
     <!-- Home Screen -->
     <string name="home_daily_special">Daily Special</string>

@@ -6,6 +6,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import com.tosunyan.foodrecipes.main.screens.home.HomeScreen
 import com.tosunyan.foodrecipes.main.screens.savedmeals.SavedMealsScreen
 import com.tosunyan.foodrecipes.main.R
+import com.tosunyan.foodrecipes.main.screens.profile.ProfileScreen
 import com.tosunyan.foodrecipes.main.screens.search.SearchScreen
 import com.tosunyan.foodrecipes.ui.theme.painterResource
 import com.tosunyan.foodrecipes.ui.utils.areAppLinksVerified
@@ -46,6 +47,13 @@ class BottomNavigationViewModel : ViewModel() {
                     text = context.getString(R.string.navigation_item_saved_meals),
                     isSelected = it.selectedItem is SavedMealsScreen,
                     onClick = { updateSelectedItem(SavedMealsScreen()) }
+                ),
+                BottomNavigationItem(
+                    icon = context.painterResource(id = R.drawable.ic_profile),
+                    selectedIcon = context.painterResource(id = R.drawable.ic_profile_fill),
+                    text = context.getString(R.string.navigation_item_profile),
+                    isSelected = it.selectedItem is ProfileScreen,
+                    onClick = { updateSelectedItem(ProfileScreen()) }
                 )
             ))
         }
