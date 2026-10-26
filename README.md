@@ -46,3 +46,6 @@ To set up this project on your local machine, follow these steps:
     ```
 3. Create `prod.properties` file in the root directory, with [required properties](https://docs.google.com/spreadsheets/d/1MuSYiBYV134sgj6BprrIJxMGM5QlVHRFwMjyO-bLQik/edit?usp=drive_link):
 4. Sync and run the project
+
+## Roadmap
+Planned work, known bugs and the backlog are tracked in [docs/ROADMAP.md](docs/ROADMAP.md).
