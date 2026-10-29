@@ -49,3 +49,4 @@ git commit -m "Add ingredient filter to search" -m "Allows filtering search resu
   to be pushed (`git --no-pager log --oneline origin/main..HEAD`).
 - First push of a branch: `git push -u origin <branch>`.
 - Never force-push to `main`. Force-pushing a feature branch (`--force-with-lease`) also needs confirmation.
+- After pushing a branch that has no open PR, offer to open one via the `open-pull-request` skill.
