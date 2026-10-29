@@ -74,3 +74,12 @@ There are currently no unit or instrumentation tests; verify changes by compilin
 - Release signing reads `prod.properties`. All `*.properties` files are git-ignored — never commit them or any
   secrets.
 - `MEAL_API_URL` / `MEAL_API_KEY` are exposed via `BuildConfig` in `core:network`.
+
+## AI Tooling
+
+Shared by Claude Code and GitHub Copilot CLI — keep everything in the Claude locations, without duplicates:
+
+- Skills: `.claude/skills/<name>/SKILL.md`.
+- Safe commands: `.claude/settings.json` registers a `PreToolUse` hook, `.claude/hooks/allow-safe-commands.sh`,
+  that auto-approves an allowlist of single commands (`./gradlew`, read-only `git`/`gh`, `ls`, `pwd`).
+  Everything else is prompted. Extend the allowlist there; never allow commits, pushes, or destructive commands.
