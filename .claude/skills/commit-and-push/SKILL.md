@@ -42,6 +42,8 @@ git commit -m "Add ingredient filter to search" -m "Allows filtering search resu
 
 ## Pushing
 
+- Run `git fetch origin` first and compare with `git --no-pager status -sb`. If the branch is behind its
+  upstream or `origin/main` has moved on, tell the user and propose a rebase or merge instead of pushing blindly.
 - **Always ask the user for explicit confirmation before `git push`**, showing the branch name and the commits
   to be pushed (`git --no-pager log --oneline origin/main..HEAD`).
 - First push of a branch: resolve the name with `git branch --show-current`, make sure it is not `main` and is

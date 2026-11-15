@@ -42,7 +42,8 @@ Runs only when the user asks for a review (not automatically after changes or be
 
 ### 1. Get The Diff
 
-- **Local changes**: `git --no-pager diff HEAD` (uncommitted) and, for the whole branch,
+- **Local changes**: run `git fetch origin main` first so `origin/main` is current, then
+  `git --no-pager diff HEAD` (uncommitted) and, for the whole branch,
   `git --no-pager diff origin/main...HEAD`. Include untracked files from `git status --short`.
 - **Pull request**: use the available GitHub tooling (GitHub MCP server, or `gh pr diff <n>` / `gh pr view <n>`).
   Fallback: `git fetch origin pull/<n>/head:pr-<n>` and diff against `origin/main`. Also read the PR
