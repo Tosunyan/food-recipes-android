@@ -33,7 +33,8 @@ Location: `feature/main/src/main/kotlin/com/tosunyan/foodrecipes/main/screens/<n
 - Private stateless `Content(...)`: takes `ScreenState` plus callbacks with `= {}` defaults.
 - For screens with constructor args, override `key` with a value derived from the arguments (e.g. the id, as in
   `MealDetailsScreen`; a constant such as `this::class.simpleName!!` collides when several instances share a
-  `Navigator`) and add a no-arg secondary   `@Suppress("unused", "PrivatePreviews")`, as in `MealsScreen`.
+  `Navigator`) and add a no-arg secondary constructor annotated
+  `@Suppress("unused", "PrivatePreviews")`, as in `MealsScreen`.
 - A private `@Preview(showBackground = true)` composable wrapped in `FoodRecipesTheme { }`.
 - Styling only via `AppTheme.colorScheme.*` and `AppTheme.typography.*`; reuse components from `core:ui`
   (`Toolbar`, list items) and `feature:main/components`.

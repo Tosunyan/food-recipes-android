@@ -34,6 +34,17 @@ options_match() {
     return 0
 }
 
+# Succeeds when every non-option argument fully matches the given regex.
+positionals_match() {
+    local pattern="^($1)$"
+    shift
+    local arg
+    for arg in "$@"; do
+        [[ "$arg" == -* || "$arg" =~ $pattern ]] || return 1
+    done
+    return 0
+}
+
 readonly HISTORY_OPTIONS='--|-p|-s|-c|-m|-w|-M|-C|-[0-9]+|-n[0-9]*|-U[0-9]+|--unified=[0-9]+|--max-count=[0-9]+'\
 '|--stat|--shortstat|--numstat|--name-only|--name-status|--summary|--patch|--no-patch|--raw|--cached|--staged'\
 '|--oneline|--graph|--decorate|--no-decorate|--all|--reverse|--merges|--no-merges|--first-parent|--follow'\
@@ -51,7 +62,7 @@ is_safe_git() {
             options_match "$HISTORY_OPTIONS" "$@"
             ;;
         status)
-            options_match '-s|-b|-v|--short|--branch|--long|--verbose|--porcelain(=v[12])?|--ignored'\
+            options_match '-[sbv]+|--short|--branch|--long|--verbose|--porcelain(=v[12])?|--ignored'\
 '|-u(no|normal|all)?|--untracked-files(=(no|normal|all))?' "$@"
             ;;
         blame)
@@ -84,10 +95,19 @@ is_safe_git() {
 '|--max-depth=[0-9]+' "$@"
             ;;
         fetch)
-            options_match '-p|-q|-v|--prune|--all|--tags|--no-tags|--quiet|--verbose|--dry-run' "$@"
+            # Positionals are plain remote/branch names; refspecs (with ":" or a leading "+") can overwrite branches.
+            options_match '-p|-q|-v|--prune|--all|--tags|--no-tags|--quiet|--verbose|--dry-run' "$@" \
+                && positionals_match '[A-Za-z0-9._/-]+' "$@"
             ;;
         branch)
-            options_match '-a|-r|-v|-vv|--all|--remotes|--list|--show-current|--no-color|--format=[^ ]*' "$@"
+            options_match '-a|-r|-v|-vv|--all|--remotes|--list|--show-current|--no-color|--format=[^ ]*' "$@" \
+                || return 1
+            # A positional argument creates a branch unless it is a pattern for --list.
+            local arg
+            for arg in "$@"; do
+                [[ "$arg" == -* ]] || { [[ " $* " == *" --list "* ]] && return 0 || return 1; }
+            done
+            return 0
             ;;
         remote)
             [[ $# -eq 0 || "$*" == "-v" ]]
@@ -113,10 +133,13 @@ is_safe_gh() {
     esac
 }
 
-# Only build, test and inspection tasks; Gradle expands abbreviations, so other task names are rejected.
-# Release assembly is excluded because it can upload Crashlytics mapping files.
-readonly GRADLE_TASK='(:?[A-Za-z0-9_-]+:)*(assemble|test|compile|lint|check|tasks|dependencies|projects|help)'\
-'[A-Za-z0-9]*'
+# Only build, test and inspection tasks. Gradle matches task names case-insensitively and expands camel-case
+# abbreviations, so names must match this case-sensitive allowlist and not the lowercase denylist below.
+# Release assembly is excluded because it signs the APK and can upload Crashlytics mapping files; lintFix
+# is excluded because it edits sources.
+readonly GRADLE_TASK='(:?[A-Za-z0-9_-]+:)*(assembleDebug|test|compile|lint)[A-Za-z0-9]*'\
+'|(:?[A-Za-z0-9_-]+:)*(check|tasks|dependencies|projects|help)'
+readonly GRADLE_DENIED_TASK='(^|:)(assemblerelease|lintfix)'
 readonly GRADLE_OPTIONS='-q|-i|--quiet|--info|--stacktrace|--offline|--continue|--no-daemon|--rerun-tasks|--parallel'\
 '|--build-cache|--no-build-cache|--dry-run|--console=(plain|rich|auto|verbose)|--warning-mode=(all|fail|summary|none)'
 
@@ -126,7 +149,9 @@ is_safe_gradle() {
         if [[ "$arg" == -* ]]; then
             [[ "$arg" =~ ^($GRADLE_OPTIONS)$ ]] || return 1
         else
-            [[ "$arg" =~ ^$GRADLE_TASK$ && ! "$arg" =~ (^|:)assembleR ]] || return 1
+            local lower
+            lower="$(printf '%s' "$arg" | tr '[:upper:]' '[:lower:]')"
+            [[ "$arg" =~ ^($GRADLE_TASK)$ && ! "$lower" =~ $GRADLE_DENIED_TASK ]] || return 1
         fi
     done
     return 0
