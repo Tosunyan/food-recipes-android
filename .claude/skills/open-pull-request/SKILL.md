@@ -55,7 +55,8 @@ the description, and whether it is a draft (default: ready for review). Use the 
 Use the first available option:
 
 1. GitHub CLI: `gh pr create --base <base> --head <branch> --title "<title>" --body-file <file>` (add `--draft`
-   if requested).
+   if requested). Pass the title as one shell-escaped argument (single quotes, with each embedded `'` written
+   as `'\''`) so quotes and special characters in the confirmed title are preserved.
 2. A GitHub MCP server connected to the repository's host (`github.com`).
 3. Otherwise, give the user the compare URL to open the PR manually, along with the title and description:
    `https://github.com/<owner>/<repo>/compare/<base>...<branch>?expand=1` (derive `<owner>/<repo>` from

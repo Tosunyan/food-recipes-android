@@ -74,7 +74,8 @@ changes. Don't start implementing before approval.
 ## 5. Implement
 
 - Make sure you are on a suitable branch: never `main`. If the approved plan depends on code that exists only on
-  the current unmerged branch, stay on that branch. Otherwise create `feature/<name>`, `refactor/<name>` or
+  the current unmerged branch, stay on that branch, or branch off it when the user wants separate work or a
+  separate PR. Otherwise create `feature/<name>`, `refactor/<name>` or
   `fix/<name>` from the latest `origin/main` as described in `commit-and-push`. Don't carry over unrelated
   changes from the current branch.
 - Spawn an **implementer** subagent (model tier per **Models**) with the approved plan. It follows `CLAUDE.md`
