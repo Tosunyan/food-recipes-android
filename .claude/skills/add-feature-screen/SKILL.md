@@ -1,19 +1,21 @@
 ---
 name: add-feature-screen
-description: Add a new Compose screen or bottom navigation tab (Voyager Screen/Tab, ViewModel, Koin, preview).
+description: >-
+  Add a new Compose screen or bottom navigation tab (Voyager Screen/Tab, ViewModel, Koin, preview).
 ---
 
 # Add Feature Screen
 
-Creates a screen following the existing patterns in `feature:main`. Use `screens/meals/` as the reference
-implementation, except for its constant `key`; `MealDetailsScreen` shows the correct pattern.
+Creates a screen following the existing patterns in `feature:main`. Use `screens/meals/` as the
+reference implementation, except for its constant `key`; `MealDetailsScreen` shows the correct
+pattern.
 
 ## 1. Decide The Screen Kind
 
 - **Pushed screen** (opened via navigation, may take arguments): `class XScreen(...) : Screen`.
 - **Bottom navigation tab**: `class XScreen : Tab` with `override val options: TabOptions`
-  (see `screens/home/HomeScreen.kt`), and register it in `screens/bottomnavigation/BottomNavigationViewModel.kt`
-  as a new `BottomNavigationItem`.
+  (see `screens/home/HomeScreen.kt`), and register it in
+  `screens/bottomnavigation/BottomNavigationViewModel.kt` as a new `BottomNavigationItem`.
 
 ## 2. Create Files
 
@@ -26,18 +28,20 @@ Location: `feature/main/src/main/kotlin/com/tosunyan/foodrecipes/main/screens/<n
 
 - Public `@Composable override fun Content()`:
   - `val viewModel = koinViewModel<XViewModel>()`
-  - `val navigator = LocalNavigator.currentOrThrow` (if navigating). Inside a bottom-navigation `Tab`, this is the
-    tab navigator's stack, so use `LocalNavigator.current?.parent` to push screens, as `HomeScreen` does.
-  - Pass arguments to the ViewModel with `LaunchedEffect(args) { viewModel.onArgumentsReceive(...) }`
+  - `val navigator = LocalNavigator.currentOrThrow` (if navigating). Inside a bottom-navigation
+    `Tab`, this is the tab navigator's stack, so use `LocalNavigator.current?.parent` to push
+    screens, as `HomeScreen` does.
+  - Pass arguments to the ViewModel with
+    `LaunchedEffect(args) { viewModel.onArgumentsReceive(...) }`
   - Delegate to a private stateless `Content(state, onXClick = ..., ...)`.
 - Private stateless `Content(...)`: takes `ScreenState` plus callbacks with `= {}` defaults.
-- For screens with constructor args, override `key` with a value derived from the arguments (e.g. the id, as in
-  `MealDetailsScreen`; a constant such as `this::class.simpleName!!` collides when several instances share a
-  `Navigator`) and add a no-arg secondary constructor annotated
+- For screens with constructor args, override `key` with a value derived from the arguments (e.g.
+  the id, as in `MealDetailsScreen`; a constant such as `this::class.simpleName!!` collides when
+  several instances share a `Navigator`) and add a no-arg secondary constructor annotated
   `@Suppress("unused", "PrivatePreviews")`, as in `MealsScreen`.
 - A private `@Preview(showBackground = true)` composable wrapped in `FoodRecipesTheme { }`.
-- Styling only via `AppTheme.colorScheme.*` and `AppTheme.typography.*`; reuse components from `core:ui`
-  (`Toolbar`, list items) and `feature:main/components`.
+- Styling only via `AppTheme.colorScheme.*` and `AppTheme.typography.*`; reuse components from
+  `core:ui` (`Toolbar`, list items) and `feature:main/components`.
 - Navigation: `navigator.push(OtherScreen(arg))`, `navigator.pop()`.
 
 ### ViewModel
@@ -62,10 +66,11 @@ class XViewModel(
 }
 ```
 
-- Depend on repositories from `core:data` and helpers (e.g. `MealSavingHelper`), never on `ApiService`, DAOs or
-  `MealDatabase`.
+- Depend on repositories from `core:data` and helpers (e.g. `MealSavingHelper`), never on
+  `ApiService`, DAOs or `MealDatabase`.
 - For DB-backed streams, expose a `StateFlow` with
-  `stateIn(viewModelScope, SharingStarted.WhileSubscribed(5.seconds), initial)` (see `SavedMealsViewModel`).
+  `stateIn(viewModelScope, SharingStarted.WhileSubscribed(5.seconds), initial)` (see
+  `SavedMealsViewModel`).
 - Use domain `*Model` types only.
 
 ## 3. Register In Koin
