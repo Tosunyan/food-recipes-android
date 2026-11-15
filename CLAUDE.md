@@ -31,7 +31,7 @@ Do not add `AGENTS.md` or `.github/copilot-instructions.md` — Copilot already 
 | `core:di`       | Kotlin/JVM  | Exposes Koin dependencies via `api`                                 |
 
 Dependency direction: `app` → `feature:*` → `core:ui` / `core:data` → `core:network` / `core:database` →
-`core:model` / `core:common` / `core:di`.
+`core:model` / `core:common` / `core:di`; `core:ui` also depends on `core:data`.
 Features must not depend on `core:network` or `core:database` directly — go through repositories in `core:data`.
 
 ## Conventions
@@ -81,5 +81,7 @@ Shared by Claude Code and GitHub Copilot CLI — keep everything in the Claude l
 
 - Skills: `.claude/skills/<name>/SKILL.md`.
 - Safe commands: `.claude/settings.json` registers a `PreToolUse` hook, `.claude/hooks/allow-safe-commands.sh`,
-  that auto-approves an allowlist of single commands (`./gradlew`, read-only `git`/`gh`, `ls`, `pwd`).
-  Everything else is prompted. Extend the allowlist there; never allow commits, pushes, or destructive commands.
+  that auto-approves an allowlist of single commands: `./gradlew` build/test/inspection tasks (no release or
+  publishing), `git` inspection commands plus `git fetch`, read-only `gh` `view`/`list`/`diff`/`checks` (no
+  `--web`), `ls` and `pwd`. Options are matched against per-command allowlists. Everything else is prompted.
+  Extend the allowlist there; never allow commits, pushes, or destructive commands.

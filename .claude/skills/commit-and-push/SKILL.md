@@ -47,6 +47,7 @@ git commit -m "Add ingredient filter to search" -m "Allows filtering search resu
 
 - **Always ask the user for explicit confirmation before `git push`**, showing the branch name and the commits
   to be pushed (`git --no-pager log --oneline origin/main..HEAD`).
-- First push of a branch: `git push -u origin <branch>`.
+- First push of a branch: resolve the name with `git branch --show-current`, make sure it is not `main` and is
+  valid (`git check-ref-format --branch`), confirm that exact name, then run `git push -u origin -- "$branch"`.
 - Never force-push to `main`. Force-pushing a feature branch (`--force-with-lease`) also needs confirmation.
 - After pushing a branch that has no open PR, offer to open one via the `open-pull-request` skill.

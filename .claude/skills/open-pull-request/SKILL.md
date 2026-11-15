@@ -14,9 +14,11 @@ description: Open a GitHub pull request for the current branch (title, descripti
 
 ## Base Branch
 
-`main`, unless the user says otherwise. Review what goes into the PR with:
+`main`, unless the user says otherwise. Fetch it first so the summary isn't based on a stale `origin/main`, then
+review what goes into the PR with:
 
 ```bash
+git fetch origin main
 git --no-pager log --oneline origin/main..HEAD
 git --no-pager diff --stat origin/main...HEAD
 ```

@@ -3,6 +3,9 @@
 # Auto-approves a small allowlist of safe, single shell commands. Anything else gets no decision, so the
 # normal permission prompt is shown. Copilot denies the tool call if this hook fails, so it must always
 # exit 0 and only ever print an "allow" decision.
+#
+# Options are checked against per-command allowlists rather than denylists: git and Gradle accept
+# abbreviated and bundled options, so blocking known-dangerous flags by prefix is not reliable.
 
 trap 'exit 0' ERR
 
@@ -11,12 +14,32 @@ command -v jq >/dev/null 2>&1 || exit 0
 cmd="$(jq -r '.tool_input.command // empty' 2>/dev/null)" || exit 0
 [[ -n "$cmd" ]] || exit 0
 
-# Reject chaining, pipes, redirection, substitution, expansion and multi-line commands.
-[[ "$cmd" =~ [\;\&\|\<\>\`\$\(\)\{\}\\] ]] && exit 0
+# Reject chaining, pipes, redirection, substitution, expansion, quoting, globs and multi-line commands.
+# Quotes would hide options from the checks below, and globs could expand to option-like file names.
+readonly UNSAFE_CHARS=$'[][;&|<>`$(){}\\\'"*?]'
+[[ "$cmd" =~ $UNSAFE_CHARS ]] && exit 0
 [[ "$cmd" == *$'\n'* || "$cmd" == *$'\r'* ]] && exit 0
 
 read -ra args <<< "$cmd"
 set -- "${args[@]}"
+
+# Succeeds when every option-like argument (starting with "-") fully matches the given regex.
+options_match() {
+    local pattern="^($1)$"
+    shift
+    local arg
+    for arg in "$@"; do
+        [[ "$arg" == -* && ! "$arg" =~ $pattern ]] && return 1
+    done
+    return 0
+}
+
+readonly HISTORY_OPTIONS='--|-p|-s|-c|-m|-w|-M|-C|-[0-9]+|-n[0-9]*|-U[0-9]+|--unified=[0-9]+|--max-count=[0-9]+'\
+'|--stat|--shortstat|--numstat|--name-only|--name-status|--summary|--patch|--no-patch|--raw|--cached|--staged'\
+'|--oneline|--graph|--decorate|--no-decorate|--all|--reverse|--merges|--no-merges|--first-parent|--follow'\
+'|--abbrev-commit|--color|--no-color|--word-diff|--ignore-all-space|--ignore-space-change|--find-renames'\
+'|--format=[^ ]*|--pretty=[^ ]*|--date=[a-z-]+|--since=[^ ]+|--until=[^ ]+|--after=[^ ]+|--before=[^ ]+'\
+'|--author=[^ ]+|--grep=[^ ]+|-S[^ ]+|-G[^ ]+|-e|--numbered|--email'
 
 is_safe_git() {
     [[ "$1" == "--no-pager" ]] && shift
@@ -24,22 +47,47 @@ is_safe_git() {
     shift
 
     case "$sub" in
-        status | diff | log | show | blame | shortlog | describe | rev-parse | merge-base | ls-files \
-            | check-ignore | show-ref | grep | fetch)
-            local arg
-            for arg in "$@"; do
-                [[ "$arg" =~ ^(--output|-o$|-O|--open-files-in-pager|--upload-pack|--exec|-c$|--config) ]] \
-                    && return 1
-            done
-            return 0
+        diff | log | show | shortlog)
+            options_match "$HISTORY_OPTIONS" "$@"
+            ;;
+        status)
+            options_match '-s|-b|-v|--short|--branch|--long|--verbose|--porcelain(=v[12])?|--ignored'\
+'|-u(no|normal|all)?|--untracked-files(=(no|normal|all))?' "$@"
+            ;;
+        blame)
+            options_match '--|-w|-s|-e|-M|-C|-L[0-9,+-]+|--date=[a-z-]+|--show-email|--porcelain' "$@"
+            ;;
+        describe)
+            options_match '--tags|--all|--always|--long|--dirty|--abbrev=[0-9]+' "$@"
+            ;;
+        rev-parse)
+            options_match '--|-q|--quiet|--verify|--short(=[0-9]+)?|--abbrev-ref|--symbolic-full-name'\
+'|--show-toplevel|--git-dir|--is-inside-work-tree' "$@"
+            ;;
+        merge-base)
+            options_match '--all|--is-ancestor|--fork-point' "$@"
+            ;;
+        ls-files)
+            options_match '--|-[cdmosuiz]+|--cached|--deleted|--modified|--others|--stage|--unmerged'\
+'|--ignored|--exclude-standard' "$@"
+            ;;
+        check-ignore)
+            options_match '--|-v|-n|--verbose|--non-matching|--no-index' "$@"
+            ;;
+        show-ref)
+            options_match '-s|--heads|--tags|--head|--verify|--hash' "$@"
+            ;;
+        grep)
+            options_match '--|-[nilLcwvEFhHI]+|-e|-[ABC][0-9]*|--line-number|--ignore-case|--files-with-matches'\
+'|--count|--word-regexp|--invert-match|--extended-regexp|--fixed-strings|--cached|--untracked|--heading'\
+'|--break|--and|--or|--not|--all-match|--context=[0-9]+|--after-context=[0-9]+|--before-context=[0-9]+'\
+'|--max-depth=[0-9]+' "$@"
+            ;;
+        fetch)
+            options_match '-p|-q|-v|--prune|--all|--tags|--no-tags|--quiet|--verbose|--dry-run' "$@"
             ;;
         branch)
-            local arg
-            for arg in "$@"; do
-                [[ "$arg" =~ ^(-a|-r|-v|-vv|--all|--remotes|--list|--show-current|--no-color|--format=.*)$ ]] \
-                    || return 1
-            done
-            return 0
+            options_match '-a|-r|-v|-vv|--all|--remotes|--list|--show-current|--no-color|--format=[^ ]*' "$@"
             ;;
         remote)
             [[ $# -eq 0 || "$*" == "-v" ]]
@@ -54,7 +102,10 @@ is_safe_gh() {
     case "$1 $2" in
         "pr view" | "pr diff" | "pr list" | "pr checks" | "pr status" | "issue view" | "issue list" \
             | "run view" | "run list" | "repo view")
-            return 0
+            shift 2
+            # Exclude --web, which opens a browser.
+            options_match '-R|--repo=[^ ]+|-c|--comments|--json|--jq|--limit=[0-9]+|-L|--state=[a-z]+|-s|--patch'\
+'|--name-only|--log|--log-failed|--color=[a-z]+|--branch=[^ ]+|-b|--author=[^ ]+|-A|--label=[^ ]+|-l' "$@"
             ;;
         *)
             return 1
@@ -62,9 +113,28 @@ is_safe_gh() {
     esac
 }
 
+# Only build, test and inspection tasks; Gradle expands abbreviations, so other task names are rejected.
+# Release assembly is excluded because it can upload Crashlytics mapping files.
+readonly GRADLE_TASK='(:?[A-Za-z0-9_-]+:)*(assemble|test|compile|lint|check|tasks|dependencies|projects|help)'\
+'[A-Za-z0-9]*'
+readonly GRADLE_OPTIONS='-q|-i|--quiet|--info|--stacktrace|--offline|--continue|--no-daemon|--rerun-tasks|--parallel'\
+'|--build-cache|--no-build-cache|--dry-run|--console=(plain|rich|auto|verbose)|--warning-mode=(all|fail|summary|none)'
+
+is_safe_gradle() {
+    local arg
+    for arg in "$@"; do
+        if [[ "$arg" == -* ]]; then
+            [[ "$arg" =~ ^($GRADLE_OPTIONS)$ ]] || return 1
+        else
+            [[ "$arg" =~ ^$GRADLE_TASK$ && ! "$arg" =~ (^|:)assembleR ]] || return 1
+        fi
+    done
+    return 0
+}
+
 is_safe() {
     case "$1" in
-        ./gradlew) return 0 ;;
+        ./gradlew) shift; is_safe_gradle "$@" ;;
         git) shift; is_safe_git "$@" ;;
         gh) shift; is_safe_gh "$@" ;;
         ls | pwd) return 0 ;;

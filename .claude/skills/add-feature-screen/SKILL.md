@@ -26,12 +26,14 @@ Location: `feature/main/src/main/kotlin/com/tosunyan/foodrecipes/main/screens/<n
 
 - Public `@Composable override fun Content()`:
   - `val viewModel = koinViewModel<XViewModel>()`
-  - `val navigator = LocalNavigator.currentOrThrow` (if navigating)
+  - `val navigator = LocalNavigator.currentOrThrow` (if navigating). Inside a bottom-navigation `Tab`, this is the
+    tab navigator's stack, so use `LocalNavigator.current?.parent` to push screens, as `HomeScreen` does.
   - Pass arguments to the ViewModel with `LaunchedEffect(args) { viewModel.onArgumentsReceive(...) }`
   - Delegate to a private stateless `Content(state, onXClick = ..., ...)`.
 - Private stateless `Content(...)`: takes `ScreenState` plus callbacks with `= {}` defaults.
-- For screens with constructor args, override `key` (`this::class.simpleName!!`) and add a no-arg secondary
-  constructor annotated `@Suppress("unused", "PrivatePreviews")`, as in `MealsScreen`.
+- For screens with constructor args, override `key` with a value derived from the arguments (e.g. the id, as in
+  `MealDetailsScreen`; a constant such as `this::class.simpleName!!` collides when several instances share a
+  `Navigator`) and add a no-arg secondary   `@Suppress("unused", "PrivatePreviews")`, as in `MealsScreen`.
 - A private `@Preview(showBackground = true)` composable wrapped in `FoodRecipesTheme { }`.
 - Styling only via `AppTheme.colorScheme.*` and `AppTheme.typography.*`; reuse components from `core:ui`
   (`Toolbar`, list items) and `feature:main/components`.

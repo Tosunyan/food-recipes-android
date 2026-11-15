@@ -20,6 +20,9 @@ Runs only when the user asks for a review (not automatically after changes or be
    the review target (local changes or PR number) and the instruction to perform the **Single Review** from
    this file (`.claude/skills/review-code/SKILL.md`), report findings in the format of step 4, end with a
    verdict of `PASS` or `CHANGES REQUESTED`, and not spawn further reviewers.
+   Use a frontier-level model for each, from different vendors: one Anthropic (Claude) and one OpenAI (GPT),
+   each the most capable available. If a vendor's model isn't available, tell the user which reviewer was
+   substituted.
 2. **Keep them independent**: don't pass the implementer's reasoning, the conversation history, or the other
    reviewer's findings. Each reviewer covers the full scope.
 3. **Consolidate** both reports: merge duplicates and note which reviewer(s) raised each finding.
