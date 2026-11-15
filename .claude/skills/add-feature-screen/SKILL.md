@@ -6,7 +6,7 @@ description: Add a new Compose screen or bottom navigation tab (Voyager Screen/T
 # Add Feature Screen
 
 Creates a screen following the existing patterns in `feature:main`. Use `screens/meals/` as the reference
-implementation.
+implementation, except for its constant `key`; `MealDetailsScreen` shows the correct pattern.
 
 ## 1. Decide The Screen Kind
 

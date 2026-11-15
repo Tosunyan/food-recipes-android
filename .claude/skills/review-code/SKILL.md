@@ -91,7 +91,7 @@ Read the full surrounding code of changed files — don't judge from diff hunks 
 
 **Build & Security**
 - Dependencies added through `gradle/libs.versions.toml`.
-- No secrets, keystore passwords, API keys, or `*.properties` files committed.
+- No secrets, keystore passwords, API keys, or `local.properties` / `prod.properties` committed.
 
 ### 3. Verify
 

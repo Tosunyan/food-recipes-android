@@ -14,9 +14,9 @@ command -v jq >/dev/null 2>&1 || exit 0
 cmd="$(jq -r '.tool_input.command // empty' 2>/dev/null)" || exit 0
 [[ -n "$cmd" ]] || exit 0
 
-# Reject chaining, pipes, redirection, substitution, expansion, quoting, globs and multi-line commands.
+# Reject chaining, pipes, redirection, substitution, expansion, quoting, globs, comments and multi-line commands.
 # Quotes would hide options from the checks below, and globs could expand to option-like file names.
-readonly UNSAFE_CHARS=$'[][;&|<>`$(){}\\\'"*?]'
+readonly UNSAFE_CHARS=$'[][;&|<>`$(){}\\\'"*?#]'
 [[ "$cmd" =~ $UNSAFE_CHARS ]] && exit 0
 [[ "$cmd" == *$'\n'* || "$cmd" == *$'\r'* ]] && exit 0
 

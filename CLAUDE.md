@@ -71,8 +71,8 @@ There are currently no unit or instrumentation tests; verify changes by compilin
 
 - Requires `local.properties` with `KEY_ALIAS`, `KEY_PASSWORD`, `STORE_PASSWORD`, `MEAL_API_KEY`, `MEAL_API_URL`
   (see `README.md`). Values can also come from environment variables.
-- Release signing reads `prod.properties`. All `*.properties` files are git-ignored — never commit them or any
-  secrets.
+- Release signing reads `prod.properties`. `local.properties` and `prod.properties` are git-ignored — never commit
+  them or any secrets (`gradle.properties` and `gradle-wrapper.properties` are tracked and fine to change).
 - `MEAL_API_URL` / `MEAL_API_KEY` are exposed via `BuildConfig` in `core:network`.
 
 ## AI Tooling
@@ -81,7 +81,8 @@ Shared by Claude Code and GitHub Copilot CLI — keep everything in the Claude l
 
 - Skills: `.claude/skills/<name>/SKILL.md`.
 - Safe commands: `.claude/settings.json` registers a `PreToolUse` hook, `.claude/hooks/allow-safe-commands.sh`,
-  that auto-approves an allowlist of single commands: `./gradlew` build/test/inspection tasks (no release or
-  publishing), `git` inspection commands plus `git fetch`, read-only `gh` `view`/`list`/`diff`/`checks`/`status` (no
-  `--web`), `ls` and `pwd`. Options are matched against per-command allowlists. Everything else is prompted.
+  that auto-approves an allowlist of single commands: `./gradlew` build/test/inspection tasks (no release assembly,
+  `lintFix` or publishing), `git` inspection commands plus `git fetch`, read-only `gh`
+  `view`/`list`/`diff`/`checks`/`status` (no `--web`), `ls` and `pwd`. Options are matched against per-command
+  allowlists. Everything else is prompted.
   Extend the allowlist there; never allow commits, pushes, or destructive commands.
