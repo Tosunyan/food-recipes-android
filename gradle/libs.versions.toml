@@ -16,9 +16,9 @@ material3 = "1.4.0"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.13.0"
 okhttp = "5.5.1"
-# Both 2.0.0-alpha01 and 2.2.21-1.10.3 are Pre-release
+# 1.1.0-alpha02+ include the destroyed-state lifecycle crash fix (Voyager #297), absent in stable 1.0.x
 #noinspection NewerVersionAvailable
-voyager = "1.0.1"
+voyager = "1.1.0-beta03"
 coil = "2.7.0"
 # 1.2.0+ share the namespace eu.wewox.textflow across artifacts, which AGP 9 rejects
 #noinspection NewerVersionAvailable
