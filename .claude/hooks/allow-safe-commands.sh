@@ -45,6 +45,17 @@ positionals_match() {
     return 0
 }
 
+# Succeeds when no non-option argument points outside the working tree. Without this, "git diff" silently
+# switches to --no-index mode for outside paths and prints arbitrary files; "~" would expand to the home directory.
+paths_in_repo() {
+    local arg
+    for arg in "$@"; do
+        [[ "$arg" == -* ]] && continue
+        [[ "$arg" == /* || "$arg" == '~'* || "$arg" =~ (^|/)\.\.(/|$) ]] && return 1
+    done
+    return 0
+}
+
 readonly HISTORY_OPTIONS='--|-p|-s|-c|-m|-w|-M|-C|-[0-9]+|-n[0-9]*|-U[0-9]+|--unified=[0-9]+|--max-count=[0-9]+'\
 '|--stat|--shortstat|--numstat|--name-only|--name-status|--summary|--patch|--no-patch|--raw|--cached|--staged'\
 '|--oneline|--graph|--decorate|--no-decorate|--all|--reverse|--merges|--no-merges|--first-parent|--follow'\
@@ -59,7 +70,7 @@ is_safe_git() {
 
     case "$sub" in
         diff | log | show | shortlog)
-            options_match "$HISTORY_OPTIONS" "$@"
+            options_match "$HISTORY_OPTIONS" "$@" && paths_in_repo "$@"
             ;;
         status)
             options_match '-[sbv]+|--short|--branch|--long|--verbose|--porcelain(=v[12])?|--ignored'\
@@ -124,7 +135,7 @@ is_safe_gh() {
             | "run view" | "run list" | "repo view")
             shift 2
             # Exclude --web, which opens a browser.
-            options_match '-R|--repo=[^ ]+|-c|--comments|--json|--jq|--limit=[0-9]+|-L|--state=[a-z]+|-s|--patch'\
+            options_match '-R|--repo=[^ ]+|-c|--comments|--json|--limit=[0-9]+|-L|--state=[a-z]+|-s|--patch'\
 '|--name-only|--log|--log-failed|--color=[a-z]+|--branch=[^ ]+|-b|--author=[^ ]+|-A|--label=[^ ]+|-l' "$@"
             ;;
         *)
@@ -159,7 +170,8 @@ is_safe() {
         ./gradlew) shift; is_safe_gradle "$@" ;;
         git) shift; is_safe_git "$@" ;;
         gh) shift; is_safe_gh "$@" ;;
-        ls | pwd) return 0 ;;
+        ls) paths_in_repo "$@" ;;
+        pwd) return 0 ;;
         *) return 1 ;;
     esac
 }

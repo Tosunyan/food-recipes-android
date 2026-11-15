@@ -9,6 +9,9 @@ Multi-agent development chain for one task: a roadmap item (`docs/ROADMAP.md`, w
 branch, e.g. `feature/roadmap`) or a free-form request. The main agent orchestrates; the work is done by
 subagents with fresh context.
 
+Runs only when the user asks to implement something. Do one task per run; if the request bundles several,
+propose how to split it and confirm.
+
 ## Models
 
 Planning quality decides everything downstream, so spend the capability there:
@@ -20,9 +23,6 @@ Planning quality decides everything downstream, so spend the capability there:
 - **Code reviewers**: frontier-level, as defined in `review-code`.
 
 Pick the most capable available model for each tier; don't hardcode model names.
-
-Runs only when the user asks to implement something. Do one task per run; if the request bundles several,
-propose how to split it and confirm.
 
 ## Checkpoints
 

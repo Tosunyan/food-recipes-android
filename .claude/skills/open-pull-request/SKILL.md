@@ -27,7 +27,7 @@ git --no-pager diff --stat origin/main...HEAD
 
 PRs are squash-merged, so the title becomes the commit headline on `main` (GitHub appends ` (#<n>)`).
 Follow the commit headline rules: one short, direct sentence in present tense, imperative, capitalized,
-no trailing period, no type prefix. Example: `Setup GitHub Actions and update build configuration`.
+no trailing period, no type prefix. Example: `Set up GitHub Actions and update build configuration`.
 
 ## Description
 

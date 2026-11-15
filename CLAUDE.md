@@ -60,8 +60,8 @@ Features must not depend on `core:network` or `core:database` directly — go th
 ## Build & Verify
 
 ```bash
-./gradlew app:assembleDebug   # build (same as CI)
-./gradlew test                # unit tests (same as CI)
+./gradlew app:assembleDebug                  # build (same as CI)
+./gradlew test                               # unit tests (same as CI)
 ./gradlew :feature:main:compileDebugKotlin   # fast check for a single module
 ```
 
