@@ -11,8 +11,14 @@ trap 'exit 0' ERR
 
 command -v jq >/dev/null 2>&1 || exit 0
 
-cmd="$(jq -r '.tool_input.command // empty' 2>/dev/null)" || exit 0
+input="$(cat)"
+cmd="$(jq -r '.tool_input.command // empty' <<< "$input" 2>/dev/null)" || exit 0
 [[ -n "$cmd" ]] || exit 0
+
+# Relative paths are only trusted inside the checkout, and the working directory can move with an approved "cd".
+cwd="$(jq -r '.cwd // empty' <<< "$input" 2>/dev/null)" || exit 0
+project="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+[[ -n "$cwd" && ( "$cwd" == "$project" || "$cwd" == "$project"/* ) ]] || exit 0
 
 # Reject chaining, pipes, redirection, substitution, expansion, quoting, globs, comments and multi-line commands.
 # Quotes would hide options from the checks below, and globs could expand to option-like file names.
@@ -45,13 +51,14 @@ positionals_match() {
     return 0
 }
 
-# Succeeds when no non-option argument points outside the working tree. Without this, "git diff" silently
+# Succeeds when no non-option argument points outside the working tree (absolute, home or drive-qualified
+# paths). Without this, "git diff" silently
 # switches to --no-index mode for outside paths and prints arbitrary files; "~" would expand to the home directory.
 paths_in_repo() {
     local arg
     for arg in "$@"; do
         [[ "$arg" == -* ]] && continue
-        [[ "$arg" == /* || "$arg" == '~'* || "$arg" =~ (^|/)\.\.(/|$) ]] && return 1
+        [[ "$arg" == /* || "$arg" == '~'* || "$arg" =~ ^[A-Za-z]: || "$arg" =~ (^|/)\.\.(/|$) ]] && return 1
     done
     return 0
 }

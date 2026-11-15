@@ -28,7 +28,9 @@ automatically after ad-hoc changes or before commits.
    reviewer's findings. Each reviewer covers the full scope.
 3. **Consolidate** both reports: merge duplicates and note which reviewer(s) raised each finding.
 4. **Satisfied** means both reviewers return `PASS` — no findings left, except ones the user explicitly waived.
-5. **Iterate** (local changes only):
+5. **Iterate** (local changes only). Fix findings only when another skill (e.g. `implement-code`) invoked the
+   gate or the user asked for fixes; for a plain review request, report the consolidated findings and ask
+   before changing any code.
    - Fix all findings, then run a **new** pair of reviewers on the updated changes. Tell them which findings
      the user waived, so they aren't re-raised.
    - Maximum **3** rounds. If either reviewer still requests changes after round 3, stop and present the

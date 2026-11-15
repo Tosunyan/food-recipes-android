@@ -7,8 +7,9 @@ description: Summarize completed work for the user (what is done, blockers, open
 
 Use at the end of a task (e.g. from `implement-code`) or when the user asks what changed. Base it on facts
 (run `git fetch origin main` first): `git --no-pager log --oneline origin/main..HEAD`,
-`git --no-pager diff --stat origin/main...HEAD`, the plan, and the review results — not on memory of what was
-intended.
+`git --no-pager diff --stat origin/main...HEAD`, plus `git status --short` and `git --no-pager diff HEAD --stat`
+for staged, unstaged and untracked changes that aren't committed yet, the plan, and the review results — not on
+memory of what was intended.
 
 ## Format
 

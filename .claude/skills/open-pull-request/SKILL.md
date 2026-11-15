@@ -14,13 +14,13 @@ description: Open a GitHub pull request for the current branch (title, descripti
 
 ## Base Branch
 
-`main`, unless the user says otherwise. Fetch it first so the summary isn't based on a stale `origin/main`, then
-review what goes into the PR with:
+`main`, unless the user says otherwise; use the chosen `<base>` in every command below. Fetch it first so the
+summary isn't based on a stale `origin/<base>`, then review what goes into the PR with:
 
 ```bash
-git fetch origin main
-git --no-pager log --oneline origin/main..HEAD
-git --no-pager diff --stat origin/main...HEAD
+git fetch origin <base>
+git --no-pager log --oneline origin/<base>..HEAD
+git --no-pager diff --stat origin/<base>...HEAD
 ```
 
 ## Title
@@ -54,11 +54,11 @@ the description, and whether it is a draft (default: ready for review). Use the 
 
 Use the first available option:
 
-1. GitHub CLI: `gh pr create --base main --head <branch> --title "<title>" --body-file <file>` (add `--draft`
+1. GitHub CLI: `gh pr create --base <base> --head <branch> --title "<title>" --body-file <file>` (add `--draft`
    if requested).
 2. A GitHub MCP server connected to the repository's host (`github.com`).
 3. Otherwise, give the user the compare URL to open the PR manually, along with the title and description:
-   `https://github.com/<owner>/<repo>/compare/main...<branch>?expand=1` (derive `<owner>/<repo>` from
+   `https://github.com/<owner>/<repo>/compare/<base>...<branch>?expand=1` (derive `<owner>/<repo>` from
    `git remote get-url origin`).
 
 Finish by sharing the PR URL.
