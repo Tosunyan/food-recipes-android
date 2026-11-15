@@ -26,7 +26,7 @@ propose how to split it and confirm.
 
 ## Checkpoints
 
-The user is involved at exactly two points:
+The user has two mandatory checkpoints (besides questions the skill explicitly allows):
 
 1. **Plan approval** — before any code is written.
 2. **Push approval** — after the summary.
@@ -85,7 +85,7 @@ changes. Don't start implementing before approval.
 ## 6. Review And Commit
 
 1. Run the **Review Gate** from `.claude/skills/review-code/SKILL.md` on the local changes (two independent
-   reviewers, both must `PASS`, max 2 fix rounds).
+   reviewers, both must `PASS`, max 3 rounds).
 2. Fixes between rounds are made by an implementer subagent with the findings, not by the reviewers.
 3. If the gate still fails after its rounds, don't commit. Go to step 7 and report the remaining findings.
 4. Otherwise commit locally following `commit-and-push` (message format, no AI co-author, no secrets, one

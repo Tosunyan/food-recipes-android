@@ -14,7 +14,8 @@ This skill has two parts:
 
 ## Review Gate
 
-Runs only when the user asks for a review (not automatically after changes or before commits).
+Runs when the user asks for a review or when another skill (e.g. `implement-code`) invokes it; not
+automatically after ad-hoc changes or before commits.
 
 1. **Spawn two reviewers in parallel** as separate subagents with fresh context. Give each the same prompt:
    the review target (local changes or PR number) and the instruction to perform the **Single Review** from
@@ -30,7 +31,7 @@ Runs only when the user asks for a review (not automatically after changes or be
 5. **Iterate** (local changes only):
    - Fix all findings, then run a **new** pair of reviewers on the updated changes. Tell them which findings
      the user waived, so they aren't re-raised.
-   - Maximum **2** rounds. If either reviewer still requests changes after round 2, stop and present the
+   - Maximum **3** rounds. If either reviewer still requests changes after round 3, stop and present the
      remaining findings to the user to fix, waive, or discuss.
    - If a finding is wrong or conflicts with the user's intent, don't silently ignore it — ask the user to
      waive it.

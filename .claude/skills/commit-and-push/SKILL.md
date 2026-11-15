@@ -42,10 +42,12 @@ git commit -m "Add ingredient filter to search" -m "Allows filtering search resu
 
 ## Pushing
 
-- Run `git fetch origin` first and compare with `git --no-pager status -sb`. If the branch is behind its
-  upstream or `origin/main` has moved on, tell the user and propose a rebase or merge instead of pushing blindly.
+- Run `git fetch origin` first. If the branch is behind its upstream (`git --no-pager status -sb`) or
+  `origin/main` has moved on (`git --no-pager log --oneline HEAD..origin/main`), tell the user and propose a
+  rebase or merge instead of pushing blindly.
 - **Always ask the user for explicit confirmation before `git push`**, showing the branch name and the commits
-  to be pushed (`git --no-pager log --oneline origin/main..HEAD`).
+  to be pushed: `git --no-pager log --oneline @{u}..HEAD` when the branch has an upstream, otherwise
+  `git --no-pager log --oneline origin/main..HEAD`.
 - First push of a branch: resolve the name with `git branch --show-current`, make sure it is not `main` and is
   valid (`git check-ref-format --branch`), confirm that exact name, then run `git push -u origin -- "$branch"`.
 - Never force-push to `main`. Force-pushing a feature branch (`--force-with-lease`) also needs confirmation.

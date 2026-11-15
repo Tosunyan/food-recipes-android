@@ -134,12 +134,11 @@ is_safe_gh() {
 }
 
 # Only build, test and inspection tasks. Gradle matches task names case-insensitively and expands camel-case
-# abbreviations, so names must match this case-sensitive allowlist and not the lowercase denylist below.
-# Release assembly is excluded because it signs the APK and can upload Crashlytics mapping files; lintFix
-# is excluded because it edits sources.
-readonly GRADLE_TASK='(:?[A-Za-z0-9_-]+:)*(assembleDebug|test|compile|lint)[A-Za-z0-9]*'\
-'|(:?[A-Za-z0-9_-]+:)*(check|tasks|dependencies|projects|help)'
-readonly GRADLE_DENIED_TASK='(^|:)(assemblerelease|lintfix)'
+# abbreviations (e.g. "lintF" runs lintFix), so the allowlist must be exact: no open-ended suffix may follow a
+# prefix that other tasks share. Release assembly is excluded because it signs the APK and can upload
+# Crashlytics mapping files; lintFix is excluded because it edits sources.
+readonly GRADLE_TASK='(:?[A-Za-z0-9_-]+:)*(assembleDebug[A-Za-z0-9]*|test[A-Za-z0-9]*|compile[A-Za-z0-9]*'\
+'|lint|lintDebug|lintRelease|lintVital[A-Za-z0-9]*|lintAnalyze[A-Za-z0-9]*|check|tasks|dependencies|projects|help)'
 readonly GRADLE_OPTIONS='-q|-i|--quiet|--info|--stacktrace|--offline|--continue|--no-daemon|--rerun-tasks|--parallel'\
 '|--build-cache|--no-build-cache|--dry-run|--console=(plain|rich|auto|verbose)|--warning-mode=(all|fail|summary|none)'
 
@@ -149,9 +148,7 @@ is_safe_gradle() {
         if [[ "$arg" == -* ]]; then
             [[ "$arg" =~ ^($GRADLE_OPTIONS)$ ]] || return 1
         else
-            local lower
-            lower="$(printf '%s' "$arg" | tr '[:upper:]' '[:lower:]')"
-            [[ "$arg" =~ ^($GRADLE_TASK)$ && ! "$lower" =~ $GRADLE_DENIED_TASK ]] || return 1
+            [[ "$arg" =~ ^($GRADLE_TASK)$ ]] || return 1
         fi
     done
     return 0
