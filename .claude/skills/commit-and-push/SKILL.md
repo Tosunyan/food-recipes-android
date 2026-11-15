@@ -1,6 +1,6 @@
 ---
 name: commit-and-push
-description: Commit and push changes following project conventions (branches, message format, confirmations).
+description: Commit and push changes following project conventions (branches, message format, push confirmation).
 ---
 
 # Commit And Push
@@ -32,12 +32,9 @@ description: Commit and push changes following project conventions (branches, me
 
 ## Committing
 
-**Always ask the user for confirmation before committing.** Show:
-
-- the list of staged files,
-- the proposed headline and description.
-
-The user may edit the message — use their version verbatim. Then commit:
+Committing is local and easy to undo, so it needs no confirmation (only pushing does). Commit, then show the
+user the staged files and the resulting headline and description. If the user asks for a different message,
+use their version verbatim with `git commit --amend` (only while the commit is unpushed).
 
 ```bash
 git commit -m "Add ingredient filter to search" -m "Allows filtering search results by main ingredient."
