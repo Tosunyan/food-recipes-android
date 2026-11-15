@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
     alias(libs.plugins.google.services)
@@ -21,12 +20,12 @@ android {
         return System.getenv(key) ?: properties.getProperty(key) ?: ""
     }
 
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.tosunyan.foodrecipes"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0.0-snapshot01"
 

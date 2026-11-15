@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
 kotlin {
@@ -9,7 +8,7 @@ kotlin {
 
 android {
     namespace = "com.tosunyan.foodrecipes.common"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 26

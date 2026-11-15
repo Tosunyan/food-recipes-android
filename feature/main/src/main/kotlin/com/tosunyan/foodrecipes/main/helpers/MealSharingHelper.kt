@@ -1,7 +1,6 @@
 package com.tosunyan.foodrecipes.main.helpers
 
 import android.content.Context
-import android.content.Intent
 import com.tosunyan.foodrecipes.main.screens.shareoptions.SharingOption
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.SaveableMeal
@@ -20,7 +19,7 @@ class MealSharingHelper {
             SharingOption.Text -> generateRecipeContent(meal, context)
         }
 
-        context.launchIntentChooser(Intent.EXTRA_TEXT to text)
+        context.launchIntentChooser(text)
     }
 
     private fun generateLink(meal: SaveableMeal): String {

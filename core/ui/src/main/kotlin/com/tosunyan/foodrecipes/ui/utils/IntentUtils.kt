@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import com.tosunyan.foodrecipes.ui.R
 
 private val isMinAndroid12: Boolean
@@ -24,17 +23,13 @@ fun Context.openLink(uriString: String) {
         .let(::startActivityIfFound)
 }
 
-fun Context.launchIntentChooser(
-    vararg pairs: Pair<String, Any?>,
-) {
+fun Context.launchIntentChooser(text: String) {
     Intent()
         .apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-
-            val extras = bundleOf(*pairs)
-            putExtras(extras)
+            putExtra(Intent.EXTRA_TEXT, text)
         }
         .let { Intent.createChooser(it, "") }
         .let(::startActivity)
