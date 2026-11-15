@@ -114,7 +114,8 @@ is_safe_git() {
             ;;
         fetch)
             # Positionals are plain remote/branch names; refspecs (with ":" or a leading "+") can overwrite branches.
-            options_match '-p|-q|-v|--prune|--all|--tags|--no-tags|--quiet|--verbose|--dry-run' "$@" \
+            # --tags and --prune are excluded: they can create or delete local tags.
+            options_match '-q|-v|--all|--no-tags|--quiet|--verbose|--dry-run' "$@" \
                 && positionals_match '[A-Za-z0-9._/-]+' "$@"
             ;;
         branch)
