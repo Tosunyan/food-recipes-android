@@ -16,7 +16,7 @@ material3 = "1.4.0"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.13.0"
 okhttp = "5.5.1"
-#Both 2.0.0-alpha01 and 2.2.21-1.10.3 are Pre-release
+# Both 2.0.0-alpha01 and 2.2.21-1.10.3 are Pre-release
 #noinspection NewerVersionAvailable
 voyager = "1.0.1"
 coil = "2.7.0"

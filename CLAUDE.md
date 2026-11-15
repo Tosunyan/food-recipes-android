@@ -8,7 +8,7 @@ Do not add `AGENTS.md` or `.github/copilot-instructions.md` — Copilot already 
 
 ## Tech Stack
 
-- Kotlin 2.x, JVM toolchain 21, `minSdk` 26, `compileSdk`/`targetSdk` 36
+- Kotlin 2.x, JVM toolchain 21, `minSdk` 26, `compileSdk`/`targetSdk` 37
 - UI: Jetpack Compose + custom design system (`com.github.inconcept:android-design-system`, accessed via `AppTheme`)
 - Navigation: Voyager (`Screen`, `LocalNavigator`, tab navigator)
 - DI: Koin (`module { }`, `singleOf`, `viewModelOf`, `koinViewModel()`)
