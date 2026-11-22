@@ -13,8 +13,10 @@ The rule: **no assumptions without device evidence, no fix without before/after 
 ## 1. Prepare
 
 - Start from a fresh branch off the latest `origin/main` (see `commit-and-push`), named
-  `fix/<short-kebab-name>`. Never investigate on an unrelated feature branch. If there are
-  uncommitted changes, ask the user before stashing or moving them.
+  `fix/<short-kebab-name>`. Exception: if the code under investigation exists only on an unmerged
+  feature branch, branch off that branch instead (or stay on it if the user wants the fix in the
+  same PR). Never investigate on an unrelated branch. If there are uncommitted changes, ask the
+  user before stashing or moving them.
 - Write down the **success condition** and how it will be measured before touching code (e.g.
   "category cells don't resize after load", "janky frames < 1%").
 - Read the relevant code, but treat roadmap notes and your own reading as hypotheses: they can be
@@ -36,8 +38,21 @@ The rule: **no assumptions without device evidence, no fix without before/after 
 
 ### Visual Issues (layout shifts, flicker)
 
-- `screencap` is too slow for transitions. Record instead:
-  `adb shell screenrecord --time-limit 10 /sdcard/x.mp4`, launch, then `adb pull`.
+- `screencap` is too slow for transitions. Record instead. `screenrecord` blocks until it
+  finishes, so start it in the background **before** launching the app. Run all of these in
+  **one shell** (`$!` and `wait` refer to that shell's job):
+
+  ```bash
+  adb shell -n screenrecord --time-limit 10 /sdcard/x.mp4 &
+  rec=$!
+  sleep 2
+  adb shell am force-stop com.tosunyan.foodrecipes
+  adb shell monkey -p com.tosunyan.foodrecipes -c android.intent.category.LAUNCHER 1
+  wait $rec && adb pull /sdcard/x.mp4
+  ```
+
+  If `wait` returns non-zero, the recording failed: retry. `sleep` doesn't guarantee the recorder
+  is ready, so check the first frames to confirm the video covers the launch.
 - Keep the recording long enough to cover splash and loading.
 - Build a contact sheet with ffmpeg and view it:
   `ffmpeg -y -ss <s> -t <s> -i x.mp4 -vf "fps=8,crop=...,scale=260:-1,tile=8x2" -frames:v 1 s.png`.
