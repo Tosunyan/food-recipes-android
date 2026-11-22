@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -50,17 +50,13 @@ class SearchViewModel(
 
     init {
         _searchInput
-            .debounce(SEARCH_DEBOUNCE)
-            .filter(String::isNotBlank)
-            .onEach(::searchForMeals)
+            .debounce { if (it.isBlank()) 0L else SEARCH_DEBOUNCE }
+            .mapLatest { if (it.isBlank()) emptyList() else repository.searchMeals(it) }
+            .onEach { _meals.value = it }
             .launchIn(viewModelScope)
     }
 
     fun onSearchInputChange(text: String = "") {
-        if (text.isBlank()) {
-            _meals.value = emptyList()
-        }
-
         _searchInput.value = text
     }
 
@@ -75,12 +71,6 @@ class SearchViewModel(
                     meals.replace(meal) { it.copy(isSaved = isSaved) }
                 }
             }
-        }
-    }
-
-    private fun searchForMeals(text: String) {
-        viewModelScope.launch {
-            _meals.update { repository.searchMeals(text) }
         }
     }
 

@@ -26,8 +26,6 @@
   stores the ViewModel owner by `Screen.key`. Use unique keys (include category/region).
 - **ViewModel leaks Navigator/Context** – both are held in state lambdas. Handle navigation and
   intents in the composable or via one-off events.
-- **Search results arrive out of order** – each query launches an uncancelled coroutine. Use
-  `mapLatest`/`collectLatest`.
 - **Deep link handled again** – `IntentHandler` never consumes the intent, so config changes or
   relaunch from Recents can push the screen again. A `lastItem.key` guard in `IntentHandler` and the
   portrait lock reduce the risk. Clear `intent.data` after handling. WIP:
