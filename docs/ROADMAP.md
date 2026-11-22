@@ -28,8 +28,6 @@
   relaunch from Recents can push the screen again. A `lastItem.key` guard in `IntentHandler` and the
   portrait lock reduce the risk. Clear `intent.data` after handling. WIP:
   `feature/deep-link-management`.
-- **Shimmer never stops** – `isImageLoading` in `MealDetailsScreen` is a plain `var`. Use
-  `remember { mutableStateOf(true) }` inside the `item {}` block (as `DailySpecialItem` does).
 - **Unstable `LazyColumn` keys** – details items are keyed by content (name, thumbnail,
   instructions, ingredient objects, category + region, link URLs). Keys change when the content
   changes (e.g. the deep-link placeholder has an empty name) and can collide. Use constant keys
