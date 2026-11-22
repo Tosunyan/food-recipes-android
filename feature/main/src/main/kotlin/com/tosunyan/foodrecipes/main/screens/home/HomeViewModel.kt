@@ -7,6 +7,7 @@ import com.tosunyan.foodrecipes.model.CategoryModel
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import com.tosunyan.foodrecipes.model.RegionModel
 import com.tosunyan.foodrecipes.main.helpers.MealSavingHelper
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ class HomeViewModel(
     val regions = MutableStateFlow<List<RegionModel>>(emptyList())
 
     init {
-        makeApiCalls()
+        loadContent()
     }
 
     fun onSaveIconClick(meal: MealDetailsModel) {
@@ -32,27 +33,20 @@ class HomeViewModel(
         }
     }
 
-    private fun makeApiCalls() {
-        getRandomMeal()
-        getCategories()
-        getRegions()
-    }
-
-    private fun getRandomMeal() {
+    // Loaded together so that sections don't appear one by one and push each other down
+    private fun loadContent() {
         viewModelScope.launch {
-            randomMeal.update { homeRepository.getRandomMeal() }
-        }
-    }
+            val randomMealDeferred = async { homeRepository.getRandomMeal() }
+            val categoriesDeferred = async { homeRepository.getCategories() }
+            val regionsDeferred = async { homeRepository.getRegions() }
 
-    private fun getCategories() {
-        viewModelScope.launch {
-            categories.update { homeRepository.getCategories() }
-        }
-    }
+            val loadedRandomMeal = randomMealDeferred.await()
+            val loadedCategories = categoriesDeferred.await()
+            val loadedRegions = regionsDeferred.await()
 
-    private fun getRegions() {
-        viewModelScope.launch {
-            regions.update { homeRepository.getRegions() }
+            randomMeal.value = loadedRandomMeal
+            categories.value = loadedCategories
+            regions.value = loadedRegions
         }
     }
 }
