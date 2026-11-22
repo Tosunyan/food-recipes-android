@@ -98,3 +98,6 @@ duplicates:
   inspection commands plus `git fetch`, read-only `gh` `view`/`list`/`diff`/`checks`/`status` (no
   `--web`), `ls` and `pwd`. Options are matched against per-command allowlists. Everything else is
   prompted. Extend the allowlist there; never allow commits, pushes, or destructive commands.
+- Asking the user: put all the details needed to decide (findings, context, options with
+  consequences, a recommendation) **in the question itself**. Never ask a bare question and
+  explain afterwards, and don't reduce a decision to terse option labels.
