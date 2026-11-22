@@ -111,5 +111,6 @@ confirmation before `git push`**, showing the branch and commits. Offer to open 
 - Subagents get fresh context: the task, the relevant artifact (plan or diff) and instructions, not
   the conversation history.
 - Reviewers never modify code; planners never modify files.
-- Don't mark roadmap items done or edit `docs/ROADMAP.md` unless the user asks.
+- When a roadmap item is fully implemented, remove it from `docs/ROADMAP.md` in the same change.
+  Don't add findings, metrics or notes there, and don't edit other items unless the user asks.
 - If anything unexpected makes the plan invalid mid-implementation, stop and report to the user.
