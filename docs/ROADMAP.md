@@ -14,8 +14,6 @@
   `MealDetailsModel` that was saved from the same instance, or from the Saved tab, works. Add a
   foreign key with `onDelete = CASCADE` (index `meal_id`, bump the DB version) and delete by
   `mealId`.
-- **Saving/unsaving isn't atomic** – meal and ingredients are inserted/deleted in two parallel
-  `launch` calls. Wrap them in `withTransaction`.
 - **Saved status goes stale** – each ViewModel keeps its own `isSaved`. Stale cases: Home (cached
   random meal, loaded once), Search (results never refreshed) and details opened from a details
   model. `MealsViewModel.onArgumentsReceive` re-runs on return and refetches the list from the API
