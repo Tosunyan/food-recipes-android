@@ -53,7 +53,9 @@ The rule: **no assumptions without device evidence, no fix without before/after 
 
   If `wait` returns non-zero, the recording failed: retry. `sleep` doesn't guarantee the recorder
   is ready, so check the first frames to confirm the video covers the launch.
-- Keep the recording long enough to cover splash and loading.
+- Keep the recording long enough to cover splash and loading. If the issue appears deeper in the
+  app, perform the navigation during the recording (manually or with `adb shell input`) and raise
+  `--time-limit` (max 180 s).
 - Build a contact sheet with ffmpeg and view it:
   `ffmpeg -y -ss <s> -t <s> -i x.mp4 -vf "fps=8,crop=...,scale=260:-1,tile=8x2" -frames:v 1 s.png`.
 - Layout bounds (`debug.layout`) help to see sizes; convert px to dp with `adb shell wm density`.

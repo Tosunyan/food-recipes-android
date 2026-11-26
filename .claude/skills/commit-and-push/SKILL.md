@@ -15,9 +15,9 @@ description: >-
   `git fetch origin && git switch --no-track -c <branch> origin/main`.
 - Exception: if the work builds on code that exists only on an unmerged feature branch, branch
   from that branch instead: `git fetch origin && git switch --no-track -c <branch>
-  origin/<feature-branch>` (if it was never pushed, branch from the local one). Open its PR
-  against that branch (see `open-pull-request`); the parent branch must be on the remote first, so
-  push it before opening the PR (with the usual push confirmation).
+  origin/<feature-branch>`. The parent branch must be pushed and up to date on the remote first
+  (push it with the usual confirmation if it was never pushed or has unpushed commits). Open the
+  PR against that branch (see `open-pull-request`).
 
 ## Before Committing
 

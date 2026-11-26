@@ -111,24 +111,28 @@ docs-only or skip-only outcomes).
 
 Follow `commit-and-push`: a new follow-up commit, never `--amend` or force-push.
 
+If every finding was skipped (nothing to commit), skip sections 6 and 7 and go to section 8.
+
 ## 7. Push
 
 1. Find the remote matching the PR head repository (`headRepository`): compare the `git remote -v`
-   URLs and check the actual push URL (`git remote get-url --push <remote>`), which can differ
-   from the fetch URL. `origin` isn't necessarily the PR head. If none matches or push isn't
-   permitted, don't push: offer reply-only and tell the user.
-2. `git fetch <remote>`. If `git rev-parse <remote>/<headRefName>` != `headRefOid`, the PR moved:
-   stop and propose a rebase or merge.
-3. Show `git --no-pager log --oneline <remote>/<headRefName>..HEAD`, ask for explicit
-   confirmation, then `git push <remote> HEAD:<headRefName>`.
+   URLs and check the actual push URLs (`git remote get-url --push --all <remote>`), which can
+   differ from the fetch URL and can be several. Require exactly one push URL, matching the PR
+   head repository. `origin` isn't necessarily the PR head. If none matches, several URLs exist
+   or push isn't permitted, don't push: offer reply-only and tell the user.
+2. Compare the PR head at the push destination, not the fetch URL:
+   `git ls-remote <push-url> refs/heads/<headRefName>`. If it differs from `headRefOid`, the PR
+   moved: stop and propose a rebase or merge.
+3. `git fetch <push-url> <headRefName>`, show `git --no-pager log --oneline FETCH_HEAD..HEAD`, ask
+   for explicit confirmation, then `git push <remote> HEAD:<headRefName>`.
 
 ## 8. Reply And Resolve
 
 - Ask for confirmation **separately** for replies and for resolving, showing the exact text.
 - Never say "fixed" before the fix is pushed; reference the commit hash.
 - Resolve a thread as fixed only after verifying the fix reached the PR head
-  (`git fetch <remote>`, then `git merge-base --is-ancestor <fix-sha> <remote>/<headRefName>`
-  succeeds). Otherwise leave it
+  (`gh pr view <n> --json headRefOid`, then fetch that SHA and check
+  `git merge-base --is-ancestor <fix-sha> <headRefOid>` succeeds). Otherwise leave it
   open unless the user explicitly approves closing it (e.g. a Skip).
 - Write each body to a file in the working directory (not `/tmp`), e.g. `pr-reply.md`.
 - Inline thread (`<comment id>` is the thread's first comment `databaseId`; `-f` doesn't read

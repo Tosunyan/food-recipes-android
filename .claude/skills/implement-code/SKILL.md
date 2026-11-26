@@ -79,9 +79,11 @@ re-run step 3 for substantial changes. Don't start implementing before approval.
 
 ## 5. Implement
 
-- Make sure you are on a suitable branch: never `main`. If the approved plan depends on code that
-  exists only on the current unmerged branch, stay on that branch, or branch off it when the user
-  wants separate work or a separate PR. Otherwise create `feature/<name>`, `refactor/<name>` or
+- Make sure you are on a suitable branch: never `main`. If the caller requires a specific branch
+  (e.g. `address-pr-feedback` fixing a PR head branch), stay on it and don't create a new one.
+  Otherwise, if the approved plan depends on code that exists only on the current unmerged branch,
+  stay on that branch, or branch off it when the user wants separate work or a separate PR.
+  Otherwise create `feature/<name>`, `refactor/<name>` or
   `fix/<name>` from the latest `origin/main` as described in `commit-and-push`. Don't carry over
   unrelated changes from the current branch.
 - Spawn an **implementer** subagent (model tier per **Models**) with the approved plan. It follows
