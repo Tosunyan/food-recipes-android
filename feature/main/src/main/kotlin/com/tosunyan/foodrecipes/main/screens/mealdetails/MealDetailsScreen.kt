@@ -11,11 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -217,9 +221,9 @@ class MealDetailsScreen(
     private fun LazyListScope.mealThumbnail(meal: MealDetailsModel) {
         if (meal.thumbnail.isBlank()) return
 
-        var isImageLoading = true
+        item(key = "Thumbnail") {
+            var isImageLoading by remember { mutableStateOf(true) }
 
-        item(key = meal.thumbnail) {
             AsyncImage(
                 model = meal.thumbnail,
                 contentDescription = "MealImage",
@@ -238,7 +242,7 @@ class MealDetailsScreen(
     }
 
     private fun LazyListScope.mealName(meal: MealDetailsModel) {
-        item(key = meal.name) {
+        item(key = "Name") {
             Text(
                 text = meal.name,
                 style = AppTheme.typography.H5,
@@ -254,7 +258,7 @@ class MealDetailsScreen(
     ) {
         if (meal.region.isBlank() && meal.category.isBlank()) return
 
-        item(key = meal.category + meal.region) {
+        item(key = "Labels") {
             CompositionLocalProvider(
                 LocalContentColor provides AppTheme.colorScheme.T8
             ) {
@@ -305,7 +309,7 @@ class MealDetailsScreen(
             )
         }
 
-        item(key = meal.instructions) {
+        item(key = "Instructions") {
             Text(
                 text = meal.instructions,
                 style = AppTheme.typography.P4,
@@ -333,12 +337,12 @@ class MealDetailsScreen(
             )
         }
 
-        items(
-            key = { it },
+        itemsIndexed(
+            key = { index, _ -> "Ingredient$index" },
             items = meal.ingredients
-        ) {
+        ) { _, ingredient ->
             IngredientItem(
-                item = it,
+                item = ingredient,
                 modifier = Modifier.animateItem()
             )
         }
@@ -367,7 +371,7 @@ class MealDetailsScreen(
             )
         }
 
-        item(key = meal.youtubeUrl + meal.sourceUrl) {
+        item(key = "ExternalLinks") {
             CompositionLocalProvider(
                 LocalContentColor provides Color.White
             ) {

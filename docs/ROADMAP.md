@@ -14,8 +14,6 @@
   `MealDetailsModel` that was saved from the same instance, or from the Saved tab, works. Add a
   foreign key with `onDelete = CASCADE` (index `meal_id`, bump the DB version) and delete by
   `mealId`.
-- **Saving/unsaving isn't atomic** – meal and ingredients are inserted/deleted in two parallel
-  `launch` calls. Wrap them in `withTransaction`.
 - **Saved status goes stale** – each ViewModel keeps its own `isSaved`. Stale cases: Home (cached
   random meal, loaded once), Search (results never refreshed) and details opened from a details
   model. `MealsViewModel.onArgumentsReceive` re-runs on return and refetches the list from the API
@@ -26,18 +24,10 @@
   stores the ViewModel owner by `Screen.key`. Use unique keys (include category/region).
 - **ViewModel leaks Navigator/Context** – both are held in state lambdas. Handle navigation and
   intents in the composable or via one-off events.
-- **Search results arrive out of order** – each query launches an uncancelled coroutine. Use
-  `mapLatest`/`collectLatest`.
 - **Deep link handled again** – `IntentHandler` never consumes the intent, so config changes or
   relaunch from Recents can push the screen again. A `lastItem.key` guard in `IntentHandler` and the
   portrait lock reduce the risk. Clear `intent.data` after handling. WIP:
   `feature/deep-link-management`.
-- **Shimmer never stops** – `isImageLoading` in `MealDetailsScreen` is a plain `var`. Use
-  `remember { mutableStateOf(true) }` inside the `item {}` block (as `DailySpecialItem` does).
-- **Unstable `LazyColumn` keys** – details items are keyed by content (name, thumbnail,
-  instructions, ingredient objects, category + region, link URLs). Keys change when the content
-  changes (e.g. the deep-link placeholder has an empty name) and can collide. Use constant keys
-  (ingredients: index, as names may repeat).
 
 ## 3. Quality
 ### Architecture

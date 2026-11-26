@@ -62,6 +62,6 @@ fun <T> DispatcherScope.ioFlow(block: suspend FlowCollector<T>.() -> Unit): Flow
 }
 
 fun Throwable.printStackTraceAndRethrow() {
-    printStackTrace()
     if (this is CancellationException) throw this
+    printStackTrace()
 }

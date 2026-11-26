@@ -65,6 +65,8 @@ Features must not depend on `core:network` or `core:database` directly — go th
   modules with type-safe accessors (`projects.core.data`).
 - **Formatting**: follow the Kotlin coding conventions; keep lines (code and Markdown) within 100
   characters.
+- **Comments**: only where the intent is unclear or the code is complex. Don't comment code that
+  explains itself.
 
 ## Build & Verify
 

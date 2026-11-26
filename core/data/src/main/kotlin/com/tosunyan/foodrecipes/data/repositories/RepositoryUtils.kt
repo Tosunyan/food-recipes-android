@@ -1,5 +1,6 @@
 package com.tosunyan.foodrecipes.data.repositories
 
+import androidx.room.withTransaction
 import com.tosunyan.foodrecipes.common.coroutines.DispatcherScope
 import com.tosunyan.foodrecipes.common.coroutines.withIOResultOrNull
 import com.tosunyan.foodrecipes.common.coroutines.withIOScope
@@ -12,7 +13,6 @@ import com.tosunyan.foodrecipes.database.model.IngredientEntity
 import com.tosunyan.foodrecipes.database.model.MealEntity
 import com.tosunyan.foodrecipes.model.MealDetailsModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 suspend fun <T, R> DispatcherScope.getMealsWithSavedStatus(
     mealDao: MealDao,
@@ -40,9 +40,9 @@ suspend fun DispatcherScope.mealWithIngredientsTransaction(
         val mealEntity = mealDetails.toMealEntity()
         val ingredientEntities = mealDetails.toIngredientEntities()
 
-        with(database) {
-            launch { mealDao.mealTransaction(mealEntity) }
-            launch { ingredientDao.ingredientsTransaction(ingredientEntities) }
+        database.withTransaction {
+            database.mealDao.mealTransaction(mealEntity)
+            database.ingredientDao.ingredientsTransaction(ingredientEntities)
         }
     }
 }
