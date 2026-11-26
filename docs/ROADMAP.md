@@ -1,8 +1,6 @@
 # Roadmap
 
 ## 1. Current Sprint
-- **Home scroll lag** – `CategoryItem` image has no size, so cells resize after load. Set
-  `aspectRatio(1f)` on it (`DailySpecialItem` already has a fixed height and image ratio).
 - **SnackBar component**
 - **Saved-meal notification** – `depends-on: SnackBar component`. WIP: `feature/notificaiton`
 - **Un-save confirmation** – `depends-on: SnackBar component`. Prefer an **Undo** action over a

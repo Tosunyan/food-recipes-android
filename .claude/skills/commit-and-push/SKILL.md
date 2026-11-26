@@ -11,9 +11,13 @@ description: >-
 
 - Never commit directly to `main`.
 - Naming: `feature/<short-kebab-name>`, `refactor/<name>` or `fix/<name>`.
-- Create new branches from the latest `origin/main`:
-  `git fetch origin && git switch -c <branch> origin/main`, then `git branch --unset-upstream` so
-  the branch does not track `main`.
+- Create new branches from the latest `origin/main`, without tracking it:
+  `git fetch origin && git switch --no-track -c <branch> origin/main`.
+- Exception: if the work builds on code that exists only on an unmerged feature branch, branch
+  from that branch instead: `git fetch origin && git switch --no-track -c <branch>
+  origin/<feature-branch>`. The parent branch must be pushed and up to date on the remote first
+  (push it with the usual confirmation if it was never pushed or has unpushed commits). Open the
+  PR against that branch (see `open-pull-request`).
 
 ## Before Committing
 
@@ -48,7 +52,8 @@ git commit -m "Add ingredient filter to search" \
 
 - Run `git fetch origin` first. If the branch is behind its upstream (`git --no-pager status -sb`)
   or `origin/main` has moved on (`git --no-pager log --oneline HEAD..origin/main`), tell the user
-  and propose a rebase or merge instead of pushing blindly.
+  and propose a rebase or merge instead of pushing blindly. If the branch was created from a
+  feature branch, use `origin/<feature-branch>` instead of `origin/main` here and below.
 - **Always ask the user for explicit confirmation before `git push`**, showing the branch name and
   the commits to be pushed: `git --no-pager log --oneline @{u}..HEAD` when the branch has an
   upstream, otherwise `git --no-pager log --oneline origin/main..HEAD`.

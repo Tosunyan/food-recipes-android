@@ -17,8 +17,10 @@ description: >-
 
 ## Base Branch
 
-`main`, unless the user says otherwise; use the chosen `<base>` in every command below. Fetch it
-first so the summary isn't based on a stale `origin/<base>`, then review what goes into the PR with:
+`main`, unless the user says otherwise. If the branch was created from an unmerged feature branch
+(see `commit-and-push`), the base is that parent branch. Use the chosen `<base>` in every command
+below. Fetch it first so the summary isn't based on a stale `origin/<base>`, then review what goes
+into the PR with:
 
 ```bash
 git fetch origin <base>

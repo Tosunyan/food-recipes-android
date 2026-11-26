@@ -79,9 +79,11 @@ re-run step 3 for substantial changes. Don't start implementing before approval.
 
 ## 5. Implement
 
-- Make sure you are on a suitable branch: never `main`. If the approved plan depends on code that
-  exists only on the current unmerged branch, stay on that branch, or branch off it when the user
-  wants separate work or a separate PR. Otherwise create `feature/<name>`, `refactor/<name>` or
+- Make sure you are on a suitable branch: never `main`. If the caller requires a specific branch
+  (e.g. `address-pr-feedback` fixing a PR head branch), stay on it and don't create a new one.
+  Otherwise, if the approved plan depends on code that exists only on the current unmerged branch,
+  stay on that branch, or branch off it when the user wants separate work or a separate PR.
+  Otherwise create `feature/<name>`, `refactor/<name>` or
   `fix/<name>` from the latest `origin/main` as described in `commit-and-push`. Don't carry over
   unrelated changes from the current branch.
 - Spawn an **implementer** subagent (model tier per **Models**) with the approved plan. It follows
@@ -111,5 +113,6 @@ confirmation before `git push`**, showing the branch and commits. Offer to open 
 - Subagents get fresh context: the task, the relevant artifact (plan or diff) and instructions, not
   the conversation history.
 - Reviewers never modify code; planners never modify files.
-- Don't mark roadmap items done or edit `docs/ROADMAP.md` unless the user asks.
+- When a roadmap item is fully implemented, remove it from `docs/ROADMAP.md` in the same change.
+  Don't add findings, metrics or notes there, and don't edit other items unless the user asks.
 - If anything unexpected makes the plan invalid mid-implementation, stop and report to the user.
